@@ -1,0 +1,8 @@
+* Kanishk Gandhi, Denise Lee, Gabriel Grand, Muxin Liu, Winson Cheng, Archit Sharma, and Noah D. Goodman. 2024. Stream of search (SoS): Learning to search in language. arXiv [cs.LG]. Retrieved October 16, 2024 from http://arxiv.org/abs/2404.03683
+* Jan Hendrik Kirchner, Yining Chen, Harri Edwards, Jan Leike, Nat McAleese, and Yuri Burda. 2024. Prover-Verifier Games improve legibility of LLM outputs. arXiv [cs.CL]. Retrieved October 16, 2024 from http://arxiv.org/abs/2407.13692
+* Hunter Lightman, Vineet Kosaraju, Yura Burda, Harri Edwards, Bowen Baker, Teddy Lee, Jan Leike, John Schulman, Ilya Sutskever, and Karl Cobbe. 2023. Let’s verify step by step. arXiv [cs.LG]. Retrieved October 16, 2024 from http://arxiv.org/abs/2305.20050
+* Jonathan Uesato, Nate Kushman, Ramana Kumar, Francis Song, Noah Siegel, Lisa Wang, Antonia Creswell, Geoffrey Irving, and Irina Higgins. 2022. Solving math word problems with process- and outcome-based feedback. arXiv [cs.LG]. Retrieved October 16, 2024 from http://arxiv.org/abs/2211.14275
+* Tianhao Wu, Janice Lan, Weizhe Yuan, Jiantao Jiao, Jason Weston, and Sainbayar Sukhbaatar. 2024. Thinking LLMs: General instruction following with thought generation. arXiv [cs.CL]. Retrieved October 16, 2024 from http://arxiv.org/abs/2410.10630
+* Eric Zelikman, Georges Harik, Yijia Shao, Varuna Jayasiri, Nick Haber, and Noah D. Goodman. 2024. Quiet-STaR: Language models can teach themselves to think before speaking. arXiv [cs.CL]. Retrieved October 16, 2024 from http://arxiv.org/abs/2403.09629
+* Eric Zelikman, Yuhuai Wu, Jesse Mu, and Noah D. Goodman. 2022. STaR: Bootstrapping reasoning with reasoning. arXiv [cs.LG]. Retrieved October 16, 2024 from http://arxiv.org/abs/2203.14465
+  
