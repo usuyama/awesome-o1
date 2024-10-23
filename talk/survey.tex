@@ -1,0 +1,65 @@
+% Auriga theme
+% find the most up-to-date version here: https://github.com/anishathalye/auriga
+
+\documentclass[14pt,aspectratio=169]{beamer}
+\usepackage{pgfpages}
+\usepackage{fancyvrb}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{booktabs}
+
+\usetheme{auriga}
+\usecolortheme{auriga}
+\setbeamercolor{math text}{fg=blue}
+
+\newcommand\blfootnote[1]{%
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}%
+\addtocounter{footnote}{-1}%
+\endgroup
+}
+
+%\setbeamertemplate{footline}[]
+%\renewcommand\footnotemark{}
+
+
+% define some colors for a consistent theme across slides
+\definecolor{red}{RGB}{181, 23, 0}
+\definecolor{blue}{RGB}{0, 118, 186}
+\definecolor{gray}{RGB}{146, 146, 146}
+
+\title{Speculations \\on\\ Test-Time Scaling}
+
+\author{\underline{Sasha Rush}}
+
+\institute[shortinst]{Cornell Tech, Hugging Face}
+% \institute[shortinst]{\inst{*} Preprint}
+
+
+\begin{document}
+
+\begin{frame}
+	\maketitle
+\end{frame}
+
+
+\begin{frame}{Paper 1}
+	\cite{Snell2024-dx}
+\end{frame}
+
+
+\begin{frame}{Paper 1}
+	\cite{Snell2024-dx}
+\end{frame}
+
+
+\begin{frame}{Start}
+
+\end{frame}
+
+\begin{frame}{Reference}
+	\bibliography{../o1.bib}
+	\bibliographystyle{acm}
+\end{frame}
+
+\end{document}
