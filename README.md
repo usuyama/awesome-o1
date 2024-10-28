@@ -30,7 +30,7 @@ OpenAI’s [o1](https://openai.com/index/learning-to-reason-with-llms/).
     2024](#ref-Paul-G-Allen-School2024-da)) Talk from Noam Brown about
     the power of search
 
-## How do you turn reasoning into a verifiable game?
+## Can reasoning be a verifiable game?
 
 -   **WebGPT** ([Nakano et al. 2021](#ref-Nakano2021-iz)) Shows that
     test time rejection sampling against a reward model is a very strong
@@ -47,7 +47,7 @@ OpenAI’s [o1](https://openai.com/index/learning-to-reason-with-llms/).
 -   **Math-Shepard** ([P. Wang et al. 2023](#ref-Wang2023-ur))
     Experiments with automatic value function learning with roll outs
 
-## How do you turn a verifier into a better LLM?
+## Can a verifier make a better LLM?
 
 -   **Expert Iteration** ([Anthony, Tian, and Barber
     2017](#ref-Anthony2017-dm)) Search, collect, train. Method for
@@ -63,7 +63,7 @@ OpenAI’s [o1](https://openai.com/index/learning-to-reason-with-llms/).
 -   **ReST-EM** ([Singh et al. 2023](#ref-Singh2023-eb)) Formalizes
     similar methods as EM for RL. Applies to reasoning.
 
-## How can you get your model to play better (planning/search)?
+## Can LLMs learn to plan?
 
 (This part is the most speculative)
 
@@ -73,14 +73,16 @@ OpenAI’s [o1](https://openai.com/index/learning-to-reason-with-llms/).
 -   **DualFormer** ([Su et al. 2024](#ref-Su2024-us)) Training on
     optimal reasoning traces with masked steps improves reasoning
     ability.
--   **AlphaZero-like** ([Feng et al. 2023](#ref-Feng2023-sz)) Sketches
-    out MCTS-style expert iteration for LLM planning.
+-   **AlphaZero-like** ([Feng et al. 2023](#ref-Feng2023-sz)) /
+    **MCTS-DPO** ([Xie et al. 2024](#ref-Xie2024-lp)) / **Agent Q**
+    ([Putta et al. 2024](#ref-Putta2024-yy)) Sketches out MCTS-style
+    expert iteration for LLM planning.
 -   **PAVs** ([Setlur et al. 2024](#ref-Setlur2024-ax)) Argues for
     advantage (PAV) function over value (PRM) for learning to search.
     Shows increase in search efficacy.
 -   **SCoRE (Self-Correct)** ([Kumar et al. 2024](#ref-Kumar2024-fj))
 
-## How might this lead to test time scaling?
+## Does this lead to test time scaling?
 
 -   **Optimal test scaling** ([Snell et al. 2024](#ref-Snell2024-dx))
 -   **Large Language Monkeys** ([B. Brown et al.
@@ -105,6 +107,11 @@ No-Limit Poker.” In *Proceedings of the Twenty-Sixth International Joint
 Conference on Artificial Intelligence*. California: International Joint
 Conferences on Artificial Intelligence Organization.
 <https://www.onlinecasinoground.nl/wp-content/uploads/2018/10/Libratus-super-human-no-limit-poker-Sandholm-Brown.pdf>.
+
+Chen, Ziru, Michael White, Raymond Mooney, Ali Payani, Yu Su, and Huan
+Sun. 2024. “When Is Tree Search Useful for LLM Planning? It Depends on
+the Discriminator.” *arXiv \[Cs.CL\]*.
+<http://arxiv.org/abs/2402.10890>.
 
 Cobbe, Karl, Vineet Kosaraju, Mohammad Bavarian, Mark Chen, Heewoo Jun,
 Lukasz Kaiser, Matthias Plappert, et al. 2021. “Training Verifiers to
@@ -164,6 +171,11 @@ Scratchpads for Intermediate Computation with Language Models.” *arXiv
 Paul G. Allen School. 2024. “Parables on the Power of Planning in AI:
 From Poker to Diplomacy: Noam Brown (OpenAI).” Youtube.
 <https://www.youtube.com/watch?v=eaAonE58sLU>.
+
+Putta, Pranav, Edmund Mills, Naman Garg, Sumeet Motwani, Chelsea Finn,
+Divyansh Garg, and Rafael Rafailov. 2024. “Agent Q: Advanced Reasoning
+and Learning for Autonomous AI Agents.” *arXiv \[Cs.AI\]*.
+<http://arxiv.org/abs/2408.07199>.
 
 Setlur, Amrith, Chirag Nagpal, Adam Fisch, Xinyang Geng, Jacob
 Eisenstein, Rishabh Agarwal, Alekh Agarwal, Jonathan Berant, and Aviral
@@ -236,6 +248,15 @@ Wu, Yangzhen, Zhiqing Sun, Shanda Li, Sean Welleck, and Yiming Yang.
 Inference for Problem-Solving with Language Models.” *arXiv \[Cs.AI\]*.
 <http://arxiv.org/abs/2408.00724>.
 
+Xie, Yuxi, Anirudh Goyal, Wenyue Zheng, Min-Yen Kan, Timothy P
+Lillicrap, Kenji Kawaguchi, and Michael Shieh. 2024. “Monte Carlo Tree
+Search Boosts Reasoning via Iterative Preference Learning.” *arXiv
+\[Cs.AI\]*. <http://arxiv.org/abs/2405.00451>.
+
+Xie, Yuxi, Kenji Kawaguchi, Yiran Zhao, Xu Zhao, Min-Yen Kan, Junxian
+He, and Qizhe Xie. 2023. “Self-Evaluation Guided Beam Search for
+Reasoning.” *arXiv \[Cs.CL\]*. <http://arxiv.org/abs/2305.00633>.
+
 Yao, Shunyu, Dian Yu, Jeffrey Zhao, Izhak Shafran, Thomas L Griffiths,
 Yuan Cao, and Karthik Narasimhan. 2023. “Tree of Thoughts: Deliberate
 Problem Solving with Large Language Models.” *arXiv \[Cs.CL\]*.
@@ -263,3 +284,7 @@ Themselves to Think Before Speaking.” *arXiv \[Cs.CL\]*.
 Zelikman, Eric, Yuhuai Wu, Jesse Mu, and Noah D Goodman. 2022. “STaR:
 Bootstrapping Reasoning with Reasoning.” *arXiv \[Cs.LG\]*.
 <http://arxiv.org/abs/2203.14465>.
+
+Zhao, Stephen, Rob Brekelmans, Alireza Makhzani, and Roger Grosse. 2024.
+“Probabilistic Inference in Language Models via Twisted Sequential Monte
+Carlo.” *arXiv \[Cs.LG\]*. <http://arxiv.org/abs/2404.17546>.

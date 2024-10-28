@@ -26,7 +26,7 @@ Clean experiments that compare train / test FLOPs in a controlled setting
 * **Noam Lecture** [@Paul-G-Allen-School2024-da]
 Talk from Noam Brown about the power of search
 
-## How do you turn reasoning into a verifiable game?
+## Can reasoning be a verifiable game?
 
 * **WebGPT** [@Nakano2021-iz]
 Shows that test time rejection sampling against a reward model is a very strong model.
@@ -39,7 +39,7 @@ Demonstrates that PRMs can be quite effective in efficacy of rejection sampling
 * **Math-Shepard** [@Wang2023-ur]
 Experiments with automatic value function learning with roll outs
 
-## How do you turn a verifier into a better LLM?
+## Can a verifier make a better LLM?
 
 * **Expert Iteration** [@Anthony2017-dm]
 Search, collect, train. Method for self-improvement in RL.
@@ -52,7 +52,7 @@ Models improvement as offline-RL. Samples trajectories, grow corpus, retrain.
 * **ReST-EM** [@Singh2023-eb]
 Formalizes similar methods as EM for RL. Applies to reasoning.
 
-## How can you get your model to play better (planning/search)?
+## Can LLMs learn to plan?
 
 (This part is the most speculative)
 
@@ -60,14 +60,14 @@ Formalizes similar methods as EM for RL. Applies to reasoning.
 Training on linearized, non-optimal search trajectories induces better search.
 * **DualFormer** [@Su2024-us]
 Training on optimal reasoning traces with masked steps improves reasoning ability.
-* **AlphaZero-like** [@Feng2023-sz]
+* **AlphaZero-like** [@Feng2023-sz] / **MCTS-DPO** [@Xie2024-lp] / **Agent Q** [@Putta2024-yy]
 Sketches out MCTS-style expert iteration for LLM planning.
 * **PAVs** [@Setlur2024-ax]
 Argues for advantage (PAV) function over value (PRM) for learning to search. Shows increase in search efficacy.
 * **SCoRE (Self-Correct)** [@Kumar2024-fj]
 
 
-## How might this lead to test time scaling?
+## Does this lead to test time scaling?
 
 * **Optimal test scaling** [@Snell2024-dx]
 * **Large Language Monkeys** [@Brown2024-bs]
