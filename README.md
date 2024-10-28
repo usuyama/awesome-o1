@@ -1,20 +1,94 @@
 # awesome-o1
 
-This is a bibliography of papers that are presumed to be tangentially
-related to OpenAI’s
-[o1](https://openai.com/index/learning-to-reason-with-llms/).
+This is a bibliography of papers that are presumed to be related to
+OpenAI’s [o1](https://openai.com/index/learning-to-reason-with-llms/).
 
 ------------------------------------------------------------------------
 
-## Prompting
+## What we would like to actually work?
 
-([X. Wang et al. 2022](#ref-Wang2022-px))
+-   Self-Consistency ([X. Wang et al. 2022](#ref-Wang2022-px)) -
+    Majority voting of LLM output improves a bit.
+-   Scratchpad ([Nye et al. 2021](#ref-Nye2021-bx))/ Chain-of-Thought
+    ([Wei et al. 2022](#ref-Wei2022-uj)) - Wouldn’t it be cool if an LLM
+    could talk to itself and get better?
+-   Tree-of-Thought ([Yao et al. 2023](#ref-Yao2023-nw)) - Wouldn’t it
+    be cool if you could scale this as a tree?
 
-## Verifiers
+## Why might this be possible?
 
-([X. Wang et al. 2022](#ref-Wang2022-px))
+-   AlphaGo ([Silver et al. 2016](#ref-Silver2016-ag)) - Quantifies
+    value of self-play training vs. test search
+-   AlphaZero ([Silver et al. 2017](#ref-Silver2017-bn)) - Shows
+    training on guided self-trajectory can be generalized / scaled
+-   Libratus ([N. Brown and Sandholm 2017](#ref-Brown2017-of)) - Poker
+    bot built by scaling search
+-   Scaling Laws for Board Games ([Jones 2021](#ref-Jones2021-di)) -
+    Clean experiments that compare train / test FLOPs in a controlled
+    setting
+-   Noam ([Paul G. Allen School
+    2024](#ref-Paul-G-Allen-School2024-da)) - Talk from Noam Brown about
+    the power of search
+
+## How do you turn reasoning into a verifiable game?
+
+-   WebGPT ([Nakano et al. 2021](#ref-Nakano2021-iz)) - Shows that test
+    time rejection sampling against a reward model is a very strong
+    model.
+-   GSM8K ([Cobbe et al. 2021](#ref-Cobbe2021-gt)) - Considers why math
+    reasoning is challenging and introduces ORM models for verification
+-   Process Reward ([Uesato et al. 2022](#ref-Uesato2022-aw)) -
+    Introduces distinction of a process reward / outcome reward model,
+    and use expert iteration RL.
+-   Let’s Verify ([Lightman et al. 2023](#ref-Lightman2023-cr)) -
+    Demonstrates that PRMs can be quite effective in efficacy of
+    rejection sampling
+-   Math-Shepard ([P. Wang et al. 2023](#ref-Wang2023-ur)) - Experiments
+    with automatic value function learning with roll outs
+
+## How do you turn a verifier into a better LLM?
+
+-   Expert Iteration ([Anthony, Tian, and Barber
+    2017](#ref-Anthony2017-dm)) - Search, collect, train. Method for
+    self-improvement in RL.
+-   Self-Training ([Yarowsky 1995](#ref-Yarowsky1995-tm)) - Classic
+    unsupervised method: generate, prune, retrain
+-   STaR ([Zelikman et al. 2022](#ref-Zelikman2022-id)) - Formulates LLM
+    improvement as retraining on rationales that lead to correct
+    answers. Justified as approximate policy gradient.
+-   ReST ([Gulcehre et al. 2023](#ref-Gulcehre2023-vk)) - Models
+    improvement as offline-RL. Samples trajectories, grow corpus,
+    retrain.
+-   ReST-EM ([Singh et al. 2023](#ref-Singh2023-eb)) - Formalizes
+    similar methods as EM for RL. Applies to reasoning.
+
+## How can you get your model to play better (planning/search)?
+
+(This part is the most speculative)
+
+-   Stream of Search ([Gandhi et al. 2024](#ref-Gandhi2024-vs)) -
+    Training on linearized, non-optimal search trajectories induces
+    better search.
+-   DualFormer ([Su et al. 2024](#ref-Su2024-us)) - Training on optimal
+    reasoning traces with masked steps improves reasoning ability.
+-   AlphaZero-like ([Feng et al. 2023](#ref-Feng2023-sz)) - Sketches out
+    MCTS-style expert iteration for LLM planning.
+-   PAVs ([Setlur et al. 2024](#ref-Setlur2024-ax)) - Argues for
+    advantage (PAV) function over value (PRM) for learning to search.
+    Shows increase in search efficacy.
+-   SCoRE (Self-Correct) ([Kumar et al. 2024](#ref-Kumar2024-fj))
+
+## How might this lead to test time scaling?
+
+-   Optimal test scaling ([Snell et al. 2024](#ref-Snell2024-dx))
+-   Large Language Monkeys ([B. Brown et al. 2024](#ref-Brown2024-bs))
+-   Inference Scaling ([Y. Wu et al. 2024](#ref-Wu2024-mt))
 
 ------------------------------------------------------------------------
+
+Anthony, Thomas, Zheng Tian, and David Barber. 2017. “Thinking Fast and
+Slow with Deep Learning and Tree Search.” *arXiv \[Cs.AI\]*.
+<http://arxiv.org/abs/1705.08439>.
 
 Brown, Bradley, Jordan Juravsky, Ryan Ehrlich, Ronald Clark, Quoc V Le,
 Christopher Ré, and Azalia Mirhoseini. 2024. “Large Language Monkeys:
@@ -42,6 +116,12 @@ Archit Sharma, and Noah D Goodman. 2024. “Stream of Search (SoS):
 Learning to Search in Language.” *arXiv \[Cs.LG\]*.
 <http://arxiv.org/abs/2404.03683>.
 
+Gulcehre, Caglar, Tom Le Paine, Srivatsan Srinivasan, Ksenia
+Konyushkova, Lotte Weerts, Abhishek Sharma, Aditya Siddhant, et al.
+2023. “Reinforced Self-Training (ReST) for Language Modeling.” *arXiv
+\[Cs.CL\]*.
+<https://scholar.google.com/citations?view_op=view_citation&hl=en&citation_for_view=7hwJ2ckAAAAJ:evX43VCCuoAC>.
+
 Jones, Andy L. 2021. “Scaling Scaling Laws with Board Games.” *arXiv
 \[Cs.LG\]*. <http://arxiv.org/abs/2104.03113>.
 
@@ -66,14 +146,35 @@ Baker, Teddy Lee, Jan Leike, John Schulman, Ilya Sutskever, and Karl
 Cobbe. 2023. “Let’s Verify Step by Step.” *arXiv \[Cs.LG\]*.
 <http://arxiv.org/abs/2305.20050>.
 
+Nakano, Reiichiro, Jacob Hilton, Suchir Balaji, Jeff Wu, Long Ouyang,
+Christina Kim, Christopher Hesse, et al. 2021. “WebGPT: Browser-Assisted
+Question-Answering with Human Feedback.” *arXiv \[Cs.CL\]*.
+<http://arxiv.org/abs/2112.09332>.
+
+Nye, Maxwell, Anders Johan Andreassen, Guy Gur-Ari, Henryk Michalewski,
+Jacob Austin, David Bieber, David Dohan, et al. 2021. “Show Your Work:
+Scratchpads for Intermediate Computation with Language Models.” *arXiv
+\[Cs.LG\]*. <http://arxiv.org/abs/2112.00114>.
+
 Paul G. Allen School. 2024. “Parables on the Power of Planning in AI:
 From Poker to Diplomacy: Noam Brown (OpenAI).” Youtube.
 <https://www.youtube.com/watch?v=eaAonE58sLU>.
+
+Setlur, Amrith, Chirag Nagpal, Adam Fisch, Xinyang Geng, Jacob
+Eisenstein, Rishabh Agarwal, Alekh Agarwal, Jonathan Berant, and Aviral
+Kumar. 2024. “Rewarding Progress: Scaling Automated Process Verifiers
+for LLM Reasoning.” *arXiv \[Cs.LG\]*.
+<http://arxiv.org/abs/2410.08146>.
 
 Silver, David, Aja Huang, Chris J Maddison, Arthur Guez, Laurent Sifre,
 George van den Driessche, Julian Schrittwieser, et al. 2016. “Mastering
 the Game of Go with Deep Neural Networks and Tree Search.” *Nature* 529
 (7587): 484–89. <https://www.nature.com/articles/nature16961>.
+
+Silver, David, Thomas Hubert, Julian Schrittwieser, Ioannis Antonoglou,
+Matthew Lai, Arthur Guez, Marc Lanctot, et al. 2017. “Mastering Chess
+and Shogi by Self-Play with a General Reinforcement Learning Algorithm.”
+*arXiv \[Cs.AI\]*. <http://arxiv.org/abs/1712.01815>.
 
 Singh, Avi, John D Co-Reyes, Rishabh Agarwal, Ankesh Anand, Piyush
 Patil, Xavier Garcia, Peter J Liu, et al. 2023. “Beyond Human Data:
@@ -108,6 +209,13 @@ Narang, Aakanksha Chowdhery, and Denny Zhou. 2022. “Self-Consistency
 Improves Chain of Thought Reasoning in Language Models.” *arXiv
 \[Cs.CL\]*. <http://arxiv.org/abs/2203.11171>.
 
+Wei, Jason, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Brian Ichter,
+Fei Xia, Ed Chi, Quoc Le, and Denny Zhou. 2022. “Chain-of-Thought
+Prompting Elicits Reasoning in Large Language Models.” Edited by S
+Koyejo, S Mohamed, A Agarwal, D Belgrave, K Cho, and A Oh. *arXiv
+\[Cs.CL\]*, 24824–37.
+<https://proceedings.neurips.cc/paper_files/paper/2022/file/9d5609613524ecf4f15af0f7b31abca4-Paper-Conference.pdf>.
+
 Welleck, Sean, Amanda Bertsch, Matthew Finlayson, Hailey Schoelkopf,
 Alex Xie, Graham Neubig, Ilia Kulikov, and Zaid Harchaoui. 2024. “From
 Decoding to Meta-Generation: Inference-Time Algorithms for Large
@@ -122,6 +230,17 @@ Wu, Yangzhen, Zhiqing Sun, Shanda Li, Sean Welleck, and Yiming Yang.
 2024. “Inference Scaling Laws: An Empirical Analysis of Compute-Optimal
 Inference for Problem-Solving with Language Models.” *arXiv \[Cs.AI\]*.
 <http://arxiv.org/abs/2408.00724>.
+
+Yao, Shunyu, Dian Yu, Jeffrey Zhao, Izhak Shafran, Thomas L Griffiths,
+Yuan Cao, and Karthik Narasimhan. 2023. “Tree of Thoughts: Deliberate
+Problem Solving with Large Language Models.” *arXiv \[Cs.CL\]*.
+<http://arxiv.org/abs/2305.10601>.
+
+Yarowsky, David. 1995. “Unsupervised Word Sense Disambiguation Rivaling
+Supervised Methods.” In *Proceedings of the 33rd Annual Meeting on
+Association for Computational Linguistics -*. Morristown, NJ, USA:
+Association for Computational Linguistics.
+<https://dl.acm.org/doi/10.3115/981658.981684>.
 
 Yoshida, Davis, Kartik Goyal, and Kevin Gimpel. 2024.
 “<span class="nocase">MAP’s</span> Not Dead yet: Uncovering True
