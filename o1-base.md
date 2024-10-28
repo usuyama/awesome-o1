@@ -39,7 +39,7 @@ This is a bibliography of papers that are presumed to be related to OpenAI's [o1
 (This part is the most speculative)
 
 * Stream of Search [@Gandhi2024-vs] - Training on linearized, non-optimal search trajectories induces better search.
-* DualFormer [@] - Training on optimal reasoning traces with masked steps improves reasoning ability.
+* DualFormer [@Su2024-us] - Training on optimal reasoning traces with masked steps improves reasoning ability.
 * AlphaZero-like [@Feng2023-sz]  - Sketches out MCTS-style expert iteration for LLM planning.
 * PAVs [@Setlur2024-ax] - Argues for advantage (PAV) function over value (PRM) for learning to search. Shows increase in search efficacy.
 * SCoRE (Self-Correct) [@Kumar2024-fj]
