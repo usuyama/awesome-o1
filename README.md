@@ -7,84 +7,89 @@ OpenAI’s [o1](https://openai.com/index/learning-to-reason-with-llms/).
 
 ## What we would like to actually work?
 
--   Self-Consistency ([X. Wang et al. 2022](#ref-Wang2022-px)) -
+-   **Self-Consistency** ([X. Wang et al. 2022](#ref-Wang2022-px))
     Majority voting of LLM output improves a bit.
--   Scratchpad ([Nye et al. 2021](#ref-Nye2021-bx))/ Chain-of-Thought
-    ([Wei et al. 2022](#ref-Wei2022-uj)) - Wouldn’t it be cool if an LLM
-    could talk to itself and get better?
--   Tree-of-Thought ([Yao et al. 2023](#ref-Yao2023-nw)) - Wouldn’t it
+-   **Scratchpad** ([Nye et al. 2021](#ref-Nye2021-bx))/
+    **Chain-of-Thought** ([Wei et al. 2022](#ref-Wei2022-uj)) Wouldn’t
+    it be cool if an LLM could talk to itself and get better?
+-   **Tree-of-Thought** ([Yao et al. 2023](#ref-Yao2023-nw)) Wouldn’t it
     be cool if you could scale this as a tree?
 
 ## Why might this be possible?
 
--   AlphaGo ([Silver et al. 2016](#ref-Silver2016-ag)) - Quantifies
+-   **AlphaGo** ([Silver et al. 2016](#ref-Silver2016-ag)) Quantifies
     value of self-play training vs. test search
--   AlphaZero ([Silver et al. 2017](#ref-Silver2017-bn)) - Shows
+-   **AlphaZero** ([Silver et al. 2017](#ref-Silver2017-bn)) Shows
     training on guided self-trajectory can be generalized / scaled
--   Libratus ([N. Brown and Sandholm 2017](#ref-Brown2017-of)) - Poker
+-   **Libratus** ([N. Brown and Sandholm 2017](#ref-Brown2017-of)) Poker
     bot built by scaling search
--   Scaling Laws for Board Games ([Jones 2021](#ref-Jones2021-di)) -
+-   **Scaling Laws for Board Games** ([Jones 2021](#ref-Jones2021-di))
     Clean experiments that compare train / test FLOPs in a controlled
     setting
--   Noam ([Paul G. Allen School
-    2024](#ref-Paul-G-Allen-School2024-da)) - Talk from Noam Brown about
+-   **Noam** ([Paul G. Allen School
+    2024](#ref-Paul-G-Allen-School2024-da)) Talk from Noam Brown about
     the power of search
 
 ## How do you turn reasoning into a verifiable game?
 
--   WebGPT ([Nakano et al. 2021](#ref-Nakano2021-iz)) - Shows that test
-    time rejection sampling against a reward model is a very strong
+-   **WebGPT** ([Nakano et al. 2021](#ref-Nakano2021-iz)) Shows that
+    test time rejection sampling against a reward model is a very strong
     model.
--   GSM8K ([Cobbe et al. 2021](#ref-Cobbe2021-gt)) - Considers why math
-    reasoning is challenging and introduces ORM models for verification
--   Process Reward ([Uesato et al. 2022](#ref-Uesato2022-aw)) -
+-   **GSM8K** ([Cobbe et al. 2021](#ref-Cobbe2021-gt)) Considers why
+    math reasoning is challenging and introduces ORM models for
+    verification
+-   **Process Reward** ([Uesato et al. 2022](#ref-Uesato2022-aw))
     Introduces distinction of a process reward / outcome reward model,
-    and use expert iteration RL.
--   Let’s Verify ([Lightman et al. 2023](#ref-Lightman2023-cr)) -
+    and uses expert iteration RL.
+-   **Let’s Verify** ([Lightman et al. 2023](#ref-Lightman2023-cr))
     Demonstrates that PRMs can be quite effective in efficacy of
     rejection sampling
--   Math-Shepard ([P. Wang et al. 2023](#ref-Wang2023-ur)) - Experiments
-    with automatic value function learning with roll outs
+-   **Math-Shepard** ([P. Wang et al. 2023](#ref-Wang2023-ur))
+    Experiments with automatic value function learning with roll outs
 
 ## How do you turn a verifier into a better LLM?
 
--   Expert Iteration ([Anthony, Tian, and Barber
-    2017](#ref-Anthony2017-dm)) - Search, collect, train. Method for
+-   **Expert Iteration** ([Anthony, Tian, and Barber
+    2017](#ref-Anthony2017-dm)) Search, collect, train. Method for
     self-improvement in RL.
--   Self-Training ([Yarowsky 1995](#ref-Yarowsky1995-tm)) - Classic
+-   **Self-Training** ([Yarowsky 1995](#ref-Yarowsky1995-tm)) Classic
     unsupervised method: generate, prune, retrain
--   STaR ([Zelikman et al. 2022](#ref-Zelikman2022-id)) - Formulates LLM
-    improvement as retraining on rationales that lead to correct
+-   **STaR** ([Zelikman et al. 2022](#ref-Zelikman2022-id)) Formulates
+    LLM improvement as retraining on rationales that lead to correct
     answers. Justified as approximate policy gradient.
--   ReST ([Gulcehre et al. 2023](#ref-Gulcehre2023-vk)) - Models
+-   **ReST** ([Gulcehre et al. 2023](#ref-Gulcehre2023-vk)) Models
     improvement as offline-RL. Samples trajectories, grow corpus,
     retrain.
--   ReST-EM ([Singh et al. 2023](#ref-Singh2023-eb)) - Formalizes
+-   **ReST-EM** ([Singh et al. 2023](#ref-Singh2023-eb)) Formalizes
     similar methods as EM for RL. Applies to reasoning.
 
 ## How can you get your model to play better (planning/search)?
 
 (This part is the most speculative)
 
--   Stream of Search ([Gandhi et al. 2024](#ref-Gandhi2024-vs)) -
+-   **Stream of Search** ([Gandhi et al. 2024](#ref-Gandhi2024-vs))
     Training on linearized, non-optimal search trajectories induces
     better search.
--   DualFormer ([Su et al. 2024](#ref-Su2024-us)) - Training on optimal
-    reasoning traces with masked steps improves reasoning ability.
--   AlphaZero-like ([Feng et al. 2023](#ref-Feng2023-sz)) - Sketches out
-    MCTS-style expert iteration for LLM planning.
--   PAVs ([Setlur et al. 2024](#ref-Setlur2024-ax)) - Argues for
+-   **DualFormer** ([Su et al. 2024](#ref-Su2024-us)) Training on
+    optimal reasoning traces with masked steps improves reasoning
+    ability.
+-   **AlphaZero-like** ([Feng et al. 2023](#ref-Feng2023-sz)) Sketches
+    out MCTS-style expert iteration for LLM planning.
+-   **PAVs** ([Setlur et al. 2024](#ref-Setlur2024-ax)) Argues for
     advantage (PAV) function over value (PRM) for learning to search.
     Shows increase in search efficacy.
--   SCoRE (Self-Correct) ([Kumar et al. 2024](#ref-Kumar2024-fj))
+-   **SCoRE (Self-Correct)** ([Kumar et al. 2024](#ref-Kumar2024-fj))
 
 ## How might this lead to test time scaling?
 
--   Optimal test scaling ([Snell et al. 2024](#ref-Snell2024-dx))
--   Large Language Monkeys ([B. Brown et al. 2024](#ref-Brown2024-bs))
--   Inference Scaling ([Y. Wu et al. 2024](#ref-Wu2024-mt))
+-   **Optimal test scaling** ([Snell et al. 2024](#ref-Snell2024-dx))
+-   **Large Language Monkeys** ([B. Brown et al.
+    2024](#ref-Brown2024-bs))
+-   **Inference Scaling** ([Y. Wu et al. 2024](#ref-Wu2024-mt))
 
 ------------------------------------------------------------------------
+
+## Full Bibliography.
 
 Anthony, Thomas, Zheng Tian, and David Barber. 2017. “Thinking Fast and
 Slow with Deep Learning and Tree Search.” *arXiv \[Cs.AI\]*.
