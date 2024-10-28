@@ -31,19 +31,25 @@ This is a bibliography of papers that are presumed to be related to OpenAI's [o1
 * Expert Iteration [@Anthony2017-dm] - Search, collect, train. Method for self-improvement in RL.
 * Self-Training [@Yarowsky1995-tm] - Classic unsupervised method: generate, prune, retrain
 * STaR [@Zelikman2022-id] - Formulates LLM improvement as retraining on rationales that lead to correct answers. Justified as approximate policy gradient.
-* ReST [@Singh2023-eb] - Models improvement as offline-RL. Samples trajectories, grow corpus, retrain.
+* ReST [@Gulcehre2023-vk] - Models improvement as offline-RL. Samples trajectories, grow corpus, retrain.
 * ReST-EM [@Singh2023-eb] - Formalizes similar methods as EM for RL. Applies to reasoning.
 
 ## How can you get your model to play better (planning/search)?
 
-* Stream of Search [@Gandhi2024-vs]
-* AlphaZero-like [@Feng2023-sz]  - Plays out an MCTS style training algorithm for LLM planning
+(This part is the most speculative)
+
+* Stream of Search [@Gandhi2024-vs] - Training on linearized, non-optimal search trajectories induces better search.
+* DualFormer [@] - Training on optimal reasoning traces with masked steps improves reasoning ability.
+* AlphaZero-like [@Feng2023-sz]  - Sketches out MCTS-style expert iteration for LLM planning.
+* PAVs [@Setlur2024-ax] - Argues for advantage (PAV) function over value (PRM) for learning to search. Shows increase in search efficacy.
+* SCoRE (Self-Correct) [@Kumar2024-fj]
+
 
 ## How might this lead to test time scaling?
 
-* Optimal test scaling [@Snell2024-dx] -
-
-
+* Optimal test scaling [@Snell2024-dx]
+* Large Language Monkeys [@Brown2024-bs]
+* Inference Scaling [@Wu2024-mt]
 
 
 ---
