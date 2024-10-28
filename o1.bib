@@ -1381,3 +1381,47 @@
   primaryClass  = "cs.AI",
   keywords      = "o1"
 }
+
+@INPROCEEDINGS{Unknown2024-ba,
+  title     = "Towards Learning to Reason at Pre-Training Scale",
+  booktitle = "The Thirteenth International Conference on Learning
+               Representations",
+  abstract  = "Prompting a Large Language Model (LLM) to output Chain-of-Thought
+               (CoT) reasoning improves performance on complex problem-solving
+               tasks. Further, several popular approaches exist to
+               ``self-improve`` the abilities of LLMs to use CoT on tasks where
+               supervised (question, answer) datasets are available. However, an
+               emerging line of work explores whether self-improvement is
+               possible without supervised datasets, instead utilizing the same
+               large, general-purpose text corpora as used during pre-training.
+               These pre-training datasets encompass large parts of human
+               knowledge and dwarf all finetuning datasets in size.
+               Self-improving CoT abilities on such general datasets could
+               enhance reasoning for any general-purpose text generation task,
+               and doing so at pre-training scale may unlock unprecedented
+               reasoning abilities. In this paper, we outline the path towards
+               self-improving CoT reasoning at pre-training scale and address
+               fundamental challenges in this direction. We start by framing
+               this as a reinforcement learning problem: given the first $n$
+               tokens from a large pre-training corpus, the model generates a
+               CoT and receives a reward based on how well the CoT helps predict
+               the following $m$ tokens. We then investigate a fundamental
+               question: What constitutes a suitable reward function for
+               learning to reason during general language modelling? We outline
+               the desirable qualities of such a reward function and empirically
+               demonstrate how different functions affect what reasoning is
+               learnt and where reasoning is rewarded. Using these insights, we
+               introduce a novel reward function called Reasoning Advantage (RA)
+               that facilitates self-improving CoT reasoning on free-form
+               question-answering (QA) data, where answers are unstructured and
+               difficult to verify. Equipped with a suitable reward function, we
+               explore the optimization of it on general-purpose text using
+               offline RL. Our analysis indicates that future work should
+               investigate more powerful optimisation algorithms, potentially
+               moving towards more online algorithms that better explore the
+               space of CoT generations.",
+  month     =  "4~" # oct,
+  year      =  2024,
+  url       = "https://openreview.net/pdf?id=BGnm7Lo8oW",
+  keywords  = "o1"
+}
