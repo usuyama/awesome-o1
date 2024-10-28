@@ -20,7 +20,7 @@ This is a bibliography of papers that are presumed to be related to OpenAI's [o1
 
 ## How do you turn reasoning into a verifiable game?
 
-* WebGPT [] - Shows that test time rejection sampling against a reward model is a very strong model.
+* WebGPT [@Nakano2021-iz] - Shows that test time rejection sampling against a reward model is a very strong model.
 * GSM8K [@Cobbe2021-gt] - Considers why math reasoning is challenging and introduces ORM models for verification
 * Process Reward [@Uesato2022-aw] - Introduces distinction of a process reward / outcome reward model, and use expert iteration RL.
 * Let's Verify [@Lightman2023-cr] - Demonstrates that PRMs can be quite effective in efficacy of rejection sampling
@@ -28,8 +28,8 @@ This is a bibliography of papers that are presumed to be related to OpenAI's [o1
 
 ## How do you turn a verifier into a better LLM?
 
-* [@Uesato2022-aw]
-* Self-Training [] - Classic unsupervised method: generate, prune, retrain
+* Expert Iteration [@Anthony2017-dm] - Search, collect, train. Method for self-improvement in RL.
+* Self-Training [@Yarowsky1995-tm] - Classic unsupervised method: generate, prune, retrain
 * STaR [@Zelikman2022-id] - Formulates LLM improvement as retraining on rationales that lead to correct answers. Justified as approximate policy gradient.
 * ReST [@Singh2023-eb] - Models improvement as offline-RL. Samples trajectories, grow corpus, retrain.
 * ReST-EM [@Singh2023-eb] - Formalizes similar methods as EM for RL. Applies to reasoning.
