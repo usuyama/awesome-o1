@@ -8,7 +8,7 @@ This is a bibliography of papers that are presumed to be related to OpenAI's [o1
 
 * **Self-Consistency** [@Wang2022-px]
 Majority voting of LLM output improves a bit.
-* **Scratchpad** [@Nye2021-bx]/ **Chain-of-Thought** [@Wei2022-uj]
+* **Scratchpad** [@Nye2021-bx] / **Chain-of-Thought** [@Wei2022-uj]
 Wouldn't it be cool if an LLM could talk to itself and get better?
 * **Tree-of-Thought** [@Yao2023-nw]
 Wouldn't it be cool if you could scale this as a tree?
@@ -23,7 +23,7 @@ Shows training on guided self-trajectory can be generalized / scaled
 Poker bot built by scaling search
 * **Scaling Laws for Board Games** [@Jones2021-di]
 Clean experiments that compare train / test FLOPs in a controlled setting
-* **Noam** [@Paul-G-Allen-School2024-da]
+* **Noam Lecture** [@Paul-G-Allen-School2024-da]
 Talk from Noam Brown about the power of search
 
 ## How do you turn reasoning into a verifiable game?

@@ -9,7 +9,7 @@ OpenAI’s [o1](https://openai.com/index/learning-to-reason-with-llms/).
 
 -   **Self-Consistency** ([X. Wang et al. 2022](#ref-Wang2022-px))
     Majority voting of LLM output improves a bit.
--   **Scratchpad** ([Nye et al. 2021](#ref-Nye2021-bx))/
+-   **Scratchpad** ([Nye et al. 2021](#ref-Nye2021-bx)) /
     **Chain-of-Thought** ([Wei et al. 2022](#ref-Wei2022-uj)) Wouldn’t
     it be cool if an LLM could talk to itself and get better?
 -   **Tree-of-Thought** ([Yao et al. 2023](#ref-Yao2023-nw)) Wouldn’t it
@@ -26,7 +26,7 @@ OpenAI’s [o1](https://openai.com/index/learning-to-reason-with-llms/).
 -   **Scaling Laws for Board Games** ([Jones 2021](#ref-Jones2021-di))
     Clean experiments that compare train / test FLOPs in a controlled
     setting
--   **Noam** ([Paul G. Allen School
+-   **Noam Lecture** ([Paul G. Allen School
     2024](#ref-Paul-G-Allen-School2024-da)) Talk from Noam Brown about
     the power of search
 
