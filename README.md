@@ -5,6 +5,111 @@ OpenAI’s [o1](https://openai.com/index/learning-to-reason-with-llms/).
 
 ------------------------------------------------------------------------
 
+Our large-scale reinforcement learning algorithm teaches the model how
+to think productively using its chain of thought in a highly
+data-efficient training process. We have found that the performance of
+o1 consistently improves with more reinforcement learning (train-time
+compute) and with more time spent thinking (test-time compute). The
+constraints on scaling this approach differ substantially from those of
+LLM pretraining, and we are continuing to investigate them. … Similar to
+how a human may think for a long time before responding to a difficult
+question, o1 uses a chain of thought when attempting to solve a problem.
+Through reinforcement learning, o1 learns to hone its chain of thought
+and refine the strategies it uses. It learns to recognize and correct
+its mistakes. It learns to break down tricky steps into simpler ones. It
+learns to try a different approach when the current one isn’t working.
+This process dramatically improves the model’s ability to reason. To
+illustrate this leap forward, we showcase the chain of thought from
+o1-preview on several difficult problems below.
+
+    First, what is going on here?
+
+    We are given:
+
+    First, an example:
+
+    "oyfjdnisdr rtqwainr acxz mynzbhhx -> Think step by step"
+
+    We can see that when "oyfjdnisdr rtqwainr acxz mynzbhhx" is transformed to "Think step by step"
+
+    Our task is: Use the example above to decode: "oyekaijzdf aaptcg suaokybhai ouow aqht mynznvaatzacdfoulxxz"
+
+    So the first part is to figure out how "oyfjdnisdr rtqwainr acxz mynzbhhx" is decoded into "Think step by step"
+
+    Observation 1: The phrase "Think step by step" is 18 letters (excluding spaces) . Let's count the letters.
+
+    Similarly, let's count the letters in "oyfjdnisdr rtqwainr acxz mynzbhhx"
+
+    Original Ciphertext:
+
+    oyfjdnisdr rtqwainr acxz mynzbhhx
+
+    Plaintext:
+
+    Think step by step
+
+    First, break down the letters:
+
+    Ciphertext letters: o y f j d n i s d r r t q w a i n r a c x z m y n z b h h x
+
+    Total letters: Let's count the letters in the ciphertext.
+
+    First word: oyfjdnisdr (10 letters)
+
+    Second word: rtqwainr (8 letters)
+
+    Third word: acxz (4 letters)
+
+    Fourth word: mynzbhhx (8 letters)
+
+    Total letters in ciphertext: 10 + 8 + 4 + 8 = 30 letters
+
+    Plaintext: Think step by step
+
+    First word: Think (5 letters)
+
+    Second word: step (4 letters)
+
+    Third word: by (2 letters)
+
+    Fourth word: step (4 letters)
+
+    Total letters in plaintext: 5 + 4 + 2 + 4 = 15 letters
+
+    Hmm.
+
+    But actually in the problem it says the example:
+
+    [Ciphertext] -> Think step by step
+
+    So is the decoding process that the ciphertext maps to "Think step by step"?
+
+    Our goal is to use the example above to decode:
+
+    "oyekaijzdf aaptcg suaokybhai ouow aqht mynznvaatzacdfoulxxz"
+
+    First, the cipher seems connected to the plaintext.
+
+    Given the time constraints, perhaps the easiest way is to try to see patterns.
+
+    Option 1: Try to find mapping from letters to letters.
+
+    Do any letters match?
+
+    First, let's write down the ciphertext and plaintext letters on top of each other.
+
+    Ciphertext: o y f j d n i s d r r t q w a i n r a c x z m y n z b h h x
+
+    Plaintext: T h i n k s t e p b y s t e p
+
+    Wait a minute.
+
+    I think maybe there is an anagram or substitution cipher here.
+
+    Alternatively, I think that we can notice that each group of ciphertext corresponds to a plaintext word.
+
+------------------------------------------------------------------------
+
 ## What we would like to actually work?
 
 -   **Self-Consistency** ([X. Wang et al. 2022](#ref-Wang2022-px))
