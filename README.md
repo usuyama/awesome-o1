@@ -6,6 +6,16 @@ related to OpenAI’s
 
 ------------------------------------------------------------------------
 
+## Prompting
+
+([X. Wang et al. 2022](#ref-Wang2022-px))
+
+## Verifiers
+
+([X. Wang et al. 2022](#ref-Wang2022-px))
+
+------------------------------------------------------------------------
+
 Brown, Bradley, Jordan Juravsky, Ryan Ehrlich, Ronald Clark, Quoc V Le,
 Christopher Ré, and Azalia Mirhoseini. 2024. “Large Language Monkeys:
 Scaling Inference Compute with Repeated Sampling.” *arXiv \[Cs.LG\]*.
@@ -21,6 +31,11 @@ Cobbe, Karl, Vineet Kosaraju, Mohammad Bavarian, Mark Chen, Heewoo Jun,
 Lukasz Kaiser, Matthias Plappert, et al. 2021. “Training Verifiers to
 Solve Math Word Problems.” *arXiv \[Cs.LG\]*.
 <http://arxiv.org/abs/2110.14168>.
+
+Feng, Xidong, Ziyu Wan, Muning Wen, Stephen Marcus McAleer, Ying Wen,
+Weinan Zhang, and Jun Wang. 2023. “Alphazero-Like Tree-Search Can Guide
+Large Language Model Decoding and Training.” *arXiv \[Cs.LG\]*.
+<http://arxiv.org/abs/2309.17179>.
 
 Gandhi, Kanishk, Denise Lee, Gabriel Grand, Muxin Liu, Winson Cheng,
 Archit Sharma, and Noah D Goodman. 2024. “Stream of Search (SoS):
@@ -60,9 +75,19 @@ George van den Driessche, Julian Schrittwieser, et al. 2016. “Mastering
 the Game of Go with Deep Neural Networks and Tree Search.” *Nature* 529
 (7587): 484–89. <https://www.nature.com/articles/nature16961>.
 
+Singh, Avi, John D Co-Reyes, Rishabh Agarwal, Ankesh Anand, Piyush
+Patil, Xavier Garcia, Peter J Liu, et al. 2023. “Beyond Human Data:
+Scaling Self-Training for Problem-Solving with Language Models.” *arXiv
+\[Cs.LG\]*. <http://arxiv.org/abs/2312.06585>.
+
 Snell, Charlie, Jaehoon Lee, Kelvin Xu, and Aviral Kumar. 2024. “Scaling
 LLM Test-Time Compute Optimally Can Be More Effective Than Scaling Model
 Parameters.” *arXiv \[Cs.LG\]*. <http://arxiv.org/abs/2408.03314>.
+
+Su, Dijia, Sainbayar Sukhbaatar, Michael Rabbat, Yuandong Tian, and
+Qinqing Zheng. 2024. “Dualformer: Controllable Fast and Slow Thinking by
+Learning with Randomized Reasoning Traces.” *arXiv \[Cs.AI\]*.
+<http://arxiv.org/abs/2410.09918>.
 
 Uesato, Jonathan, Nate Kushman, Ramana Kumar, Francis Song, Noah Siegel,
 Lisa Wang, Antonia Creswell, Geoffrey Irving, and Irina Higgins. 2022.
@@ -72,6 +97,11 @@ Lisa Wang, Antonia Creswell, Geoffrey Irving, and Irina Higgins. 2022.
 Wang, Junlin, Jue Wang, Ben Athiwaratkun, Ce Zhang, and James Zou. 2024.
 “Mixture-of-Agents Enhances Large Language Model Capabilities.” *arXiv
 \[Cs.CL\]*. <http://arxiv.org/abs/2406.04692>.
+
+Wang, Peiyi, Lei Li, Zhihong Shao, R X Xu, Damai Dai, Yifei Li, Deli
+Chen, Y Wu, and Zhifang Sui. 2023. “Math-Shepherd: Verify and Reinforce
+LLMs Step-by-Step Without Human Annotations.” *arXiv \[Cs.AI\]*.
+<http://arxiv.org/abs/2312.08935>.
 
 Wang, Xuezhi, Jason Wei, Dale Schuurmans, Quoc Le, Ed Chi, Sharan
 Narang, Aakanksha Chowdhery, and Denny Zhou. 2022. “Self-Consistency
