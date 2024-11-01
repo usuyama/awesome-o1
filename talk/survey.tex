@@ -156,6 +156,80 @@
 	\end{itemize}
 \end{frame}
 
+\section{Notation}
+
+\begin{frame}{Notation - Test-Time (No learning yet!)}
+	\begin{itemize}
+		\item $x$ - a conditional question
+		\item $z \in {\mathcal{S}^T}$ - the chain of thought
+		\item $y \in {\mathcal Y}$ - the response
+		\item $p(y | x) = E_{z \sim p(x|z)} p(y|x,z)  $ - model
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Warm-up: Ancestral Sampling}
+	\begin{itemize}
+		\item \tilde{z} \cite p(z | x)
+		\item \tilde{y} \cite p(y | x, \tilde{z})
+	\end{itemize}
+
+	$|\tilde{z}|$ amount of test-time compute
+\end{frame}
+
+\begin{frame}{Warm-up: Monte-Carlo (Self-Consistency)}
+	\begin{itemize}
+		\item \tilde{z} \cite p(z | x)
+		\item \tilde{y} \cite p(y | x, \tilde{z})
+	\end{itemize}
+	Pick $\argmax_{} y = \tilde{y}$
+\end{frame}
+
+\begin{frame}{Warm-up: Beam Search}
+	\begin{itemize}
+		\begin{itemize}
+			\item \tilde{z} \cite p(z | x)
+		\end{itemize}
+		\item \tilde{y} \cite p(y | x, \tilde{z})
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Notation - Verifier}
+	\begin{itemize}
+		\item $\text{Ver} : \mathcal{Y} \rightarrow \{0, 1}$
+		\item $z \in {\mathcal{S}^T}$ - the chain of thought
+		\item $y$ - the response
+		\item $p(y | x) = E_{z \sim p(x|z)} p(y|x,z)  $ - model
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Warm up: Rejection Sampling}
+	\begin{itemize}
+		\item \tilde{z} \cite p(z | x)
+		\item \tilde{y} \cite p(y | x, \tilde{z})
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Warm up: Monte-Carlo Roll-Outs}
+	Start at $z$
+	\begin{itemize}
+		\item \tilde{z} \cite p(z | x, z)
+		\item \tilde{y} \cite p(y | x, \tilde{z})
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Goal: Learning}
+	\begin{itemize}
+		\item $\max_{theta} \sum \log p(y | x; \theta)$
+		\item Intractable expectation over latent CoT
+	\end{itemize}
+\end{frame}
+
+
+
+
 \section{The Suspects}
 
 \begin{frame}{Outline}
@@ -182,6 +256,15 @@
 \end{frame}
 
 
+\begin{frame}{Offline / Online?}
+	\begin{itemize}
+		\item Each approach has two variants
+		\item I will describe offline/batch variant
+		\item Companies have complex internal RL optimizers to make online variant works
+	\end{itemize}
+\end{frame}
+
+
 \subsection{Guess and Check}
 
 \begin{frame}{Informal: Guess + Check}
@@ -194,12 +277,24 @@
 
 \begin{frame}{Formalization: EM}
 	\begin{itemize}
-		\item
+		\item $$\max_{theta} \sum \log p(y | x; \theta) = \sum \log E_{z} p(y, z | x)$$
+		\item E-Step: Compute $p(z | y, x) \propto (Ver(y)) p(z | x) $
+		\item M-Step: Fit $p(y, z | x)$
+	\end{itemize}
+	Hard EM
+\end{frame}
+
+
+\begin{frame}{Offline}
+	\begin{itemize}
+		\item Batch servers to sample
+		\item Check if successful
+		\item Train on good ones
 	\end{itemize}
 \end{frame}
 
 
-\begin{frame}{Online Formalization: Policy Gradient}
+\begin{frame}{Online}
 	\begin{itemize}
 		\item Sample N CoTs
 		\item Check if successful
@@ -252,6 +347,14 @@
 \end{frame}
 
 
+\begin{frame}{Warm-up: Beam Search with Roll-Outs}
+	\begin{itemize}
+		\begin{itemize}
+			\item \tilde{z} \cite p(z | x)
+		\end{itemize}
+		\item \tilde{y} \cite p(y | x, \tilde{z})
+	\end{itemize}
+\end{frame}
 
 \begin{frame}{Where does the guide come from?}
 
