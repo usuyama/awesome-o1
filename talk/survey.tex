@@ -139,12 +139,15 @@
 \end{frame}
 
 \begin{frame}{Planning}
+
 \end{frame}
 
 \begin{frame}{Backtracking}
+
 \end{frame}
 
 \begin{frame}{Strategies}
+
 \end{frame}
 
 
@@ -160,75 +163,100 @@
 
 \begin{frame}{Notation - Test-Time (No learning yet!)}
 	\begin{itemize}
-		\item $x$ - a conditional question
-		\item $z \in {\mathcal{S}^T}$ - the chain of thought
-		\item $y \in {\mathcal Y}$ - the response
-		\item $p(y | x) = E_{z \sim p(x|z)} p(y|x,z)  $ - model
+		\item $x$ - the problem specification
+		\item $z \in {\mathcal{S}^T}$ - the chain of thought (CoT)
+		\item $y \in {\mathcal Y}$ - the final answer
+		\item $p(y | x) = \mathbb{E}_{z \sim p(z|x)} p(y|x,z)$ - model
 	\end{itemize}
 \end{frame}
 
 \begin{frame}{Warm-up: Ancestral Sampling}
-	\begin{itemize}
-		\item \tilde{z} \cite p(z | x)
-		\item \tilde{y} \cite p(y | x, \tilde{z})
-	\end{itemize}
-
+	\begin{columns}
+		\begin{column}{0.5\linewidth}
+			\begin{itemize}
+				\item $\tilde{z} \cite p(z | x)$
+				\item $\tilde{y} \cite p(y | x, z=\tilde{z})$
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\linewidth}
+			\includegraphics[width=\textwidth]{images/ancestral.png}
+		\end{column}
+	\end{columns}
 	$|\tilde{z}|$ amount of test-time compute
 \end{frame}
 
 \begin{frame}{Warm-up: Monte-Carlo (Self-Consistency)}
-	\begin{itemize}
-		\item \tilde{z} \cite p(z | x)
-		\item \tilde{y} \cite p(y | x, \tilde{z})
-	\end{itemize}
-	Pick $\argmax_{} y = \tilde{y}$
-\end{frame}
-
-\begin{frame}{Warm-up: Beam Search}
-	\begin{itemize}
-		\begin{itemize}
-			\item \tilde{z} \cite p(z | x)
-		\end{itemize}
-		\item \tilde{y} \cite p(y | x, \tilde{z})
-	\end{itemize}
+	\begin{columns}
+		\begin{column}{0.5\linewidth}
+			\begin{itemize}
+				\item $\tilde{z} \sim p(z | x)$
+				\item $\tilde{y} \sim p(y | x, \tilde{z})$
+			\end{itemize}
+			Pick majority choice $\tilde{y}^i$
+		\end{column}
+		\begin{column}{0.5\linewidth}
+			\includegraphics[width=\textwidth]{images/bwalk.png}
+		\end{column}
+	\end{columns}
 \end{frame}
 
 \begin{frame}{Notation - Verifier}
 	\begin{itemize}
 		\item $\text{Ver} : \mathcal{Y} \rightarrow \{0, 1}$
-		\item $z \in {\mathcal{S}^T}$ - the chain of thought
-		\item $y$ - the response
-		\item $p(y | x) = E_{z \sim p(x|z)} p(y|x,z)  $ - model
+		\item Examples: Regular expression for math, unit test for code.
 	\end{itemize}
 \end{frame}
 
 
-\begin{frame}{Warm up: Rejection Sampling}
-	\begin{itemize}
-		\item \tilde{z} \cite p(z | x)
-		\item \tilde{y} \cite p(y | x, \tilde{z})
-	\end{itemize}
+\begin{frame}{Warm up: Rejection Sampling / Best-of-N}
+	\begin{columns}
+		\begin{column}{0.5\linewidth}
+			\begin{itemize}
+				\item $\tilde{z} \sim p(z | x)$
+				\item $\tilde{y} \sim p(y | x, \tilde{z})$
+				\item $\{\tilde{y} : Ver(\tilde{y}) \}$
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\linewidth}
+			\includegraphics[width=\textwidth]{images/reject.png}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Variants:}
 \end{frame}
 
 
 \begin{frame}{Warm up: Monte-Carlo Roll-Outs}
-	Start at $z$
-	\begin{itemize}
-		\item \tilde{z} \cite p(z | x, z)
-		\item \tilde{y} \cite p(y | x, \tilde{z})
-	\end{itemize}
+	\begin{columns}
+		\begin{column}{0.5\linewidth}
+			Given $x, z_{1:t}$ define expected reward as
+
+			$\mathbb{E}_{y\sim p(y| z, x), z_{t:T} \sim p(z | z_{1:t}, x)}[Ver(y)]$
+
+			Roll-outs apply MC to this expectation.
+		\end{column}
+		\begin{column}{0.5\linewidth}
+			\includegraphics[width=\textwidth]{images/mcroll.png}
+		\end{column}
+	\end{columns}
 \end{frame}
+
 
 
 \begin{frame}{Goal: Learning}
-	\begin{itemize}
-		\item $\max_{theta} \sum \log p(y | x; \theta)$
-		\item Intractable expectation over latent CoT
-	\end{itemize}
+	\begin{columns}
+		\begin{column}{0.5\linewidth}
+			\begin{itemize}
+				\item $$\max_{theta} \sum \log p(y | x; \theta)$$
+				\item Intractable expectation over latent CoT
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\linewidth}
+			\includegraphics[width=\textwidth]{images/marginal.png}
+		\end{column}
+	\end{columns}
 \end{frame}
-
-
-
 
 \section{The Suspects}
 
@@ -244,63 +272,37 @@
 		\item Learn to Search
 		\item Wildcard
 	\end{itemize}
-
 \end{frame}
 
-\begin{frame}{A Note About Names}
-	\begin{itemize}
-		\item Many different communities
-		\item Names conflict and overlap with past methods
-		\item This talk: First explain, then discuss names
-	\end{itemize}
-\end{frame}
+%\begin{frame}{A Note About Names}
+%	\begin{itemize}
+%		\item Many different communities
+%		\item Names conflict and overlap with past methods
+%		\item This talk: First explain, then discuss names
+%	\end{itemize}
+%\end{frame}
 
 
-\begin{frame}{Offline / Online?}
-	\begin{itemize}
-		\item Each approach has two variants
-		\item I will describe offline/batch variant
-		\item Companies have complex internal RL optimizers to make online variant works
-	\end{itemize}
-\end{frame}
-
-
-\subsection{Guess and Check}
+\subsection{Guess + Check}
 
 \begin{frame}{Informal: Guess + Check}
 	\begin{itemize}
-		\item Sample N CoTs
+		\item Sample $N$ CoTs
 		\item Check if successful
 		\item Train on good ones
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Formalization: EM}
+\begin{frame}{Formalization: Rejection Sampling EM}
+	$$\max_{theta} \sum \log p(y | x; \theta) = \sum \log E_{z} p(y, z | x)$$
 	\begin{itemize}
-		\item $$\max_{theta} \sum \log p(y | x; \theta) = \sum \log E_{z} p(y, z | x)$$
-		\item E-Step: Compute $p(z | y, x) \propto (Ver(y)) p(z | x) $
-		\item M-Step: Fit $p(y, z | x)$
-	\end{itemize}
-	Hard EM
-\end{frame}
-
-
-\begin{frame}{Offline}
-	\begin{itemize}
-		\item Batch servers to sample
-		\item Check if successful
-		\item Train on good ones
+		\item E-Step: Sample $\mathcal{Z}$ from the posterior with Rejection Sampling
+		      \[ p(z | \text{Ver}(y)=1, x) \]
+		\item M-Step: Fit $\theta' \gets \argmax_{\theta}
+			      \sum_{z\in \mathcal{Z}} \log p(z | x;\theta)$
 	\end{itemize}
 \end{frame}
 
-
-\begin{frame}{Online}
-	\begin{itemize}
-		\item Sample N CoTs
-		\item Check if successful
-		\item Train on good ones
-	\end{itemize}
-\end{frame}
 
 
 \begin{frame}{Terminology}
@@ -309,63 +311,148 @@
 		\item ReST
 		\item ReST-EM
 		\item Filtered Rejection Sampling
-		\item Best-of-N
+		\item Best-of-N Training
 	\end{itemize}
 \end{frame}
+
+
+\begin{frame}{Batched }
+	\begin{itemize}
+		\item Batched -> Compute trajectories, train with behavioral cloning
+		\item Online -> Use policy gradient-like steps to update each example
+	\end{itemize}
+\end{frame}
+
+
+%\begin{frame}{Offline}
+%	\begin{itemize}
+%		\item Batch servers to sample
+%		\item Check if successful
+%		\item Train on good ones
+%	\end{itemize}
+%\end{frame}
+
+
+%\begin{frame}{Online}
+%	\begin{itemize}
+%		\item Sample N CoTs
+%		\item Check if successful
+%		\item Train on good ones
+%	\end{itemize}
+%\end{frame}
+
+\begin{frame}{Empirical Results}
+
+	Find a good chart from a paper.
+	Best representative.
+
+	Improvement over self-consistency.
+\end{frame}
+
 
 
 \begin{frame}{Why might this be right?}
-	\begin{itemize}
-		\item Extremely simple and scalable
-		\item Good baseline in past work
-	\end{itemize}
+	\begin{columns}
+		\begin{column}{0.5\linewidth}
+			\begin{itemize}
+				\item Extremely simple and scalable
+				\item Good baseline in past work
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\linewidth}
+			\begin{itemize}
+				\item No evidence this learns to correct, plan
+				\item
+				\item Well-explored in literature with marginal gains
+			\end{itemize}
+		\end{column}
+	\end{columns}
 \end{frame}
 
-\begin{frame}{Why might this be wrong?}
+\begin{frame}{Deeper}
 	\begin{itemize}
-		\item No evidence this learns to correct, plan
-		\item Well-explored in literature with marginal gains
+		\item Rejection sampling may be really inefficient.
+		\item Particularly on hard problems, may get no signal
 	\end{itemize}
 \end{frame}
-
-\begin{frame}{Alternative}
-	\begin{itemize}
-		\item Can we improve upon the process of finding adequate CoTs?
-	\end{itemize}
-\end{frame}
-
 
 \subsection{Guided Search}
 
 \begin{frame}{Informal: Guided Search}
 	\begin{itemize}
-		\item Sample several next steps for CoT
-		\item Check with a guide model for which to pursue
-		\item Continue to the end
+		\item During CoT sampling, use a ``guide'' to
+		      correct trajectories
+		\item Check if final versions are successful
 		\item Train on good ones
 	\end{itemize}
 \end{frame}
 
 
-\begin{frame}{Warm-up: Beam Search with Roll-Outs}
+\begin{frame}{Beam Search with Guide}
+	\begin{columns}
+		\begin{column}{0.5\linewidth}
+			\begin{itemize}
+				\item $\tilde{z} \sim p(z | x)$
+				\item $\tilde{y} \sim p(y | x, \tilde{z})$
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\linewidth}
+			\includegraphics[width=\textwidth]{images/beam.png}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+
+\begin{frame}{What to use as Guide?}
 	\begin{itemize}
-		\begin{itemize}
-			\item \tilde{z} \cite p(z | x)
-		\end{itemize}
-		\item \tilde{y} \cite p(y | x, \tilde{z})
+		\item Roll-outs
+		\item Learned Reward Model
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Where does the guide come from?}
 
-
+\begin{frame}{Beam Search with Roll-Outs}
+	\begin{columns}
+		\begin{column}{0.5\linewidth}
+			Beam Roll
+		\end{column}
+		\begin{column}{0.5\linewidth}
+			\includegraphics[width=\textwidth]{images/beamroll.png}
+		\end{column}
+	\end{columns}
 \end{frame}
 
-\begin{frame}{PRM/RollOuts}
+
+\begin{frame}{Amortized Roll-Outs}
+	\begin{columns}
+		\begin{column}{0.5\linewidth}
+			Given $x, z_{1:t}$ define expected reward as
+
+			$\mathbb{E}_{y\sim p(y| z, x), z_{t:T} \sim p(z | z_{1:t}, x)}[Ver(y)]$
+
+			Roll-outs apply MC to this expectation.
+		\end{column}
+		\begin{column}{0.5\linewidth}
+			\includegraphics[width=\textwidth]{images/mcroll.png}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{What about test time?}
 	\begin{itemize}
-		\item Point 1
-		\item Point 2
-		\item Point 3
+		\item Learned rewards can improve test-time without verifier.
+		\item
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Terminology}
+	\begin{itemize}
+		\item Value
+		\item PRM
+		\item PAV
+		\item Math Shepard.
+		\item snell.
 	\end{itemize}
 	\blfootnote{\cite{Uesato2022-aw}}
 \end{frame}
@@ -373,48 +460,59 @@
 
 \begin{frame}{Why might this be right?}
 	\begin{itemize}
-		\item Major demonstrated RL result
-		\item
+		\item OpenAI is exploring
+		\item Makes RS more efficient.
+		\item Learned rewards are effective
 	\end{itemize}
-\end{frame}
-
-\begin{frame}{Why might this be wrong?}
 	\begin{itemize}
-		\item Does not inject into CoT
-		\item Relatively complex to scale
+		\item Assumption: o1 is a single test-time model
+		      (although could traing or distill-in)
+		\item Not clear if it learns planning.
 	\end{itemize}
 \end{frame}
 
 
-\begin{frame}{Alternative}
+\begin{frame}{Deeper}
 	\begin{itemize}
-		\item Can we improve on the search?
+		\item Improving search seems critical.
 	\end{itemize}
 \end{frame}
 
-\subsection{AlphaZero}
+\subsection{AlphaZero / MuZero}
 
 \begin{frame}{Reminder: AlphaZero}
-
+	Picture
 \end{frame}
 
 \begin{frame}{Informal: AlphaZero}
 	\begin{itemize}
-		\item Search for best solution with model
+		\item Guided-search with exploration
 		\item Collect the best CoT
-		\item Train on good ones
+		\item Train on good ones, repeat
 	\end{itemize}
-\end{frame}
-
-\begin{frame}
-
 \end{frame}
 
 \begin{frame}{Formalized: Expert Iteration}
 	\begin{itemize}
+		\item Iterative algorithm combining learned model + expert search.
+		\item Each iteration, search algorithm factors in learned confidence.
+	\end{itemize}
+	\blfootnote{\cite{Anthony2017-dm}}
+\end{frame}
+
+\begin{frame}{UCB for exploration}
+	\begin{itemize}
 		\item
 	\end{itemize}
-	\blfootnote{\cite{Anthony2017-dm}}}
+\end{frame}
+
+
+\begin{frame}{Empirical Results}
+
+	Find a good chart from a paper.
+	Best representative.
+
+	Improvement over STarish.
 \end{frame}
 
 
@@ -423,54 +521,43 @@
 		\item Major demonstrated RL result
 		\item
 	\end{itemize}
-\end{frame}
-
-\begin{frame}{Why might this be wrong?}
 	\begin{itemize}
-		\item Does not inject into CoT
-		\item Relatively complex to scale
+		\item
+		\item
 	\end{itemize}
 \end{frame}
 
 
-\begin{frame}{Alternative}
+\begin{frame}{Deeper}
 	\begin{itemize}
-		\item Can we get the CoT to search?
+		\item Can we force the model to search?
 	\end{itemize}
 \end{frame}
 
-
-\section{Learning to Correct}
-
-\begin{frame}{Challenge}
-
-\end{frame}
+\subsection{Learning to Correct}
 
 \begin{frame}{Informal: Learning to Correct}
 	\begin{itemize}
-		\item Find optimal paths
-		\item Adjust to add mistakes
-		\item
+		\item Sample $N$ Successful CoTs
+		\item Edit $z\rightarrow z'$ to inject incorrect expansions before
+		      correct ones.
+		\item Train on $z'$ trajectories
 	\end{itemize}
 \end{frame}
 
-
 \begin{frame}{Formalized: Stream of Search}
 	\begin{itemize}
-		\item
 		\item
 		\item
 	\end{itemize}
 	\blfootnote{\cite{Gandhi2024-vs}}
 \end{frame}
 
-\begin{frame}{Formalized: Advantage}
-	\begin{itemize}
-		\item
-		\item
-		\item
-	\end{itemize}
+
+\begin{frame}{Empirical Results}
+	Score results
 \end{frame}
+
 
 \begin{frame}{Why might this be right?}
 	\begin{itemize}
@@ -486,9 +573,9 @@
 	\end{itemize}
 \end{frame}
 
-\section{Wild}
+\section{No Verifier}
 
-\begin{frame}{No Supervision}
+\begin{frame}{No verifier}
 	\begin{itemize}
 		\item
 	\end{itemize}
@@ -496,25 +583,17 @@
 \end{frame}
 
 
-\begin{frame}{MuZero}
-	\begin{itemize}
-		\item
-	\end{itemize}
-	\blfootnote{\cite{Brown2024-bs}}
-\end{frame}
 
-\section{Implications}
+\section{Conclusions}
 
 \begin{frame}{}
-	\begin{itemize}
-		\item
-	\end{itemize}
-	\blfootnote{\cite{Brown2024-bs}}
 \end{frame}
+
+
 
 \begin{frame}[allowframebreaks]{Reference}
 	\bibliographystyle{apalike}
-	\bibliography{../o1.bib}
+	\bibliography{../o1.bib,../o1.extra.bib}
 \end{frame}
 
 \end{document}
