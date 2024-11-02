@@ -7,6 +7,7 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
 \usepackage{booktabs}
+\pgfplotsset{compat=1.18}
 
 % Use natbib with author-year citation style
 %\usepackage[authoryear]{natbib}
@@ -46,13 +47,13 @@
 \institute[shortinst]{Cornell}
 % \institute[shortinst]{\inst{*} Preprint}
 
-
+\setcounter{tocdepth}{1}
 \begin{document}
 
 \frame{\titlepage}
 
 \begin{frame}{Outline}
-	\tableofcontents[sections]
+	\tableofcontents
 \end{frame}
 
 \section{Introduction}
@@ -174,15 +175,16 @@
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
-				\item $\tilde{z} \cite p(z | x)$
-				\item $\tilde{y} \cite p(y | x, z=\tilde{z})$
+				\item $\tilde{z} \sim p(z | x)$
+				\item $\tilde{y} \sim p(y | x, z=\tilde{z})$
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
 			\includegraphics[width=\textwidth]{images/ancestral.png}
 		\end{column}
 	\end{columns}
-	$|\tilde{z}|$ amount of test-time compute
+    \vspace{1cm}
+    $|\tilde{z}|$ is the amount of test-time compute
 \end{frame}
 
 \begin{frame}{Warm-up: Monte-Carlo (Self-Consistency)}
@@ -192,6 +194,7 @@
 				\item $\tilde{z} \sim p(z | x)$
 				\item $\tilde{y} \sim p(y | x, \tilde{z})$
 			\end{itemize}
+            \vspace{1cm}
 			Pick majority choice $\tilde{y}^i$
 		\end{column}
 		\begin{column}{0.5\linewidth}
@@ -202,7 +205,7 @@
 
 \begin{frame}{Notation - Verifier}
 	\begin{itemize}
-		\item $\text{Ver} : \mathcal{Y} \rightarrow \{0, 1}$
+		\item $\text{Ver} : \mathcal{Y} \rightarrow \{0, 1\}$, tells us if an answer is correct or not
 		\item Examples: Regular expression for math, unit test for code.
 	\end{itemize}
 \end{frame}
@@ -214,14 +217,14 @@
 			\begin{itemize}
 				\item $\tilde{z} \sim p(z | x)$
 				\item $\tilde{y} \sim p(y | x, \tilde{z})$
-				\item $\{\tilde{y} : Ver(\tilde{y}) \}$
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
 			\includegraphics[width=\textwidth]{images/reject.png}
 		\end{column}
 	\end{columns}
-\end{frame}
+    \vspace{1cm}
+    We only keep the correct subset of $\tilde{y}$, $\{\tilde{y} : Ver(\tilde{y}) \}$\end{frame}
 
 \begin{frame}{Variants:}
 \end{frame}
@@ -230,11 +233,13 @@
 \begin{frame}{Warm up: Monte-Carlo Roll-Outs}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
-			Given $x, z_{1:t}$ define expected reward as
+            \begin{itemize}
+    			\item Given $x, z_{1:t}$ (a partial chain of thought) define expected reward as
 
-			$\mathbb{E}_{y\sim p(y| z, x), z_{t:T} \sim p(z | z_{1:t}, x)}[Ver(y)]$
+    			$$\mathbb{E}_{y\sim p(y| z, x), z_{t:T} \sim p(z | z_{1:t}, x)}[Ver(y)]$$
 
-			Roll-outs apply MC to this expectation.
+    			\item Roll-outs apply MC to this expectation.
+            \end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
 			\includegraphics[width=\textwidth]{images/mcroll.png}
@@ -248,12 +253,12 @@
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
-				\item $$\max_{theta} \sum \log p(y | x; \theta)$$
+				\item $\max_{\theta} \sum \log p(y | x; \theta)$
 				\item Intractable expectation over latent CoT
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
-			\includegraphics[width=\textwidth]{images/marginal.png}
+			%\includegraphics[width=\textwidth]{images/marginal.png}
 		\end{column}
 	\end{columns}
 \end{frame}
@@ -261,7 +266,7 @@
 \section{The Suspects}
 
 \begin{frame}{Outline}
-	\tableofcontents[sections]
+	\tableofcontents[hideallsubsections]
 \end{frame}
 
 \begin{frame}{The Suspects}
@@ -294,11 +299,11 @@
 \end{frame}
 
 \begin{frame}{Formalization: Rejection Sampling EM}
-	$$\max_{theta} \sum \log p(y | x; \theta) = \sum \log E_{z} p(y, z | x)$$
+	$$\max_{\theta} \sum \log p(y | x; \theta) = \sum \log E_{z} p(y, z | x)$$
 	\begin{itemize}
-		\item E-Step: Sample $\mathcal{Z}$ from the posterior with Rejection Sampling
-		      \[ p(z | \text{Ver}(y)=1, x) \]
-		\item M-Step: Fit $\theta' \gets \argmax_{\theta}
+		\item E-Step: Sample $\tilde{z}$ from the posterior with Rejection Sampling
+		\[ \tilde{z} \sim p(z | \text{Ver}(y)=1, x) \]
+		\item M-Step: Fit $\theta' \gets \arg\max_{\theta}
 			      \sum_{z\in \mathcal{Z}} \log p(z | x;\theta)$
 	\end{itemize}
 \end{frame}
@@ -306,6 +311,7 @@
 
 
 \begin{frame}{Terminology}
+    \blfootnote{\cite{Zelikman2022-id,Gulcehre2023-vk,Singh2023-eb}}
 	\begin{itemize}
 		\item STaR
 		\item ReST
@@ -318,8 +324,8 @@
 
 \begin{frame}{Batched }
 	\begin{itemize}
-		\item Batched -> Compute trajectories, train with behavioral cloning
-		\item Online -> Use policy gradient-like steps to update each example
+		\item Batched -> Compute trajectories first, then train with behavioral cloning
+		\item Online -> Use policy gradient-like steps to update after each example
 	\end{itemize}
 \end{frame}
 
@@ -346,7 +352,7 @@
 	Find a good chart from a paper.
 	Best representative.
 
-	Improvement over self-consistency.
+	Improvement over self-consistency. ([Daniel] Surprisingly almost no direct comparison to self-consistency in a lot of what we've looked at, RestEM mentions majority voting, and says they improve on it by 4 percent but it's not in any of the figures, still looking for a good picture here).
 \end{frame}
 
 
@@ -362,7 +368,6 @@
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
 				\item No evidence this learns to correct, plan
-				\item
 				\item Well-explored in literature with marginal gains
 			\end{itemize}
 		\end{column}
@@ -392,7 +397,8 @@
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
-				\item $\tilde{z} \sim p(z | x)$
+                \item $r: S^T \rightarrow \mathbb{R}$ is the guide/reward function
+				\item $\tilde{z_{t}} \sim p(z_{t} | x, z_{1:t-1})$
 				\item $\tilde{y} \sim p(y | x, \tilde{z})$
 			\end{itemize}
 		\end{column}
@@ -466,7 +472,7 @@
 	\end{itemize}
 	\begin{itemize}
 		\item Assumption: o1 is a single test-time model
-		      (although could traing or distill-in)
+		      (although could train or distill-in)
 		\item Not clear if it learns planning.
 	\end{itemize}
 \end{frame}
@@ -588,8 +594,6 @@
 
 \begin{frame}{}
 \end{frame}
-
-
 
 \begin{frame}[allowframebreaks]{Reference}
 	\bibliographystyle{apalike}

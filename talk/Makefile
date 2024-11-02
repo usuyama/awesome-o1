@@ -29,3 +29,4 @@ clean:
 	$(LATEX) $(LATEXOPTS) $(SRC_$@)
 	bibtex $(SRC_$@)
 	$(LATEX) $(LATEXOPTS) $(SRC_$@)
+	$(LATEX) $(LATEXOPTS) $(SRC_$@)
