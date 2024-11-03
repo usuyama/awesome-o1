@@ -348,11 +348,17 @@
 %\end{frame}
 
 \begin{frame}{Empirical Results}
-
-	Find a good chart from a paper.
-	Best representative.
-
-	Improvement over self-consistency.
+    % None of STaR, ReST, ReST-EM compare directly to self-consistency alone.
+    % The closest is ReST-EM, which says that using a self-consistency on
+    % the Rest-EM model gets better performance than using it on the base model (but without a figure).
+    % I'm putting in figure 5 from Rest-EM for now, which shows that sampling produces
+    % a correct answer more often from Rest-EM than from the base model across a range of sample
+    % sizes. It doesn't show how far below these two lines self-consistency would be, but it's at least
+    % evidence that Rest-EM improves on the base model. And the Pass@K performance should upper bound
+    % the performance of self-consistency, since anything correct under majority voting is also correct
+    % in Pass@K.
+    \blfootnote{\cite{Singh2023-eb}}
+	\includegraphics[width=\textwidth]{images/rest_em_figure_5.png}
 \end{frame}
 
 
@@ -396,13 +402,16 @@
 \begin{frame}{Beam Search with Guide}
     % Slightly different from token level beam search since we can't enumerate all the possible z_t like in a vocabulary,
     % so instead sample an initial k of them, score those with r and keep the top m
+    %
+    % A bit light on notation here (e.g. didn't define the set of z_t for each candidate prefix explicitly) to
+    % avoid a lot of indices, but can add that if it needs to be more formal.
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
                 \item $r: S^T \rightarrow \mathbb{R}$ is the guide/reward function
-				\item Take $k$ samples $\{\tilde{z}^i_{t}\}_{i=1}^k$ from $p(z_{t} | x, z_{1:t-1})$
-				\item Keep the top $m$ samples, ordered by $r(\tilde{z}^i_{t})$
-				\item Repeat for each $\tilde{z}^i_{t}$ until generation ends
+                \item $\mathcal{Z}_{1:t-1}=\{z^i_{1:t-1}\}_{i=1}^m$, current partial CoT candidates
+                \item Sample $k$ potential $\tilde{z}_t$ from $p(z_{t} | x, z^i_{1:t-1})$ for each $z^i_{1:t-1}$
+				\item Keep the top $m$ samples, ordered by $r(\tilde{z}_{t})$, repeat
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
@@ -421,13 +430,11 @@
 
 
 \begin{frame}{Beam Search with Roll-Outs}
-    % The notation is a bit much here, but I wanted to make sure everything had separate indices.
-    % Also we get the intermediate chain of thought and solutions since we're sampling from the joint and
-    % not the marginal, but I don't mention that since we only need the solution for the verifier.
+
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
-			    \item For one $\tilde{z}^{i}_{t}$, sample $n$ solutions $\tilde{y}^{i,j}$ from $p(y,z_{t+1:T}|x,z_{1:t-1},\tilde{z}^{i}_{t})$
+			    \item For a potential $\tilde{z}_{t}$, sample $n$ solutions $\tilde{y}^{i,j}$ from $p(y,z_{t+1:T}|x,z_{1:t-1},\tilde{z}_{t})$
 			    \item $r_{MC}(\tilde{z}_{t}) = \frac{1}{n}\sum_{j=1}^{n} Ver(\tilde{y}^{i,j})$
 			\end{itemize}
 		\end{column}
@@ -445,7 +452,7 @@
 		\begin{column}{0.5\linewidth}
 		    \begin{itemize}
 				\item Rollouts are costly, so instead learn a model $r_{\psi}(z_t)$ to approximate rollouts
-				\item Use $r_{MC}$ to generate labels to train $r_{\psi}$
+				\item Use $r_{MC}$ to determine labels to train $r_{\psi}$
 
 			\end{itemize}
 		\end{column}
@@ -515,20 +522,21 @@
     % except that AlphaZero learns a PRM (value function) and V-STaR learns an ORM.
     % Plus AlphaZero uses its PRM during search, which V-STaR can't do.
     %
-    % I wrote this with the reward model involved, but technically it expert iteration doesn't
+    % I wrote this with the reward model involved, but technically expert iteration doesn't
     % require that. At that point I think it reduces to Rejection Sampling EM though.
 	\begin{itemize}
 		\item Iterative algorithm combining learned model + expert search with a verifier.
 		\item Generate samples using $p(y,z|x)$, reward model $r(z_t)$, and search algorithm (e.g. beam search)
 		\item Label samples using $Ver(y)$
-		\item Train $p(y,z|x)$, $r(z_t)$ on the labeled samples
+		\item Train $p(y,z|x)$, $r(z_t)$ on the labeled samples, and repeat
 	\end{itemize}
 	\blfootnote{\cite{Anthony2017-dm}}
+
 \end{frame}
 
 \begin{frame}{UCB for exploration}
     % Not sure if there's a way to formalize this for language models, since
-    % we're unlikely to get the same z twice (and end up in the same state).
+    % we're unlikely to get the same z twice (i.e. end up in the same state/action pair).
     % That means the state visit counts in the usual UCB formulation don't work.
     % The exploration in previous methods here has come from sampling or
     % maintaining multiple candidates, rather than tracking UCB statistics.
@@ -539,11 +547,14 @@
 
 
 \begin{frame}{Empirical Results}
-
-	Find a good chart from a paper.
-	Best representative.
-
-	Improvement over STarish.
+    % figure from appendix of the VSTaR paper
+    % VSTaR is sort of a weird variation of expert iteration. The learned model is
+    % both the generator and the verifier, but only the generator influences the
+    % expert search (since it determines what the samples are at the next iteration that the verifier labels).
+    % I think it still falls within expert iteration, though, just with an expert policy
+    % that's independent of the reward model.
+    \includegraphics[width=\textwidth]{images/vstar_figure_8.png}
+    \blfootnote{\cite{hosseini2024vstar}}
 \end{frame}
 
 
