@@ -28,7 +28,7 @@
 
 \newcommand\blfootnote[1]{%
 \begingroup
-\renewcommand\thefootnote{}\footnote{#1}%
+\renewcommand\thefootnote{}\footnote{\hfill\parbox[t]{0.5\textwidth}{\raggedleft #1}}%
 \addtocounter{footnote}{-1}%
 \endgroup
 }
@@ -301,10 +301,10 @@
 \begin{frame}{Formalization: Rejection Sampling EM}
 	$$\max_{\theta} \sum \log p(y | x; \theta) = \sum \log E_{z} p(y, z | x)$$
 	\begin{itemize}
-		\item E-Step: Sample $\tilde{z}$ from the posterior with Rejection Sampling
+		\item E-Step: Sample $\mathcal{Z} = \{\tilde{z}_i\}_{i=1}^{N}$ from the posterior with Rejection Sampling
 		\[ \tilde{z} \sim p(z | \text{Ver}(y)=1, x) \]
 		\item M-Step: Fit $\theta' \gets \arg\max_{\theta}
-			      \sum_{z\in \mathcal{Z}} \log p(z | x;\theta)$
+			      \sum_{\tilde{z} \in \mathcal{Z}} \log p(\tilde{z} | x;\theta)$
 	\end{itemize}
 \end{frame}
 
@@ -352,7 +352,7 @@
 	Find a good chart from a paper.
 	Best representative.
 
-	Improvement over self-consistency. ([Daniel] Surprisingly almost no direct comparison to self-consistency in a lot of what we've looked at, RestEM mentions majority voting, and says they improve on it by 4 percent but it's not in any of the figures, still looking for a good picture here).
+	Improvement over self-consistency.
 \end{frame}
 
 
@@ -394,12 +394,15 @@
 
 
 \begin{frame}{Beam Search with Guide}
+    % Slightly different from token level beam search since we can't enumerate all the possible z_t like in a vocabulary,
+    % so instead sample an initial k of them, score those with r and keep the top m
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
                 \item $r: S^T \rightarrow \mathbb{R}$ is the guide/reward function
-				\item $\tilde{z_{t}} \sim p(z_{t} | x, z_{1:t-1})$
-				\item $\tilde{y} \sim p(y | x, \tilde{z})$
+				\item Take $k$ samples $\{\tilde{z}^i_{t}\}_{i=1}^k$ from $p(z_{t} | x, z_{1:t-1})$
+				\item Keep the top $m$ samples, ordered by $r(\tilde{z}^i_{t})$
+				\item Repeat for each $\tilde{z}^i_{t}$ until generation ends
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
@@ -411,32 +414,40 @@
 
 \begin{frame}{What to use as Guide?}
 	\begin{itemize}
-		\item Roll-outs
+		\item Monte Carlo Roll-outs
 		\item Learned Reward Model
 	\end{itemize}
 \end{frame}
 
 
 \begin{frame}{Beam Search with Roll-Outs}
+    % The notation is a bit much here, but I wanted to make sure everything had separate indices.
+    % Also we get the intermediate chain of thought and solutions since we're sampling from the joint and
+    % not the marginal, but I don't mention that since we only need the solution for the verifier.
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
-			Beam Roll
+			\begin{itemize}
+			    \item For one $\tilde{z}^{i}_{t}$, sample $n$ solutions $\tilde{y}^{i,j}$ from $p(y,z_{t+1:T}|x,z_{1:t-1},\tilde{z}^{i}_{t})$
+			    \item $r_{MC}(\tilde{z}_{t}) = \frac{1}{n}\sum_{j=1}^{n} Ver(\tilde{y}^{i,j})$
+			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
 			\includegraphics[width=\textwidth]{images/beamroll.png}
 		\end{column}
 	\end{columns}
+
 \end{frame}
 
 
 \begin{frame}{Amortized Roll-Outs}
+    \blfootnote{\cite{Wang2023-ur}}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
-			Given $x, z_{1:t}$ define expected reward as
+		    \begin{itemize}
+				\item Rollouts are costly, so instead learn a model $r_{\psi}(z_t)$ to approximate rollouts
+				\item Use $r_{MC}$ to generate labels to train $r_{\psi}$
 
-			$\mathbb{E}_{y\sim p(y| z, x), z_{t:T} \sim p(z | z_{1:t}, x)}[Ver(y)]$
-
-			Roll-outs apply MC to this expectation.
+			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
 			\includegraphics[width=\textwidth]{images/mcroll.png}
@@ -460,7 +471,7 @@
 		\item Math Shepard.
 		\item snell.
 	\end{itemize}
-	\blfootnote{\cite{Uesato2022-aw}}
+	\blfootnote{\cite{Uesato2022-aw,Setlur2024-ax,Wang2023-ur,Lightman2023-cr,Snell2024-dx}}
 \end{frame}
 
 
@@ -487,26 +498,40 @@
 \subsection{AlphaZero / MuZero}
 
 \begin{frame}{Reminder: AlphaZero}
-	Picture
+	\centering
+	\includegraphics[height=0.8\textheight]{images/alphazero_figure_one.png}
 \end{frame}
 
 \begin{frame}{Informal: AlphaZero}
 	\begin{itemize}
-		\item Guided-search with exploration
-		\item Collect the best CoT
-		\item Train on good ones, repeat
+		\item Self-play using guided-search with exploration
+		\item Label final outcomes of self-play games
+		\item Train both a reward model and policy
 	\end{itemize}
 \end{frame}
 
 \begin{frame}{Formalized: Expert Iteration}
+    % VSTaR is almost the LM equivalent of AlphaZero in the framing,
+    % except that AlphaZero learns a PRM (value function) and V-STaR learns an ORM.
+    % Plus AlphaZero uses its PRM during search, which V-STaR can't do.
+    %
+    % I wrote this with the reward model involved, but technically it expert iteration doesn't
+    % require that. At that point I think it reduces to Rejection Sampling EM though.
 	\begin{itemize}
-		\item Iterative algorithm combining learned model + expert search.
-		\item Each iteration, search algorithm factors in learned confidence.
+		\item Iterative algorithm combining learned model + expert search with a verifier.
+		\item Generate samples using $p(y,z|x)$, reward model $r(z_t)$, and search algorithm (e.g. beam search)
+		\item Label samples using $Ver(y)$
+		\item Train $p(y,z|x)$, $r(z_t)$ on the labeled samples
 	\end{itemize}
 	\blfootnote{\cite{Anthony2017-dm}}
 \end{frame}
 
 \begin{frame}{UCB for exploration}
+    % Not sure if there's a way to formalize this for language models, since
+    % we're unlikely to get the same z twice (and end up in the same state).
+    % That means the state visit counts in the usual UCB formulation don't work.
+    % The exploration in previous methods here has come from sampling or
+    % maintaining multiple candidates, rather than tracking UCB statistics.
 	\begin{itemize}
 		\item
 	\end{itemize}
