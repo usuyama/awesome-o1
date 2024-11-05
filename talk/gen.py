@@ -159,25 +159,29 @@ def mcts_step(root: Node, T=6) -> Node:
     yield path
 
     # Rollout
-    result = simulate(selected_node, T=6)  # Assuming T=6, adjust as needed
+    result_win = simulate(selected_node, T=T)  # Assuming T=6, adjust as needed
     yield path
     selected_node.selected = False
     selected_node.nodes = []
     # Backpropagation
     current = selected_node
     while current:
-        current.win += result.win
+        current.win += result_win
         current.total += 1
         current = current.parent if hasattr(current, "parent") else None
 
     yield path
 
 
+def bound(x):
+    return np.maximum(np.minimum(3, x), -3)
+
+
 def mcts_expand(node: Node) -> Node:
-    for i in range(3):
+    for i in range(2):
         new_node = Node(
             nodes=[],
-            val=node.val + random.uniform(-2, 2),
+            val=bound(node.val + random.uniform(-1.5, 1.5)),
             win=0,
             total=0,
             layer=node.layer + 1,
@@ -189,12 +193,12 @@ def mcts_expand(node: Node) -> Node:
 
 def simulate(node: Node, T: int) -> Node:
     results = []
-    for _ in range(4):
+    for _ in range(8):
         curr = node
         while curr.layer < T:
             new_node = Node(
                 nodes=[],
-                val=curr.val + random.uniform(-0.5, 0.5),
+                val=bound(curr.val + random.uniform(-1.0, 1.0)),
                 win=0,
                 total=0,
                 layer=curr.layer + 1,
@@ -202,10 +206,10 @@ def simulate(node: Node, T: int) -> Node:
                 rollout=True,
             )
             curr.nodes.append(new_node)
-            curr = random.choice(curr.nodes)
-        curr.win = int(random.uniform(-0.5, 0.5))
+            curr = new_node
+        curr.win = int((curr.val < 0.5) and (curr.val > -0.5))
         results.append(curr)
-    return max(results, key=lambda x: x.win)
+    return sum([x.win for x in results]) / 8
 
 
 def draw_node(root: Node):
@@ -215,7 +219,7 @@ def draw_node(root: Node):
 
     def traverse(node, parent=None):
         if not node.rollout:
-            nodes.append((node.layer, node.val))
+            nodes.append((node.layer, node.val, (node.win + 0.1) / (node.total + 0.8)))
             if parent:
                 edges.append(((parent.layer, parent.val), (node.layer, node.val)))
         else:
@@ -232,15 +236,26 @@ def draw(
     nodes, edges, rollout_edges, name, T=6, csize=0.2, lwidth=0.5, draw_final=True
 ):
     ns = list(nodes)
-    nodes = np.array([(t, v) for (t, v) in ns if t <= T - 1])
-    finaln = np.array([(t, int(v * 2) / 2) for (t, v) in ns if t == T])
+    mag = False
+    if len(nodes[0]) == 3:
+        mag = True
+        nodes = np.array([(t, v) for (t, v, m) in ns if t <= T - 1])
+        nodes_m = np.array([m for (t, v, m) in ns if t <= T - 1])
+        finaln = np.array([(t, int(v * 2) / 2) for (t, v, m) in ns if t == T])
+    else:
+        nodes = np.array([(t, v) for (t, v) in ns if t <= T - 1])
+        finaln = np.array([(t, int(v * 2) / 2) for (t, v) in ns if t == T])
     edges = np.array(edges)
     redges = np.array(rollout_edges)
 
     c = circle(csize).line_width(0.1)
     pts = tx.to_P2(nodes)
     z = c.translate_by(pts)
-
+    if mag:
+        v = 5 * np.minimum(0.2, nodes_m[..., None])
+        z = z.fill_color(v * to_color(c4) + (1 - v) * to_color("red"))
+    else:
+        z = z.fill_color(c4)
     if finaln.shape[0] > 0:
         pts = tx.to_P2(finaln)
         y = c.translate_by(pts)
@@ -280,7 +295,7 @@ def draw(
         + lines2.concat()
         + final
         + z.concat().fill_color("white").line_width(0)
-        + z.concat().fill_color(c4)
+        + z.concat()
         + y
         + c.fill_color(c1)
     )
@@ -290,22 +305,23 @@ def draw(
     return base
 
 
+T = 10
 root = Node([], 0, 0, 0, 0, None)
-list(mcts_step(root))
-for i in range(0, 30, 5):
-    for j, path in enumerate(mcts_step(root)):
+list(mcts_step(root, T=T))
+for i in range(0, 500, 5):
+    for j, path in enumerate(mcts_step(root, T=T)):
         d = (
-            rectangle(6, 5).align_l()
-            + draw(*draw_node(root), "", csize=0.1)
+            rectangle(T + 1, 7).line_width(0).align_l().translate(-0.5, 0)
+            + draw(*draw_node(root), "", T=T, csize=0.07)
             + (
-                draw(*draw_node(path), "", csize=0.1, draw_final=False).fill_color(
-                    "black"
-                )
+                draw(
+                    *draw_node(path), "", csize=0.07, T=T, draw_final=False
+                ).fill_color("orange")
                 if path.nodes
                 else empty()
             )
         )
-        d.render(f"images/mcts{i + j:02}.png", 512)
+        d.render(f"images/mcts{i + j:03}.png", 512, draw_height=100)
 
 vcat([draw(*make_chain(partial(rwalk1, d=1)), "x") for _ in range(5)]).render(
     "images/reject1.png", 512

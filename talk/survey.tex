@@ -92,32 +92,51 @@
 	\includegraphics[width=\linewidth]{images/compute.png}
 \end{frame}
 
-\begin{frame}{Importance of Search}
-	\begin{itemize}
-		\item
-	\end{itemize}
-	\blfootnote{}
+\begin{frame}{AIME}
+	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
+		\small
+		For any finite set $X$, let $| X |$ denote the number of elements in $X$. Define \[S_n = \sum | A \cap B | ,\] where the sum is taken over all ordered pairs $(A, B)$ such that $A$ and $B$ are subsets of $\left\{ 1 , 2 , 3, \cdots , n \right\}$ with $|A| = |B|$. For example, $S_2 = 4$ because the sum is taken over the pairs of subsets \[(A, B) \in \left\{ (\emptyset, \emptyset) , ( \{1\} , \{1\} ), ( \{1\} , \{2\} ) , ( \{2\} , \{1\} ) , ( \{2\} , \{2\} ) , ( \{1 , 2\} , \{1 , 2\} ) \right\}\] giving $S_2 = 0 + 1 + 0 + 0 + 1 + 2 = 4$. Let $\frac{S_{2022}}{S_{2021}} = \frac{p}{q}$, where $p$ and $q$ are relatively prime positive integers. Find the remainder when $p + q$ is divided by 1000.
+	\end{tcolorbox}
 \end{frame}
 
 \begin{frame}{Bitter Lesson}
-	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
-		The bitter lesson is based on the historical observations that 1) AI researchers have often tried to build knowledge into their agents,
-		2) this always helps in the short term, and is personally satisfying to the researcher, but 3) in the long run it plateaus and even inhibits
-		further progress, and 4) breakthrough progress eventually arrives by an opposing approach based on scaling computation by \textbf{search and learning}.
-	\end{tcolorbox}
+	\begin{columns}
+		\begin{column}{0.3\textwidth}
+			\includegraphics[width=\linewidth]{images/Sutton}
+		\end{column}
+		\begin{column}{0.7\textwidth}
+			\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
+				The bitter lesson is based on the historical observations that 1) AI researchers have often tried to build knowledge into their agents,
+				2) this always helps in the short term, and is personally satisfying to the researcher, but 3) in the long run it plateaus and even inhibits
+				further progress, and 4) breakthrough progress eventually arrives by an opposing approach based on scaling computation by \textbf{search and learning}.
+			\end{tcolorbox}
+		\end{column}
+	\end{columns}
 
 	\blfootnote{}
 \end{frame}
 
 
-
-\begin{frame}{Example Problem}
-
-	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
-
-	\end{tcolorbox}
-
+\begin{frame}{Importance of Search}
+	\begin{columns}
+		\begin{column}{0.3\textwidth}
+			\includegraphics[width=\linewidth]{images/Noam}
+		\end{column}
+		\begin{column}{0.7\textwidth}
+			\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
+				The most important [lesson] is that I and other researchers simply didn't know how much of a difference scaling up search would make.
+				If I had seen those scaling results at the start of my PhD, I would have shifted to researching search algorithms for poker much sooner
+				and we probably would have gotten superhuman poker bots much sooner.
+			\end{tcolorbox}
+		\end{column}
+	\end{columns}
+	\blfootnote{}
 \end{frame}
+
+
+
+
+
 
 \begin{frame}{This Talk}
 	\begin{itemize}
@@ -264,11 +283,32 @@
 \end{frame}
 
 \begin{frame}{Technical Background}
-	\begin{itemize}
-		\item Formalize sampling of latent reasoning
-		\item Techniques from combinatorial sampling
-		\item No learning yet.
-	\end{itemize}
+	\begin{columns}
+		\begin{column}{0.4\linewidth}
+			\begin{itemize}
+				\item Formalize sampling of latent reasoning
+				\item Techniques from combinatorial sampling
+				\item No learning yet.
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.6\linewidth}
+			\begin{small}
+				\textcolor{c1}{Question: 4 baskets. 3 have 9 apples, 15 oranges, 14 bananas each. 4th has 2 less of each. Total fruits?}
+
+				\textcolor{c4}{Let's solve step-by-step:}
+
+				\textcolor{c4}{Fruits in one of first 3 baskets: 9 + 15 + 14 = 38}
+
+				\textcolor{c4}{Total in first 3 baskets: 38 * 3 = 114}
+
+				\textcolor{c4}{4th basket: (9-2) + (15-2) + (14-2) = 32}
+
+				\textcolor{c4}{Total fruits: 114 + 32 = 146}
+
+				\textcolor{c3}{Answer: 146 fruits}
+			\end{small}
+		\end{column}
+	\end{columns}
 \end{frame}
 
 
