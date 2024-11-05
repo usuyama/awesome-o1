@@ -9,11 +9,36 @@
 \usepackage{booktabs}
 \pgfplotsset{compat=1.18}
 
+% Define colors
+\definecolor{c1}{HTML}{CB6040}
+\definecolor{c2}{HTML}{F2E5BF}
+\definecolor{c3}{HTML}{FD8B51}
+\definecolor{c4}{HTML}{257180}
 % Use natbib with author-year citation style
 %\usepackage[authoryear]{natbib}
 
 % Add the bibliography style compatible with author-year
 %\bibliographystyle{plainnat}
+\definecolor{red}{RGB}{181, 23, 0}
+\definecolor{blue}{RGB}{0, 118, 186}
+\definecolor{gray}{RGB}{50, 50, 50}
+
+\newcommand{\cx}{\textcolor{c1}{x}}
+\newcommand{\cy}{\textcolor{c3}{y}}
+\newcommand{\cz}{\textcolor{c4}{z}}
+
+\newcommand{\Ver}{\text{Ver}}
+
+\newcommand{\cfy}[1]{\textcolor{c3}{#1}}
+\newcommand{\cfz}[1]{\textcolor{c4}{#1}}
+\newcommand{\czT}{\cfz{z_{1:T}}}
+
+\setbeamercolor{palette primary}{fg=c1,bg=white}
+\setbeamercolor{palette secondary}{fg=c2,bg=white}
+\setbeamercolor{palette tertiary}{bg=c3,fg=white}
+\setbeamercolor{palette quaternary}{fg=black,bg=white}
+\setbeamercolor{structure}{fg=c1}
+
 
 \setbeamertemplate{bibliography item}[text]
 
@@ -22,9 +47,10 @@
         \node[anchor=north east, xshift=-0.2cm, yshift=-0.2cm] at (current page.north east) {\footnotesize #1};
     \end{tikzpicture}
 }
+\usepackage{tcolorbox}
 \usetheme{auriga}
 \usecolortheme{auriga}
-\setbeamercolor{math text}{fg=blue}
+\setbeamercolor{math text}{fg=gray}
 
 \newcommand\blfootnote[1]{%
 \begingroup
@@ -38,9 +64,6 @@
 
 
 % define some colors for a consistent theme across slides
-\definecolor{red}{RGB}{181, 23, 0}
-\definecolor{blue}{RGB}{0, 118, 186}
-\definecolor{gray}{RGB}{146, 146, 146}
 \title{Speculations \\ on \\ Test-Time Scaling}
 \author{Sasha Rush \  Daniel Ritter}
 
@@ -66,54 +89,48 @@
 	\begin{itemize}
 		\item LLM (2018-2024) driven by training scaling
 		\item Speculation: Benefit of static data running out
+		\item o1 - Large-scale RL Training leading to search usage.
 	\end{itemize}
 	\blfootnote{}
 \end{frame}
 
-\begin{frame}{Implication}
+
+\begin{frame}{Noam}
 	\begin{itemize}
-		\item Breakthrough in large-scale RL Training
 		\item
+
 	\end{itemize}
 	\blfootnote{}
 \end{frame}
 
-\begin{frame}{What have we seen?}
-	\begin{itemize}
-		\item Public demo model
-		\item Strong result in constrained domains.
-	\end{itemize}
-	\blfootnote{}
-\end{frame}
 
 \begin{frame}{This Talk}
 	\begin{itemize}
 		\item Survey of the public literature
 		\item Synthesis of discussions with expert
-		\item Gossip and hearsay
+		\item Discussions (thx 	Lewis Tunstall, Edward Beeching, Aviral Kumar, Charlie Snell,
+		      Michael Hassid, Yoav Artzi, Risab Agarwal, Kanishk Gandhi,
+		      Wenting Zhao, Yuntian Deng, Nathan Lambert)
 	\end{itemize}
 	\blfootnote{}
-\end{frame}
 
-\begin{frame}{Thanks}
-	Lewis Tunstall, Edward Beeching, Aviral Kumar, Charlie Snell,
-	Michael Hassid, Yoav Artzi, Risab Agarwal, Kanishk Gandhi,
-	Wenting Zhao, Yuntian Deng, Nathan Lambert
 \end{frame}
 
 \section{The Clues}
 
 \begin{frame}{What we know}
-	Our large-scale \textbf{reinforcement learning algorithm} teaches the model
-	how to think productively using its \textbf{chain of thought} in a highly
-	\textbf{data-efficient} training process.
+	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
+		Our large-scale \textbf{reinforcement learning algorithm} teaches the model
+		how to think productively using its \textbf{chain of thought} in a highly
+		\textbf{data-efficient} training process.
+	\end{tcolorbox}
 \end{frame}
 
 \begin{frame}{What we know}
 	\begin{itemize}
-		\item RL - Signal from verifiable problems
-		\item CoT - ``Thinking'' occurs in token stream
-		\item Data Efficient - Fixed set of good problems
+		\item RL; Signal from verifiable problems
+		\item CoT; ``Thinking'' occurs in token stream
+		\item Data Efficient; Fixed set of good problems
 	\end{itemize}
 \end{frame}
 
@@ -121,34 +138,96 @@
 	\begin{itemize}
 		\item Single final model
 		\item Not learned from expert examples
-		\item
 	\end{itemize}
 \end{frame}
 
 \begin{frame}{Chain of Thought}
-	o1 learns to hone its chain of thought and refine the strategies it uses.
-	It learns to recognize and \textbf{correct its mistakes}.
-	It learns to \textbf{break down tricky steps} into simpler ones.
-	It learns to try a \textbf{different approach} when the current one isn’t working.
+	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
+		o1 learns to hone its chain of thought and refine the strategies it uses.
+		It learns to recognize and \textbf{correct its mistakes}.
+		It learns to \textbf{break down tricky steps} into simpler ones.
+		It learns to try a \textbf{different approach} when the current one isn’t working.
+	\end{tcolorbox}
 \end{frame}
 
 \begin{frame}{Review: Chain of Thought}
 	\begin{itemize}
-		\item
+		\item In the process of answering a question,
+		      the model can generate a chain of intermediate
+		      steps.
+		\item These steps provide a scratchpad for working
+		      on hard problems.
+		\item OpenAI provided a limited number of examples.
 	\end{itemize}
 	\blfootnote{}
 \end{frame}
 
-\begin{frame}{Planning}
 
+\begin{frame}{o1 CoT: Outlining}
+	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
+		\begin{quote}
+
+			Implementation Outline:
+
+			1. Capture input string as argument.
+			2. Remove any spaces (if any).
+			3. Parse the input string to extract numbers into arrays.
+			- Since the input is in the format '[1,2],[3,4],[5,6]', we can:
+			- Remove outer brackets if necessary.
+			- Split the string by '],' to get each row.
+			- For each row, remove '[' and ']', then split by ',' to get elements.
+
+			4. Build a 2D array in bash (arrays containing arrays).
+		\end{quote}
+	\end{tcolorbox}
 \end{frame}
 
-\begin{frame}{Backtracking}
 
+\begin{frame}{o1 CoT: Planning}
+	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
+		\begin{quote}
+			First, the cipher seems connected to the plaintext.
+
+			Given the time constraints, perhaps the easiest way is to try to see patterns.
+
+			Option 1: Try to find mapping from letters to letters.
+
+			Do any letters match?
+
+			First, let's write down the ciphertext and plaintext letters on top of each other.
+		\end{quote}
+	\end{tcolorbox}
 \end{frame}
 
-\begin{frame}{Strategies}
+\begin{frame}{o1 CoT: Backtracking}
+	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
+		\begin{quote}
 
+			Similarly, m(x)⋅(−x2) = (−x2n + 2 + m2n−2x2n +lower terms)m(x)⋅(−x 2) = (−x 2n + 2 + m 2n−2​x 2n +lower terms).
+
+			Wait, actually, this may not help us directly without specific terms.An alternative is to consider the known polynomials.
+
+			So m(x) = k ...
+		\end{quote}
+	\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{o1 CoT: Self-Evaluation}
+
+	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
+		\begin{quote}
+
+			Let’s analyze each option.
+
+			Option A: “because appetite regulation is a field of staggering complexity.”
+
+			Is that a good explanation? Hmm.
+
+			Option B: “because researchers seldom ask the right questions.”
+
+			Does this make sense with the main clause?
+		\end{quote}
+	\end{tcolorbox}
 \end{frame}
 
 
@@ -162,40 +241,42 @@
 
 \section{Notation}
 
-\begin{frame}{Notation - Test-Time (No learning yet!)}
+\begin{frame}{Notation: LLM Sampling (No learning yet!)}
 	\begin{itemize}
-		\item $x$ - the problem specification
-		\item $z \in {\mathcal{S}^T}$ - the chain of thought (CoT)
-		\item $y \in {\mathcal Y}$ - the final answer
-		\item $p(y | x) = \mathbb{E}_{z \sim p(z|x)} p(y|x,z)$ - model
+		\item $\cx$;  problem specification
+		\item $\cfz{z_{1:T}} \in {\mathcal{S}^T}$; chain of thought (CoT) stepsl
+		\item $\cy \in \cfy{\mathcal Y}$; final answer
+
+		      $$p(\cy | \cx) = \mathbb{E}_{\cz} p(\cy|\cx,\cz)$$
 	\end{itemize}
 \end{frame}
 
 \begin{frame}{Warm-up: Ancestral Sampling}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
-			\begin{itemize}
-				\item $\tilde{z} \sim p(z | x)$
-				\item $\tilde{y} \sim p(y | x, z=\tilde{z})$
-			\end{itemize}
+			\begin{align*}
+				{\czT} & \sim p(\cdot | \cx)         \\
+				{\cy}  & \sim p(\cdot | \cx, {\czT})
+			\end{align*}
 		\end{column}
 		\begin{column}{0.5\linewidth}
 			\includegraphics[width=\textwidth]{images/ancestral.png}
 		\end{column}
 	\end{columns}
-    \vspace{1cm}
-    $|\tilde{z}|$ is the amount of test-time compute
+	\vspace{1cm}
+	$T$ is the amount of test-time compute
 \end{frame}
 
 \begin{frame}{Warm-up: Monte-Carlo (Self-Consistency)}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
-			\begin{itemize}
-				\item $\tilde{z} \sim p(z | x)$
-				\item $\tilde{y} \sim p(y | x, \tilde{z})$
-			\end{itemize}
-            \vspace{1cm}
-			Pick majority choice $\tilde{y}^i$
+			For $N$ samples,
+			\begin{align*}
+				{\czT}    & \sim p(\cdot | \cx)         \\
+				\cfy{y^n} & \sim p(\cdot | \cx, {\czT})
+			\end{align*}
+			\vspace{1cm}
+			Pick majority choice $\cfy{y^n}$
 		\end{column}
 		\begin{column}{0.5\linewidth}
 			\includegraphics[width=\textwidth]{images/bwalk.png}
@@ -203,10 +284,14 @@
 	\end{columns}
 \end{frame}
 
-\begin{frame}{Notation - Verifier}
+\begin{frame}{Assumption: Verifier}
+	$$\text{Ver}_x : \cfy{\mathcal{Y}} \rightarrow \{0, 1\}$$
+
+	Examples:
 	\begin{itemize}
-		\item $\text{Ver} : \mathcal{Y} \rightarrow \{0, 1\}$, tells us if an answer is correct or not
-		\item Examples: Regular expression for math, unit test for code.
+		\item Regular expression for math
+		\item Unit test for code
+		\item Test questions for science
 	\end{itemize}
 \end{frame}
 
@@ -214,32 +299,29 @@
 \begin{frame}{Warm up: Rejection Sampling / Best-of-N}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
-			\begin{itemize}
-				\item $\tilde{z} \sim p(z | x)$
-				\item $\tilde{y} \sim p(y | x, \tilde{z})$
-			\end{itemize}
+			For $n = 1$ to $N$:
+			\begin{align*}
+				\cz^n & \sim p(\cz | \cx)        \\
+				\cy^n & \sim p(\cy | \cx, \cz^n)
+			\end{align*}
+			Verified set $\{\cy^n : \Ver(\cy^n) \}$
 		\end{column}
 		\begin{column}{0.5\linewidth}
 			\includegraphics[width=\textwidth]{images/reject.png}
 		\end{column}
 	\end{columns}
-    \vspace{1cm}
-    We only keep the correct subset of $\tilde{y}$, $\{\tilde{y} : Ver(\tilde{y}) \}$\end{frame}
-
-\begin{frame}{Variants:}
+	\vspace{1cm}
 \end{frame}
 
 
 \begin{frame}{Warm up: Monte-Carlo Roll-Outs}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
-            \begin{itemize}
-    			\item Given $x, z_{1:t}$ (a partial chain of thought) define expected reward as
+			Given partial CoT $\cfz{z_{1:t}}$, expected value,
 
-    			$$\mathbb{E}_{y\sim p(y| z, x), z_{t:T} \sim p(z | z_{1:t}, x)}[Ver(y)]$$
+			$$\mathbb{E}_{\cy\sim p(\cy| \cz, \cx), \cz_{t:T}} \Ver(\cy)$$
 
-    			\item Roll-outs apply MC to this expectation.
-            \end{itemize}
+			Rollout = Monte Carlo for this expectation.
 		\end{column}
 		\begin{column}{0.5\linewidth}
 			\includegraphics[width=\textwidth]{images/mcroll.png}
@@ -249,13 +331,17 @@
 
 
 
-\begin{frame}{Goal: Learning}
+\begin{frame}{Goal: Learning with Latent CoTs}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
-			\begin{itemize}
-				\item $\max_{\theta} \sum \log p(y | x; \theta)$
-				\item Intractable expectation over latent CoT
-			\end{itemize}
+			Maximum likelihood;
+
+			\begin{align*}
+				\max_{\theta} & \sum \log p(\cy | \cx; \theta)  =                    \\
+				              & \sum \log \mathbb{E}_{\cz} p(\cy | \cx, \cz; \theta)
+			\end{align*}
+
+			Classic combinatorial expectation
 		\end{column}
 		\begin{column}{0.5\linewidth}
 			%\includegraphics[width=\textwidth]{images/marginal.png}
@@ -290,28 +376,39 @@
 
 \subsection{Guess + Check}
 
-\begin{frame}{Informal: Guess + Check}
-	\begin{itemize}
-		\item Sample $N$ CoTs
-		\item Check if successful
-		\item Train on good ones
-	\end{itemize}
+\begin{frame}{Suspect 1: Guess + Check}
+	\begin{columns}
+		\begin{column}{0.5\linewidth}
+			\begin{itemize}
+				\item 1) Sample $N$ CoTs
+				\item 2) Check if successful
+				\item 3) Train on good ones
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\linewidth}
+			\includegraphics[width=\textwidth]{images/reject1}
+		\end{column}
+	\end{columns}
 \end{frame}
 
-\begin{frame}{Formalization: Rejection Sampling EM}
-	$$\max_{\theta} \sum \log p(y | x; \theta) = \sum \log E_{z} p(y, z | x)$$
+\begin{frame}{G+C Formalization: Rejection Sampling EM}
+	$$\max_{\theta} \sum \log E_{\cz \sim p({\cz} | \cx;\theta)} p(\cy|  \cx, \cz)$$
 	\begin{itemize}
-		\item E-Step: Sample $\mathcal{Z} = \{\tilde{z}_i\}_{i=1}^{N}$ from the posterior with Rejection Sampling
-		\[ \tilde{z} \sim p(z | \text{Ver}(y)=1, x) \]
+		\item E-Step: For $n = 1$ to $N$:
+		      \begin{align*}
+			      \cz^n & \sim p(\cdot | \cx)        \\
+			      \cy^n & \sim p(\cdot | \cx, \cz^n)
+		      \end{align*}
+		      Keep verified set $\mathcal{Z} = \{\cz^n : \Ver(\cy^n)\}$
 		\item M-Step: Fit $\theta' \gets \arg\max_{\theta}
-			      \sum_{\tilde{z} \in \mathcal{Z}} \log p(\tilde{z} | x;\theta)$
+			      \sum_{{\cz} \in \mathcal{Z}} \log p({\cz} | \cx;\theta)$
 	\end{itemize}
 \end{frame}
 
 
 
-\begin{frame}{Terminology}
-    \blfootnote{\cite{Zelikman2022-id,Gulcehre2023-vk,Singh2023-eb}}
+\begin{frame}{G+C Variants}
+	\blfootnote{\cite{Zelikman2022-id,Gulcehre2023-vk,Singh2023-eb}}
 	\begin{itemize}
 		\item STaR
 		\item ReST
@@ -322,7 +419,7 @@
 \end{frame}
 
 
-\begin{frame}{Batched }
+\begin{frame}{G+C Variants}
 	\begin{itemize}
 		\item Batched -> Compute trajectories first, then train with behavioral cloning
 		\item Online -> Use policy gradient-like steps to update after each example
@@ -347,23 +444,23 @@
 %	\end{itemize}
 %\end{frame}
 
-\begin{frame}{Empirical Results}
-    % None of STaR, ReST, ReST-EM compare directly to self-consistency alone.
-    % The closest is ReST-EM, which says that using a self-consistency on
-    % the Rest-EM model gets better performance than using it on the base model (but without a figure).
-    % I'm putting in figure 5 from Rest-EM for now, which shows that sampling produces
-    % a correct answer more often from Rest-EM than from the base model across a range of sample
-    % sizes. It doesn't show how far below these two lines self-consistency would be, but it's at least
-    % evidence that Rest-EM improves on the base model. And the Pass@K performance should upper bound
-    % the performance of self-consistency, since anything correct under majority voting is also correct
-    % in Pass@K.
-    \blfootnote{\cite{Singh2023-eb}}
+\begin{frame}{G+C Empirical Results}
+	% None of STaR, ReST, ReST-EM compare directly to self-consistency alone.
+	% The closest is ReST-EM, which says that using a self-consistency on
+	% the Rest-EM model gets better performance than using it on the base model (but without a figure).
+	% I'm putting in figure 5 from Rest-EM for now, which shows that sampling produces
+	% a correct answer more often from Rest-EM than from the base model across a range of sample
+	% sizes. It doesn't show how far below these two lines self-consistency would be, but it's at least
+	% evidence that Rest-EM improves on the base model. And the Pass@K performance should upper bound
+	% the performance of self-consistency, since anything correct under majority voting is also correct
+	% in Pass@K.
+	\blfootnote{\cite{Singh2023-eb}}
 	\includegraphics[width=\textwidth]{images/rest_em_figure_5.png}
 \end{frame}
 
 
 
-\begin{frame}{Why might this be right?}
+\begin{frame}{G+C Why might this be right?}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
@@ -380,7 +477,7 @@
 	\end{columns}
 \end{frame}
 
-\begin{frame}{Deeper}
+\begin{frame}{More Structure?}
 	\begin{itemize}
 		\item Rejection sampling may be really inefficient.
 		\item Particularly on hard problems, may get no signal
@@ -389,33 +486,36 @@
 
 \subsection{Guided Search}
 
-\begin{frame}{Informal: Guided Search}
+\begin{frame}{Suspect 2: Guided Search}
 	\begin{itemize}
-		\item During CoT sampling, use a ``guide'' to
-		      correct trajectories
+		\item During CoT sampling, use a heuristic to
+		      improve trajectories
 		\item Check if final versions are successful
 		\item Train on good ones
 	\end{itemize}
 \end{frame}
 
 
-\begin{frame}{Beam Search with Guide}
-    % Slightly different from token level beam search since we can't enumerate all the possible z_t like in a vocabulary,
-    % so instead sample an initial k of them, score those with r and keep the top m
-    %
-    % A bit light on notation here (e.g. didn't define the set of z_t for each candidate prefix explicitly) to
-    % avoid a lot of indices, but can add that if it needs to be more formal.
+\begin{frame}{GS: Beam Search with Guide}
+	% Slightly different from token level beam search since we can't enumerate all the possible z_t like in a vocabulary,
+	% so instead sample an initial k of them, score those with r and keep the top m
+	%
+	% A bit light on notation here (e.g. didn't define the set of z_t for each candidate prefix explicitly) to
+	% avoid a lot of indices, but can add that if it needs to be more formal.
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
-			\begin{itemize}
-                \item $r: S^T \rightarrow \mathbb{R}$ is the guide/reward function
-                \item $\mathcal{Z}_{1:t-1}=\{z^i_{1:t-1}\}_{i=1}^m$, current partial CoT candidates
-                \item Sample $k$ potential $\tilde{z}_t$ from $p(z_{t} | x, z^i_{1:t-1})$ for each $z^i_{1:t-1}$
-				\item Keep the top $m$ samples, ordered by $r(\tilde{z}_{t})$, repeat
-			\end{itemize}
+			$\textcolor{c2}{r}: \cfz{\mathcal{S}^t} \rightarrow \mathbb{R}$; Guide function
+			\vspace{0.3cm}
+
+			For each step $t$
+			\begin{enumerate}
+				\item Sample next step,
+				      $$\cfz{z_t} \sim p(\cdot | \cx, \cfz{z^i_{1:t-1}})$$
+				\item Keep the top $N$ samples, ordered by $r(\cfz{z_{t}})$
+			\end{enumerate}
 		\end{column}
 		\begin{column}{0.5\linewidth}
-			\includegraphics[width=\textwidth]{images/beam.png}
+			\includegraphics[width=\textwidth]{images/beamguide.png}
 		\end{column}
 	\end{columns}
 \end{frame}
@@ -424,7 +524,7 @@
 \begin{frame}{What to use as Guide?}
 	\begin{itemize}
 		\item Monte Carlo Roll-outs
-		\item Learned Reward Model
+		\item Learned Value Function
 	\end{itemize}
 \end{frame}
 
@@ -433,27 +533,23 @@
 
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
-			\begin{itemize}
-			    \item For a potential $\tilde{z}_{t}$, sample $n$ solutions $\tilde{y}^{i,j}$ from $p(y,z_{t+1:T}|x,z_{1:t-1},\tilde{z}_{t})$
-			    \item $r_{MC}(\tilde{z}_{t}) = \frac{1}{n}\sum_{j=1}^{n} Ver(\tilde{y}^{i,j})$
-			\end{itemize}
+			For a $\cfz{z_{t}}$, sample answers $$\cfy{y^{n}} \sim p(\cdot|\cx,\cz_{1:t-1})$$
+			$\textcolor{c2}{r_{MC}}(\cfz{z_{t}}) = \frac{1}{N}\sum_{i=1}^{n} \Ver(\cfy{y^{i}})$
 		\end{column}
 		\begin{column}{0.5\linewidth}
 			\includegraphics[width=\textwidth]{images/beamroll.png}
 		\end{column}
 	\end{columns}
-
 \end{frame}
 
 
 \begin{frame}{Amortized Roll-Outs}
-    \blfootnote{\cite{Wang2023-ur}}
+	\blfootnote{\cite{Wang2023-ur}}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
-		    \begin{itemize}
-				\item Rollouts are costly, so instead learn a model $r_{\psi}(z_t)$ to approximate rollouts
-				\item Use $r_{MC}$ to determine labels to train $r_{\psi}$
-
+			\begin{itemize}
+				\item Rollouts are costly, so instead learn a model $\textcolor{c2}{r_{\psi}}(\cfz{z_t})$ to approximate rollouts
+				\item Use $\textcolor{c2}{r_{MC}}$ to determine labels to train $\textcolor{c2}{r_{\psi}}$
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
@@ -496,65 +592,91 @@
 \end{frame}
 
 
-\begin{frame}{Deeper}
+\begin{frame}{More Structure}
 	\begin{itemize}
 		\item Improving search seems critical.
 	\end{itemize}
 \end{frame}
 
-\subsection{AlphaZero / MuZero}
+\subsection{AlphaZero}
 
 \begin{frame}{Reminder: AlphaZero}
 	\centering
 	\includegraphics[height=0.8\textheight]{images/alphazero_figure_one.png}
 \end{frame}
 
-\begin{frame}{Informal: AlphaZero}
+\begin{frame}{Suspect 3: AlphaZero}
 	\begin{itemize}
 		\item Self-play using guided-search with exploration
 		\item Label final outcomes of self-play games
-		\item Train both a reward model and policy
+		\item Train guide and generator
 	\end{itemize}
 \end{frame}
 
 \begin{frame}{Formalized: Expert Iteration}
-    % VSTaR is almost the LM equivalent of AlphaZero in the framing,
-    % except that AlphaZero learns a PRM (value function) and V-STaR learns an ORM.
-    % Plus AlphaZero uses its PRM during search, which V-STaR can't do.
-    %
-    % I wrote this with the reward model involved, but technically expert iteration doesn't
-    % require that. At that point I think it reduces to Rejection Sampling EM though.
+	% VSTaR is almost the LM equivalent of AlphaZero in the framing,
+	% except that AlphaZero learns a PRM (value function) and V-STaR learns an ORM.
+	% Plus AlphaZero uses its PRM during search, which V-STaR can't do.
+	%
+	% I wrote this with the reward model involved, but technically expert iteration doesn't
+	% require that. At that point I think it reduces to Rejection Sampling EM though.
 	\begin{itemize}
 		\item Iterative algorithm combining learned model + expert search with a verifier.
-		\item Generate samples using $p(y,z|x)$, reward model $r(z_t)$, and search algorithm (e.g. beam search)
-		\item Label samples using $Ver(y)$
-		\item Train $p(y,z|x)$, $r(z_t)$ on the labeled samples, and repeat
+		\item Generate samples using $p(\cy,\cz|\cx)$, reward model $r(\cz_t)$, and search algorithm (e.g. beam search)
+		\item Label samples using $Ver(\cy)$
+		\item Train $p(\cy,\cz|\cx)$, $r(\cz_t)$ on the labeled samples, and repeat
 	\end{itemize}
 	\blfootnote{\cite{Anthony2017-dm}}
 
 \end{frame}
 
-\begin{frame}{UCB for exploration}
-    % Not sure if there's a way to formalize this for language models, since
-    % we're unlikely to get the same z twice (i.e. end up in the same state/action pair).
-    % That means the state visit counts in the usual UCB formulation don't work.
-    % The exploration in previous methods here has come from sampling or
-    % maintaining multiple candidates, rather than tracking UCB statistics.
+\begin{frame}{MCTS exploration}
+	% Not sure if there's a way to formalize this for language models, since
+	% we're unlikely to get the same z twice (i.e. end up in the same state/action pair).
+	% That means the state visit counts in the usual UCB formulation don't work.
+	% The exploration in previous methods here has come from sampling or
+	% maintaining multiple candidates, rather than tracking UCB statistics.
+	\includegraphics{images/mctswiki.png}
+\end{frame}
+
+
+\begin{frame}{UCB for Language}
 	\begin{itemize}
-		\item
+		\item Selection: Walk down tree to leaf $\cfz{z_{t-1}}$
+		\item Expand: Sample $K$ next steps $\cfz{z^i_t}$, pick one at random
+		\item Rollouts: Sample $\cfz{z_{t+1}} \ldots \cfz{z_T}$
+		\item Backprop: Update nodes counts $z_{1:t}$ based on results
 	\end{itemize}
 \end{frame}
 
 
+\begin{frame}{Compared with Search}
+	\begin{columns}
+		\begin{column}{0.48\textwidth}
+			\begin{itemize}
+				\item System builds in exploration
+				\item Scales to more train-time search
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{itemize}
+				\item Costly to maintain open states
+				\item More complex algorithmically
+			\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+
 \begin{frame}{Empirical Results}
-    % figure from appendix of the VSTaR paper
-    % VSTaR is sort of a weird variation of expert iteration. The learned model is
-    % both the generator and the verifier, but only the generator influences the
-    % expert search (since it determines what the samples are at the next iteration that the verifier labels).
-    % I think it still falls within expert iteration, though, just with an expert policy
-    % that's independent of the reward model.
-    \includegraphics[width=\textwidth]{images/vstar_figure_8.png}
-    \blfootnote{\cite{hosseini2024vstar}}
+	% figure from appendix of the VSTaR paper
+	% VSTaR is sort of a weird variation of expert iteration. The learned model is
+	% both the generator and the verifier, but only the generator influences the
+	% expert search (since it determines what the samples are at the next iteration that the verifier labels).
+	% I think it still falls within expert iteration, though, just with an expert policy
+	% that's independent of the reward model.
+	\includegraphics[width=\textwidth]{images/vstar_figure_8.png}
+	\blfootnote{\cite{hosseini2024vstar}}
 \end{frame}
 
 
@@ -570,7 +692,7 @@
 \end{frame}
 
 
-\begin{frame}{Deeper}
+\begin{frame}{More Structure}
 	\begin{itemize}
 		\item Can we force the model to search?
 	\end{itemize}
@@ -578,12 +700,12 @@
 
 \subsection{Learning to Correct}
 
-\begin{frame}{Informal: Learning to Correct}
+\begin{frame}{Suspect 4: Learning to Correct}
 	\begin{itemize}
 		\item Sample $N$ Successful CoTs
-		\item Edit $z\rightarrow z'$ to inject incorrect expansions before
+		\item Edit $\cz\rightarrow \cz'$ to inject incorrect expansions before
 		      correct ones.
-		\item Train on $z'$ trajectories
+		\item Train on $\cz'$ trajectories
 	\end{itemize}
 \end{frame}
 
@@ -615,9 +737,17 @@
 	\end{itemize}
 \end{frame}
 
-\section{No Verifier}
+\begin{frame}{Less Structure?}
+	\begin{itemize}
+		\item Maybe this is all too much...
+	\end{itemize}
+\end{frame}
 
-\begin{frame}{No verifier}
+
+
+\subsection{Compute Injection}
+
+\begin{frame}{Suspect 5: Compute Injection}
 	\begin{itemize}
 		\item
 	\end{itemize}
