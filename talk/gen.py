@@ -3,7 +3,7 @@ import chalk
 import numpy as np
 import random
 from functools import partial
-
+from dataclasses import dataclass
 
 c4 = "#257180"
 c2 = "#F2E5BF"
@@ -120,6 +120,114 @@ def make_beam(expand, T=6, end=None, beam=5, dorollout=True):
     return nodes, edges, roll
 
 
+@dataclass
+class Node:
+    nodes: list["Node"]
+    val: float
+    win: int
+    total: int
+    layer: int
+    parent: Optional["Node"]
+    rollout: bool = False
+    selected: bool = False
+
+
+def mcts_step(root: Node, T=6) -> Node:
+    # Traverse until expand
+    path = Node([], 0, 0, 0, 0, None)
+    yield path
+    cur_path = path
+    current_node = root
+    while current_node.nodes:
+        next_node = max(
+            current_node.nodes,
+            key=lambda n: n.win / n.total
+            + np.sqrt(2 * np.log(current_node.total) / n.total)
+            if n.total > 0
+            else float("inf"),
+        )
+        cur_path.nodes.append(Node([], next_node.val, 0, 0, next_node.layer, cur_path))
+        cur_path = cur_path.nodes[0]
+        current_node = next_node
+
+    yield path
+    # Expansion
+    selected_node = mcts_expand(current_node)
+    cur_path.nodes.append(
+        Node([], selected_node.val, 0, 0, selected_node.layer, cur_path)
+    )
+    yield path
+
+    # Rollout
+    result = simulate(selected_node, T=6)  # Assuming T=6, adjust as needed
+    yield path
+    selected_node.selected = False
+    selected_node.nodes = []
+    # Backpropagation
+    current = selected_node
+    while current:
+        current.win += result.win
+        current.total += 1
+        current = current.parent if hasattr(current, "parent") else None
+
+    yield path
+
+
+def mcts_expand(node: Node) -> Node:
+    for i in range(3):
+        new_node = Node(
+            nodes=[],
+            val=node.val + random.uniform(-2, 2),
+            win=0,
+            total=0,
+            layer=node.layer + 1,
+            parent=node,
+        )
+        node.nodes.append(new_node)
+    return new_node
+
+
+def simulate(node: Node, T: int) -> Node:
+    results = []
+    for _ in range(4):
+        curr = node
+        while curr.layer < T:
+            new_node = Node(
+                nodes=[],
+                val=curr.val + random.uniform(-0.5, 0.5),
+                win=0,
+                total=0,
+                layer=curr.layer + 1,
+                parent=None,
+                rollout=True,
+            )
+            curr.nodes.append(new_node)
+            curr = random.choice(curr.nodes)
+        curr.win = int(random.uniform(-0.5, 0.5))
+        results.append(curr)
+    return max(results, key=lambda x: x.win)
+
+
+def draw_node(root: Node):
+    nodes = []
+    edges = []
+    rollout_edges = []
+
+    def traverse(node, parent=None):
+        if not node.rollout:
+            nodes.append((node.layer, node.val))
+            if parent:
+                edges.append(((parent.layer, parent.val), (node.layer, node.val)))
+        else:
+            rollout_edges.append(((parent.layer, parent.val), (node.layer, node.val)))
+        for child in node.nodes:
+            traverse(child, node)
+
+    traverse(root)
+
+    return nodes, edges, rollout_edges if rollout_edges else [((0, 0), (0, 0.1))]
+
+
 def draw(
     nodes, edges, rollout_edges, name, T=6, csize=0.2, lwidth=0.5, draw_final=True
 ):
@@ -176,9 +284,28 @@ def draw(
         + y
         + c.fill_color(c1)
     )
-    base.render(name, 512, draw_height=250)
+    if name:
+        base2 = rectangle(T, 5).align_l() + base
+        base2.render(name, 512, draw_height=250)
     return base
 
+
+root = Node([], 0, 0, 0, 0, None)
+list(mcts_step(root))
+for i in range(0, 30, 5):
+    for j, path in enumerate(mcts_step(root)):
+        d = (
+            rectangle(6, 5).align_l()
+            + draw(*draw_node(root), "", csize=0.1)
+            + (
+                draw(*draw_node(path), "", csize=0.1, draw_final=False).fill_color(
+                    "black"
+                )
+                if path.nodes
+                else empty()
+            )
+        )
+        d.render(f"images/mcts{i + j:02}.png", 512)
 
 vcat([draw(*make_chain(partial(rwalk1, d=1)), "x") for _ in range(5)]).render(
     "images/reject1.png", 512

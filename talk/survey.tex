@@ -75,50 +75,69 @@
 
 \frame{\titlepage}
 
-\begin{frame}{Outline}
-	\tableofcontents
-\end{frame}
 
 \section{Introduction}
+
+\begin{frame}[t]{}
+	\includegraphics[width=\linewidth]{}
+	\note{
+		LLM (2018-2024) driven by training scaling
+		Speculation: Benefit of static data running out
+		o1 - Large-scale RL Training leading to search usage.
+	}
+\end{frame}
+
 
 \begin{frame}[t]{}
 	\includegraphics[width=\linewidth]{images/compute.png}
 \end{frame}
 
-\begin{frame}{Context}
-	\begin{itemize}
-		\item LLM (2018-2024) driven by training scaling
-		\item Speculation: Benefit of static data running out
-		\item o1 - Large-scale RL Training leading to search usage.
-	\end{itemize}
-	\blfootnote{}
-\end{frame}
-
-
-\begin{frame}{Noam}
+\begin{frame}{Importance of Search}
 	\begin{itemize}
 		\item
-
 	\end{itemize}
 	\blfootnote{}
 \end{frame}
 
+\begin{frame}{Bitter Lesson}
+	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
+		The bitter lesson is based on the historical observations that 1) AI researchers have often tried to build knowledge into their agents,
+		2) this always helps in the short term, and is personally satisfying to the researcher, but 3) in the long run it plateaus and even inhibits
+		further progress, and 4) breakthrough progress eventually arrives by an opposing approach based on scaling computation by \textbf{search and learning}.
+	\end{tcolorbox}
+
+	\blfootnote{}
+\end{frame}
+
+
+
+\begin{frame}{Example Problem}
+
+	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
+
+	\end{tcolorbox}
+
+\end{frame}
 
 \begin{frame}{This Talk}
 	\begin{itemize}
 		\item Survey of the public literature
 		\item Synthesis of discussions with expert
-		\item Discussions (thx 	Lewis Tunstall, Edward Beeching, Aviral Kumar, Charlie Snell,
+		      (thx 	Lewis Tunstall, Edward Beeching, Aviral Kumar, Charlie Snell,
 		      Michael Hassid, Yoav Artzi, Risab Agarwal, Kanishk Gandhi,
 		      Wenting Zhao, Yuntian Deng, Nathan Lambert)
+		\item Rumors
 	\end{itemize}
 	\blfootnote{}
-
 \end{frame}
 
 \section{The Clues}
 
-\begin{frame}{What we know}
+\begin{frame}{Outline}
+	\tableofcontents[hideallsubsections]
+\end{frame}
+
+\begin{frame}{o1 Description}
 	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
 		Our large-scale \textbf{reinforcement learning algorithm} teaches the model
 		how to think productively using its \textbf{chain of thought} in a highly
@@ -126,22 +145,34 @@
 	\end{tcolorbox}
 \end{frame}
 
-\begin{frame}{What we know}
+\begin{frame}{Implication}
 	\begin{itemize}
 		\item RL; Signal from verifiable problems
-		\item CoT; ``Thinking'' occurs in token stream
-		\item Data Efficient; Fixed set of good problems
+		\item CoT; Test-time occurs in token stream
+		\item Data Efficient; Bounded set of problems
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{From Gossip}
+\begin{frame}{Current Assumptions}
 	\begin{itemize}
-		\item Single final model
-		\item Not learned from expert examples
+		\item Single final language model
+		\item Not following from expert examples
+		\item Behavior is ``learned''.
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Chain of Thought}
+\begin{frame}{Review: Chain of Thought}
+	\begin{itemize}
+		\item In the process of answering a question,
+		      the model generates intermediate
+		      steps.
+		\item These steps provide an scratchpad for hard technical problems.
+		\item A limited number of examples provided.
+	\end{itemize}
+	\blfootnote{}
+\end{frame}
+
+\begin{frame}{o1 Chain of Thought}
 	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
 		o1 learns to hone its chain of thought and refine the strategies it uses.
 		It learns to recognize and \textbf{correct its mistakes}.
@@ -150,65 +181,53 @@
 	\end{tcolorbox}
 \end{frame}
 
-\begin{frame}{Review: Chain of Thought}
-	\begin{itemize}
-		\item In the process of answering a question,
-		      the model can generate a chain of intermediate
-		      steps.
-		\item These steps provide a scratchpad for working
-		      on hard problems.
-		\item OpenAI provided a limited number of examples.
-	\end{itemize}
-	\blfootnote{}
-\end{frame}
-
-
 \begin{frame}{o1 CoT: Outlining}
 	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
-		\begin{quote}
 
-			Implementation Outline:
+		Implementation Outline:
 
-			1. Capture input string as argument.
-			2. Remove any spaces (if any).
-			3. Parse the input string to extract numbers into arrays.
-			- Since the input is in the format '[1,2],[3,4],[5,6]', we can:
-			- Remove outer brackets if necessary.
-			- Split the string by '],' to get each row.
-			- For each row, remove '[' and ']', then split by ',' to get elements.
+		1. Capture input string as argument.
 
-			4. Build a 2D array in bash (arrays containing arrays).
-		\end{quote}
+		2. Remove any spaces (if any).
+
+		3. Parse the input string to extract numbers into arrays.
+
+		- Since the input is in the format '[1,2],[3,4],[5,6]', we can:
+
+		- Remove outer brackets if necessary.
+
+		- Split the string by '],' to get each row.
+
+		- For each row, remove '[' and ']', then split by ',' to get elements.
+
+
+		4. Build a 2D array in bash (arrays containing arrays).
 	\end{tcolorbox}
 \end{frame}
 
 
 \begin{frame}{o1 CoT: Planning}
 	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
-		\begin{quote}
-			First, the cipher seems connected to the plaintext.
+		First, the cipher seems connected to the plaintext.
 
-			Given the time constraints, perhaps the easiest way is to try to see patterns.
+		Given the time constraints, perhaps the easiest way is to try to see patterns.
 
-			Option 1: Try to find mapping from letters to letters.
+		Option 1: Try to find mapping from letters to letters.
 
-			Do any letters match?
+		Do any letters match?
 
-			First, let's write down the ciphertext and plaintext letters on top of each other.
-		\end{quote}
+		First, let's write down the ciphertext and plaintext letters on top of each other.
 	\end{tcolorbox}
 \end{frame}
 
 \begin{frame}{o1 CoT: Backtracking}
 	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
-		\begin{quote}
 
-			Similarly, m(x)⋅(−x2) = (−x2n + 2 + m2n−2x2n +lower terms)m(x)⋅(−x 2) = (−x 2n + 2 + m 2n−2​x 2n +lower terms).
+		Similarly, m(x)⋅(−x 2) = (−x2n + 2 + m2n−2x2n + lower terms)m(x) * (−x 2) = (−x 2n + 2 + m 2n−2 x 2n + lower terms).
 
-			Wait, actually, this may not help us directly without specific terms.An alternative is to consider the known polynomials.
+		Wait, actually, this may not help us directly without specific terms.An alternative is to consider the known polynomials.
 
-			So m(x) = k ...
-		\end{quote}
+		So m(x) = k ...
 	\end{tcolorbox}
 \end{frame}
 
@@ -230,23 +249,34 @@
 	\end{tcolorbox}
 \end{frame}
 
-
 \begin{frame}{Summary}
 	\begin{itemize}
-		\item Solves problems by very long CoT
-		\item CoT includes ``thinking'' (search / planning)
-		\item Core novelty: Inducing this behavior
+		\item CoT provides test-time scaling
+		\item CoT looks like search / planning in a classical sense
+		\item RL needed to induce this behavior
 	\end{itemize}
 \end{frame}
 
-\section{Notation}
+\section{Technical Background}
 
-\begin{frame}{Notation: LLM Sampling (No learning yet!)}
+\begin{frame}{Outline}
+	\tableofcontents[hideallsubsections]
+\end{frame}
+
+\begin{frame}{Technical Background}
+	\begin{itemize}
+		\item Formalize sampling of latent reasoning
+		\item Techniques from combinatorial sampling
+		\item No learning yet.
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Stepwise LLM Sampling}
 	\begin{itemize}
 		\item $\cx$;  problem specification
-		\item $\cfz{z_{1:T}} \in {\mathcal{S}^T}$; chain of thought (CoT) stepsl
+		\item $\cfz{z_{1:T}} \in {\mathcal{S}^T}$; chain of thought (CoT) steps
 		\item $\cy \in \cfy{\mathcal Y}$; final answer
-
 		      $$p(\cy | \cx) = \mathbb{E}_{\cz} p(\cy|\cx,\cz)$$
 	\end{itemize}
 \end{frame}
@@ -361,18 +391,8 @@
 		\item Guided Search
 		\item AlphaZero
 		\item Learn to Search
-		\item Wildcard
 	\end{itemize}
 \end{frame}
-
-%\begin{frame}{A Note About Names}
-%	\begin{itemize}
-%		\item Many different communities
-%		\item Names conflict and overlap with past methods
-%		\item This talk: First explain, then discuss names
-%	\end{itemize}
-%\end{frame}
-
 
 \subsection{Guess + Check}
 
@@ -525,6 +545,7 @@
 	\begin{itemize}
 		\item Monte Carlo Roll-outs
 		\item Learned Value Function
+		\item Interleaved Value Function
 	\end{itemize}
 \end{frame}
 
@@ -557,6 +578,22 @@
 		\end{column}
 	\end{columns}
 \end{frame}
+
+\begin{frame}{Interleaved}
+	\blfootnote{\cite{Wang2023-ur}}
+	\begin{columns}
+		\begin{column}{0.5\linewidth}
+			\begin{itemize}
+				\item
+				\item
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\linewidth}
+
+		\end{column}
+	\end{columns}
+\end{frame}
+
 
 \begin{frame}{What about test time?}
 	\begin{itemize}
@@ -636,7 +673,7 @@
 	% That means the state visit counts in the usual UCB formulation don't work.
 	% The exploration in previous methods here has come from sampling or
 	% maintaining multiple candidates, rather than tracking UCB statistics.
-	\includegraphics{images/mctswiki.png}
+
 \end{frame}
 
 
@@ -703,16 +740,52 @@
 \begin{frame}{Suspect 4: Learning to Correct}
 	\begin{itemize}
 		\item Sample $N$ Successful CoTs
-		\item Edit $\cz\rightarrow \cz'$ to inject incorrect expansions before
+		\item Edit to inject incorrect expansions before
 		      correct ones.
-		\item Train on $\cz'$ trajectories
+		\item Train on correcting trajectories
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Formalized: Stream of Search}
+
+\begin{frame}{Self-Correction}
 	\begin{itemize}
+		\item Argument: Training on $\cx, \cfz{z^*_1}, \cy$ is too easy.
+		\item Train instead on $\cx, \cfz{z'}, \cfz{z^*_1}, \cy$
+		\item Model should learn to self-correct
+	\end{itemize}
+	\blfootnote{\cite{Gandhi2024-vs}}
+\end{frame}
+
+\begin{frame}{Score}
+	\begin{itemize}
+		\item Positive rewards
+
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Challenge: Collapse}
+	\begin{itemize}
+		\item Model may learn to just ignore negative
 		\item
 		\item
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Generalized: Stream of Search}
+	\begin{itemize}
+		\item Find $\cfz{z^*_{1:T}}$ as optimal
+		      length CoT
+		\item Find $\cfz{z^'_{1:T'}}$ with $T' > T$
+		      through backtracking tree search
+		\item Train model on $\cfz{z^'_{1:T'}}$
+	\end{itemize}
+	\blfootnote{\cite{Gandhi2024-vs}}
+\end{frame}
+
+\begin{frame}{From Tree to Stream}
+	\begin{itemize}
 	\end{itemize}
 	\blfootnote{\cite{Gandhi2024-vs}}
 \end{frame}
@@ -728,9 +801,6 @@
 		\item
 		\item
 	\end{itemize}
-\end{frame}
-
-\begin{frame}{Why might this be wrong?}
 	\begin{itemize}
 		\item
 		\item
@@ -740,25 +810,27 @@
 \begin{frame}{Less Structure?}
 	\begin{itemize}
 		\item Maybe this is all too much...
+		\item Could this be done without a verifier?
 	\end{itemize}
 \end{frame}
 
+\begin{frame}{Outline}
+	\tableofcontents[hideallsubsections]
+\end{frame}
 
+\section{What do we do now?}
 
-\subsection{Compute Injection}
+\begin{frame}{Replication}
 
-\begin{frame}{Suspect 5: Compute Injection}
-	\begin{itemize}
-		\item
-	\end{itemize}
-	\blfootnote{\cite{Brown2024-bs}}
 \end{frame}
 
 
+\begin{frame}{Does it need to be the same?}
 
-\section{Conclusions}
+\end{frame}
 
 \begin{frame}{}
+
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Reference}
