@@ -103,10 +103,10 @@
 		\small
 		For any finite set $X$, let $| X |$ denote the number of elements in $X$. Define \[S_n = \sum | A \cap B | ,\] where the sum is taken over all ordered pairs $(A, B)$ such that $A$ and $B$ are subsets of $\left\{ 1 , 2 , 3, \cdots , n \right\}$ with $|A| = |B|$. For example, $S_2 = 4$ because the sum is taken over the pairs of subsets \[(A, B) \in \left\{ (\emptyset, \emptyset) , ( \{1\} , \{1\} ), ( \{1\} , \{2\} ) , ( \{2\} , \{1\} ) , ( \{2\} , \{2\} ) , ( \{1 , 2\} , \{1 , 2\} ) \right\}\] giving $S_2 = 0 + 1 + 0 + 0 + 1 + 2 = 4$. Let $\frac{S_{2022}}{S_{2021}} = \frac{p}{q}$, where $p$ and $q$ are relatively prime positive integers. Find the remainder when $p + q$ is divided by 1000.
 	\end{tcolorbox}
-	\blfootnote{\cite{}}
+	\blfootnote{\cite{Hendrycks2021-jr}}
 \end{frame}
 
-\begin{frame}{Bitter Lesson}
+\begin{frame}{The Bitter Lesson}
 	\begin{columns}
 		\begin{column}{0.3\textwidth}
 			\includegraphics[width=\linewidth]{images/Sutton}
@@ -158,7 +158,7 @@
 \section{The Clues}
 
 \begin{frame}{Outline}
-	\tableofcontents[hideallsubsections]
+	\tableofcontents[hideallsubsections, currentsubsection]
 \end{frame}
 
 \begin{frame}{o1 Description}
@@ -259,6 +259,7 @@
 
 		First, let's write down the ciphertext and plaintext letters on top of each other.
 	\end{tcolorbox}
+	\blfootnote{\cite{o1blog-cy}}
 \end{frame}
 
 \begin{frame}{o1 CoT: Backtracking}
@@ -270,6 +271,7 @@
 
 		So m(x) = k ...
 	\end{tcolorbox}
+	\blfootnote{\cite{o1blog-cy}}
 \end{frame}
 
 \begin{frame}{o1 CoT: Self-Evaluation}
@@ -288,6 +290,7 @@
 			Does this make sense with the main clause?
 		\end{quote}
 	\end{tcolorbox}
+	\blfootnote{\cite{o1blog-cy}}
 \end{frame}
 
 \begin{frame}{Summary}
@@ -301,7 +304,7 @@
 \section{Technical Background}
 
 \begin{frame}{Outline}
-	\tableofcontents[hideallsubsections]
+	\tableofcontents[hideallsubsections, currentsubsection]
 \end{frame}
 
 \begin{frame}{Technical Background}
@@ -331,10 +334,11 @@
 			\end{small}
 		\end{column}
 	\end{columns}
+	\blfootnote{\cite{Cobbe2021-gt}}
 \end{frame}
 
 
-\begin{frame}{Stepwise LLM Sampling}
+\begin{frame}{Stepwise CoT Sampling}
 	\begin{itemize}
 		\item $\cx$;  problem specification
 		\item $\cfz{z_{1:T}} \in {\mathcal{S}^T}$; chain of thought (CoT) steps
@@ -357,6 +361,7 @@
 	\end{columns}
 	\vspace{1cm}
 	$T$ is the amount of test-time compute
+	\blfootnote{\cite{Wei2022-uj}}
 \end{frame}
 
 \begin{frame}{Warm-up: Monte-Carlo (Self-Consistency)}
@@ -374,6 +379,7 @@
 			\includegraphics[width=\textwidth]{images/bwalk.png}
 		\end{column}
 	\end{columns}
+	\blfootnote{\cite{Wang2022-px}}
 \end{frame}
 
 \begin{frame}{Assumption: Verifier}
@@ -385,6 +391,7 @@
 		\item Unit test for code
 		\item Test questions for science
 	\end{itemize}
+	\blfootnote{\cite{Uesato2022-aw}}
 \end{frame}
 
 
@@ -402,7 +409,7 @@
 			\includegraphics[width=\textwidth]{images/reject.png}
 		\end{column}
 	\end{columns}
-	\vspace{1cm}
+	\blfootnote{\cite{Nakano2021-iz,Lightman2023-cr}}
 \end{frame}
 
 
@@ -413,7 +420,7 @@
 
 			$$\mathbb{E}_{\cy\sim p(\cy| \cz, \cx), \cz_{t:T}} \Ver(\cy)$$
 
-			Rollout = Monte Carlo for this expectation.
+			Monte Carlo for this expectation.
 		\end{column}
 		\begin{column}{0.5\linewidth}
 			\includegraphics[width=\textwidth]{images/mcroll.png}
