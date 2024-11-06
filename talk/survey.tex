@@ -62,7 +62,6 @@
 %\setbeamertemplate{footline}[]
 %\renewcommand\footnotemark{}
 
-
 % define some colors for a consistent theme across slides
 \title{Speculations \\ on \\ Test-Time Scaling}
 \author{Sasha Rush \  Daniel Ritter}
@@ -405,7 +404,7 @@
 				\cz^n & \sim p(\cz | \cx)        \\
 				\cy^n & \sim p(\cy | \cx, \cz^n)
 			\end{align*}
-			Verified set $\{\cy^n : \Ver(\cy^n) \}$
+			Verified set $\{\cy^n : \Ver_x(\cy^n) \}$
 		\end{column}
 		\begin{column}{0.5\linewidth}
 			\includegraphics[width=\textwidth]{images/reject.png}
@@ -540,6 +539,8 @@
 \begin{frame}{Is this o1?}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
+			\textbf{Pro}
+			\vspace{0.3cm}
 			\begin{itemize}
 				\item[$\boldsymbol{\checkmark}$] Extremely simple and scalable
 				\item[$\boldsymbol{\checkmark}$] Positive results in past work
@@ -639,17 +640,14 @@
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
-				\item Have the LLM predict value
-				\item Single model for generate / guide
+				\item Combine $\textcolor{c2}{r_{MC}}$ and $\textcolor{c2}{r_{\psi}}$
+				\item $\textcolor{c2}{r_{Inter}}(\cfz{z_t}) = (1-\alpha)\textcolor{c2}{r_{MC}}(\cfz{z_t}) + \alpha\textcolor{c2}{r_{\psi}}(\cfz{z_t})$
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
-
 		\end{column}
 	\end{columns}
 \end{frame}
-
-
 
 
 \begin{frame}{Variants}
@@ -659,6 +657,12 @@
 		\item PRM; Process Reward Model \cite{Uesato2022-aw,Lightman2023-cr}
 		\item PAV; Process Advantage Verifier \cite{Setlur2024-ax}
 	\end{itemize}
+\end{frame}
+
+\begin{frame}{Test-time Guides Outperform Self-consistency}
+	% I think this is a nice empirical figure to show that learned rewards improve the test-time
+	% performance over self-consistency.
+	\includegraphics[width=\textwidth]{images/math_shepherd_figure_3.png}
 \end{frame}
 
 
@@ -709,7 +713,7 @@
 	\begin{itemize}
 		\item Iterative algorithm combining learned model + expert search with a verifier.
 		\item Generate samples using $p(\cy,\cz|\cx)$, reward model $r(\cz_t)$, and search algorithm (e.g. beam search)
-		\item Label samples using $Ver(\cy)$
+		\item Label samples using $Ver_x(\cy)$
 		\item Train $p(\cy,\cz|\cx)$, $r(\cz_t)$ on the labeled samples, and repeat
 	\end{itemize}
 	\blfootnote{\cite{Anthony2017-dm}}
@@ -738,14 +742,18 @@
 
 
 \begin{frame}{Compared with Search}
-	\begin{columns}
+	\begin{columns}[T]
 		\begin{column}{0.48\textwidth}
+			\textbf{Pro}
+			\vspace{0.3cm}
 			\begin{itemize}
 				\item System builds in exploration
 				\item Scales to more train-time search
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.48\textwidth}
+			\textbf{Con}
+			\vspace{0.3cm}
 			\begin{itemize}
 				\item Costly to maintain open states
 				\item More complex algorithmically
@@ -767,7 +775,7 @@
 \end{frame}
 
 
-\begin{frame}{Why might this be right?}
+\begin{frame}{Is this o1?}
 	\begin{itemize}
 		\item Major demonstrated RL result
 		\item
@@ -809,7 +817,6 @@
 \begin{frame}{Score}
 	\begin{itemize}
 		\item Positive rewards
-
 	\end{itemize}
 \end{frame}
 
@@ -825,26 +832,30 @@
 
 \begin{frame}{Generalized: Stream of Search}
 	\begin{itemize}
-		\item Find $\cfz{z^*_{1:T}}$ as optimal
-		      length CoT
-		\item Find $\cfz{z^'_{1:T'}}$ with $T' > T$
-		      through backtracking tree search
-		\item Train model on $\cfz{z^'_{1:T'}}$
+		\item Find $\cfz{z^*_{1:T}}$ as optimal length CoT
+		\item Find $\cfz{z'_{1:T'}}$ with $T' > T$ through backtracking tree search
+		\item Train model on $\cfz{z'_{1:T'}}$
 	\end{itemize}
 	\blfootnote{\cite{Gandhi2024-vs}}
 \end{frame}
 
 \begin{frame}{From Tree to Stream}
 	\begin{itemize}
+		\item
 	\end{itemize}
 	\blfootnote{\cite{Gandhi2024-vs}}
 \end{frame}
 
 
-\begin{frame}{Empirical Results}
-	Score results
-\end{frame}
 
+\begin{frame}{Empirical Results}
+	\includegraphics[width=\textwidth]{images/score_figure_1.png}
+\end{frame}
+\begin{frame}{Empirical Results}
+	% This one is more detailed than figure 1, but we can also cut it out if
+	% it makes more sense to just have the one figure with MATH performance and compute scaling
+	\includegraphics[width=\textwidth]{images/score_table_2.png}
+\end{frame}
 
 \begin{frame}{Why might this be right?}
 	\begin{itemize}
@@ -865,7 +876,7 @@
 \end{frame}
 
 \begin{frame}{Outline}
-	\tableofcontents[hideallsubsections]
+	\tableofcontents[]
 \end{frame}
 
 \section{What do we do now?}
