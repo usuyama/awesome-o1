@@ -315,9 +315,8 @@ def draw(
 T = 10
 root = Node([], 0, 0, 0, 0, None)
 list(mcts_step(root, T=T))
-for i in range(0, 5, 5):
-    # for i in range(0, 500, 5):
-
+# for i in range(0, 5, 5):
+for i in range(0, 100, 5):
     for j, path in enumerate(mcts_step(root, T=T)):
         d = (
             rectangle(T + 1, 7).line_width(0).align_l().translate(-0.5, 0)

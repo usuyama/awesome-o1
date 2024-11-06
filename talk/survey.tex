@@ -7,6 +7,7 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
 \usepackage{booktabs}
+\usepackage{pgffor}
 \pgfplotsset{compat=1.18}
 
 % Define colors
@@ -224,25 +225,26 @@
 
 \begin{frame}{o1 CoT: Outlining}
 	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
+		\begin{quote}
+			Implementation Outline:
 
-		Implementation Outline:
+			1. Capture input string as argument.
 
-		1. Capture input string as argument.
+			2. Remove any spaces (if any).
 
-		2. Remove any spaces (if any).
+			3. Parse input string to extract numbers as arrays.
 
-		3. Parse the input string to extract numbers into arrays.
+			- Since the input is in the format '[1,2],[3,4]', we can:
 
-		- Since the input is in the format '[1,2],[3,4],[5,6]', we can:
+			- Remove outer brackets if necessary.
 
-		- Remove outer brackets if necessary.
+			- Split the string by '],' to get each row.
 
-		- Split the string by '],' to get each row.
-
-		- For each row, remove '[' and ']', then split by ',' to get elements.
+			- For each row, remove '[' and ']', then split by ',' to get elements.
 
 
-		4. Build a 2D array in bash (arrays containing arrays).
+			4. Build a 2D array in bash (arrays containing arrays).
+		\end{quote}
 	\end{tcolorbox}
 	\blfootnote{\cite{o1blog-cy}}
 \end{frame}
@@ -250,27 +252,37 @@
 
 \begin{frame}{o1 CoT: Planning}
 	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
-		First, the cipher seems connected to the plaintext.
+		\begin{quote}
+			First, the cipher seems connected to the plaintext.
+			\vspace{0.3cm}
 
-		Given the time constraints, perhaps the easiest way is to try to see patterns.
+			Given the time constraints, perhaps the easiest way is to try to see patterns.
+			\vspace{0.3cm}
 
-		Option 1: Try to find mapping from letters to letters.
+			Option 1: Try to find mapping from letters to letters.
+			\vspace{0.3cm}
 
-		Do any letters match?
+			Do any letters match?
+			\vspace{0.3cm}
 
-		First, let's write down the ciphertext and plaintext letters on top of each other.
+			First, let's write down the ciphertext and plaintext letters on top of each other.
+		\end{quote}
 	\end{tcolorbox}
 	\blfootnote{\cite{o1blog-cy}}
 \end{frame}
 
 \begin{frame}{o1 CoT: Backtracking}
 	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
+		\begin{quote}
+			Similarly, m(x)* (−x 2) = (−x2n + 2 + m2n−2x2n + lower terms)m(x) * (−x 2) = (−x 2n + 2 + m 2n−2 x 2n + lower terms).
 
-		Similarly, m(x)⋅(−x 2) = (−x2n + 2 + m2n−2x2n + lower terms)m(x) * (−x 2) = (−x 2n + 2 + m 2n−2 x 2n + lower terms).
+			\vspace{0.3cm}
+			Wait, actually, this may not help us directly without specific terms.An alternative is to consider the known polynomials.
 
-		Wait, actually, this may not help us directly without specific terms.An alternative is to consider the known polynomials.
+			\vspace{0.3cm}
 
-		So m(x) = k ...
+			So m(x) = k ...
+		\end{quote}
 	\end{tcolorbox}
 	\blfootnote{\cite{o1blog-cy}}
 \end{frame}
@@ -281,12 +293,16 @@
 		\begin{quote}
 
 			Let’s analyze each option.
+			\vspace{0.3cm}
 
 			Option A: “because appetite regulation is a field of staggering complexity.”
+			\vspace{0.3cm}
 
 			Is that a good explanation? Hmm.
+			\vspace{0.3cm}
 
 			Option B: “because researchers seldom ask the right questions.”
+			\vspace{0.3cm}
 
 			Does this make sense with the main clause?
 		\end{quote}
@@ -477,7 +493,7 @@
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
-			\includegraphics[width=\textwidth]{images/reject1}
+			\includegraphics[width=0.9\textwidth]{images/reject1}
 		\end{column}
 	\end{columns}
 \end{frame}
@@ -713,7 +729,7 @@
 	\begin{itemize}
 		\item Iterative algorithm combining learned model + expert search with a verifier.
 		\item Generate samples using $p(\cy,\cz|\cx)$, reward model $r(\cz_t)$, and search algorithm (e.g. beam search)
-		\item Label samples using $Ver_x(\cy)$
+		\item Label samples using $\Verm_x(\cy)$
 		\item Train $p(\cy,\cz|\cx)$, $r(\cz_t)$ on the labeled samples, and repeat
 	\end{itemize}
 	\blfootnote{\cite{Anthony2017-dm}}
@@ -726,7 +742,11 @@
 	% That means the state visit counts in the usual UCB formulation don't work.
 	% The exploration in previous methods here has come from sampling or
 	% maintaining multiple candidates, rather than tracking UCB statistics.
-
+	\begin{center}
+		\foreach \i in {10,...,30}{
+				\only<+>{\includegraphics[width=\textwidth]{images/mcts0\i}}
+			}
+	\end{center}
 \end{frame}
 
 
@@ -741,27 +761,13 @@
 \end{frame}
 
 
-\begin{frame}{Compared with Search}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\textbf{Pro}
-			\vspace{0.3cm}
-			\begin{itemize}
-				\item System builds in exploration
-				\item Scales to more train-time search
-			\end{itemize}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\textbf{Con}
-			\vspace{0.3cm}
-			\begin{itemize}
-				\item Costly to maintain open states
-				\item More complex algorithmically
-			\end{itemize}
-		\end{column}
-	\end{columns}
+\begin{frame}{Compared with Guided Search}
+	\begin{itemize}
+		\item MCTS-UCB explores States
+		\item
+		\item
+	\end{itemize}
 \end{frame}
-
 
 \begin{frame}{Empirical Results}
 	% figure from appendix of the VSTaR paper
@@ -791,8 +797,6 @@
 		\end{column}
 	\end{columns}
 \end{frame}
-
-
 
 \subsection{Learning to Correct}
 
@@ -847,8 +851,6 @@
 	\blfootnote{\cite{Gandhi2024-vs}}
 \end{frame}
 
-
-
 \begin{frame}{Empirical Results}
 	\includegraphics[width=\textwidth]{images/score_figure_1.png}
 \end{frame}
@@ -858,29 +860,30 @@
 	\includegraphics[width=\textwidth]{images/score_table_2.png}
 \end{frame}
 
-\begin{frame}{Why might this be right?}
-	\begin{itemize}
-		\item
-		\item
-	\end{itemize}
-	\begin{itemize}
-		\item
-		\item
-	\end{itemize}
+\begin{frame}{Is this o1?}
+	\begin{columns}
+		\begin{column}{0.5\linewidth}
+			\begin{itemize}
+				\item[$\boldsymbol{\checkmark}$] Learns to correct and plan
+				\item[$\boldsymbol{\checkmark}$] Single test-time model
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\linewidth}
+			\begin{itemize}
+				\item[\textcolor{red}{$\boldsymbol{\times}$}] Complex training process
+				\item[\textcolor{red}{$\boldsymbol{\times}$}] Limited empirical evidence
+			\end{itemize}
+		\end{column}
+	\end{columns}
 \end{frame}
 
-\begin{frame}{Less Structure?}
-	\begin{itemize}
-		\item Maybe this is all too much...
-		\item Could this be done without a verifier?
-	\end{itemize}
-\end{frame}
 
-\begin{frame}{Outline}
-	\tableofcontents[]
-\end{frame}
 
 \section{What do we do now?}
+
+\begin{frame}{Outline}
+	\tableofcontents[hideallsubsections, currentsubsection]
+\end{frame}
 
 \begin{frame}{Replication}
 
@@ -896,8 +899,10 @@
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Reference}
-	\bibliographystyle{apalike}
-	\bibliography{../o1.bib,../o1.extra.bib}
+	\begin{small}
+		\bibliographystyle{apalike}
+		\bibliography{../o1.bib,../o1.extra.bib}
+	\end{small}
 \end{frame}
 
 \end{document}
