@@ -95,7 +95,7 @@
 	\begin{center}
 		\includegraphics[width=\linewidth]{images/compute.png}
 	\end{center}
-	\blfootnote{\cite{o1blog-cy}}
+	\blfootnote{\cite{OpenAIUnknown-zp}}
 \end{frame}
 
 \begin{frame}{AIME}
@@ -176,7 +176,7 @@
 			\end{tcolorbox}
 		\end{column}
 	\end{columns}
-	\blfootnote{\cite{o1blog-cy}}
+	\blfootnote{\cite{OpenAIUnknown-zp}}
 \end{frame}
 
 \begin{frame}{Implication}
@@ -220,7 +220,7 @@
 			\end{tcolorbox}
 		\end{column}
 	\end{columns}
-	\blfootnote{\cite{o1blog-cy}}
+	\blfootnote{\cite{OpenAIUnknown-zp}}
 \end{frame}
 
 \begin{frame}{o1 CoT: Outlining}
@@ -246,7 +246,7 @@
 			4. Build a 2D array in bash (arrays containing arrays).
 		\end{quote}
 	\end{tcolorbox}
-	\blfootnote{\cite{o1blog-cy}}
+	\blfootnote{\cite{OpenAIUnknown-zp}}
 \end{frame}
 
 
@@ -268,7 +268,7 @@
 			First, let's write down the ciphertext and plaintext letters on top of each other.
 		\end{quote}
 	\end{tcolorbox}
-	\blfootnote{\cite{o1blog-cy}}
+	\blfootnote{\cite{OpenAIUnknown-zp}}
 \end{frame}
 
 \begin{frame}{o1 CoT: Backtracking}
@@ -284,7 +284,7 @@
 			So m(x) = k ...
 		\end{quote}
 	\end{tcolorbox}
-	\blfootnote{\cite{o1blog-cy}}
+	\blfootnote{\cite{OpenAIUnknown-zp}}
 \end{frame}
 
 \begin{frame}{o1 CoT: Self-Evaluation}
@@ -307,7 +307,7 @@
 			Does this make sense with the main clause?
 		\end{quote}
 	\end{tcolorbox}
-	\blfootnote{\cite{o1blog-cy}}
+	\blfootnote{\cite{OpenAIUnknown-zp}}
 \end{frame}
 
 \begin{frame}{Summary}
@@ -423,7 +423,8 @@
 			Verified set $\{\cy^n : \Ver_x(\cy^n) \}$
 		\end{column}
 		\begin{column}{0.5\linewidth}
-			\includegraphics[width=\textwidth]{images/reject.png}
+			\includegraphics[width=\textwidth]{images/rejecta.png}
+			\includegraphics[width=\textwidth]{images/rejectb.png}
 		\end{column}
 	\end{columns}
 	\blfootnote{\cite{Nakano2021-iz,Lightman2023-cr}}
@@ -510,7 +511,7 @@
 		\item M-Step: Fit $\theta' \gets \arg\max_{\theta}
 			      \sum_{{\cz} \in \mathcal{Z}} \log p({\cz} | \cx;\theta)$
 	\end{itemize}
-	\blfootnote{\cite{Lardner1989-ev,Hinton1993-vm}}
+	\blfootnote{\cite{Neal1998-np}}
 \end{frame}
 
 
@@ -627,7 +628,13 @@
 			$\textcolor{c2}{r_{MC}}(\cfz{z_{t}}) = \frac{1}{N}\sum_{i=1}^{n} \Ver(\cy^{i})$
 		\end{column}
 		\begin{column}{0.5\linewidth}
-			\includegraphics[width=\textwidth]{images/beamroll.png}
+			\begin{tikzpicture}
+				\foreach \i in {1,...,4}{
+						\only<+>{
+							\node[anchor=north west] at (0,0) {\includegraphics[width=0.9\textwidth]{images/beamroll\i}};
+						}
+					}
+			\end{tikzpicture}
 		\end{column}
 	\end{columns}
 	\blfootnote{\cite{Kazemnejad2024-cp}}
@@ -729,7 +736,7 @@
 	\begin{itemize}
 		\item Iterative algorithm combining learned model + expert search with a verifier.
 		\item Generate samples using $p(\cy,\cz|\cx)$, reward model $r(\cz_t)$, and search algorithm (e.g. beam search)
-		\item Label samples using $\Verm_x(\cy)$
+		\item Label samples using $\Ver_x(\cy)$
 		\item Train $p(\cy,\cz|\cx)$, $r(\cz_t)$ on the labeled samples, and repeat
 	\end{itemize}
 	\blfootnote{\cite{Anthony2017-dm}}
@@ -744,7 +751,7 @@
 	% maintaining multiple candidates, rather than tracking UCB statistics.
 	\begin{center}
 		\foreach \i in {10,...,30}{
-				\only<+>{\includegraphics[width=\textwidth]{images/mcts0\i}}
+				\only<+>{\includegraphics[width=0.9\textwidth]{images/mcts0\i}}
 			}
 	\end{center}
 \end{frame}
@@ -845,9 +852,19 @@
 \end{frame}
 
 \begin{frame}{From Tree to Stream}
-	\begin{itemize}
-		\item
-	\end{itemize}
+	\begin{columns}
+		\begin{column}{0.5\linewidth}
+			\begin{itemize}
+				\item Tree search explores multiple paths
+				\item Stream presents a linear sequence
+				\item Allows model to learn from mistakes
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\linewidth}
+			\includegraphics[width=\textwidth]{images/search}
+			\includegraphics[width=\textwidth]{images/search2}
+		\end{column}
+	\end{columns}
 	\blfootnote{\cite{Gandhi2024-vs}}
 \end{frame}
 
@@ -885,18 +902,27 @@
 	\tableofcontents[hideallsubsections, currentsubsection]
 \end{frame}
 
+\begin{frame}{Does it need to be the same?}
+	\includegraphics[width=\textwidth]{images/align}
+	\blfootnote{\cite{}}
+\end{frame}
+
+\begin{frame}{Open-Source Models}
+	\includegraphics[width=\textwidth]{images/zephyr.png}
+	\blfootnote{\cite{}}
+\end{frame}
+
 \begin{frame}{Replication}
 
+	\begin{itemize}
+		\item Once result is established there might be an easier path
+		\item
+	\end{itemize}
+
+	\blfootnote{\cite{agentq}}
 \end{frame}
 
 
-\begin{frame}{Does it need to be the same?}
-
-\end{frame}
-
-\begin{frame}{}
-
-\end{frame}
 
 \begin{frame}[allowframebreaks]{Reference}
 	\begin{small}
