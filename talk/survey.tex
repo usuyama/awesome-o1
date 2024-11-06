@@ -79,7 +79,7 @@
 \section{Introduction}
 
 \begin{frame}[t]{}
-	\includegraphics[width=\linewidth]{}
+	%\includegraphics[width=\linewidth]{}
 	\note{
 		LLM (2018-2024) driven by training scaling
 		Speculation: Benefit of static data running out
@@ -122,9 +122,9 @@
 \begin{frame}{This Talk}
 	\begin{itemize}
 		\item Survey of the public literature
-		\item Synthesis of discussions with expert
+		\item Synthesis of discussions with experts
 		      (thx 	Lewis Tunstall, Edward Beeching, Aviral Kumar, Charlie Snell,
-		      Michael Hassid, Yoav Artzi, Risab Agarwal, Kanishk Gandhi,
+		      Michael Hassid, Yoav Artzi, Rishabh Agarwal, Kanishk Gandhi,
 		      Wenting Zhao, Yuntian Deng, Nathan Lambert)
 		\item Rumors
 	\end{itemize}
@@ -134,7 +134,7 @@
 \section{The Clues}
 
 \begin{frame}{Outline}
-	\tableofcontents[hideallsubsections]
+	\tableofcontents
 \end{frame}
 
 \begin{frame}{o1 Description}
@@ -334,7 +334,7 @@
 				\cz^n & \sim p(\cz | \cx)        \\
 				\cy^n & \sim p(\cy | \cx, \cz^n)
 			\end{align*}
-			Verified set $\{\cy^n : \Ver(\cy^n) \}$
+			Verified set $\{\cy^n : \Ver_x(\cy^n) \}$
 		\end{column}
 		\begin{column}{0.5\linewidth}
 			\includegraphics[width=\textwidth]{images/reject.png}
@@ -349,7 +349,7 @@
 		\begin{column}{0.5\linewidth}
 			Given partial CoT $\cfz{z_{1:t}}$, expected value,
 
-			$$\mathbb{E}_{\cy\sim p(\cy| \cz, \cx), \cz_{t:T}} \Ver(\cy)$$
+			$$\mathbb{E}_{\cy\sim p(\cy| \cz, \cx), \cz_{t:T}} \Ver_x(\cy)$$
 
 			Rollout = Monte Carlo for this expectation.
 		\end{column}
@@ -481,14 +481,18 @@
 
 
 \begin{frame}{G+C Why might this be right?}
-	\begin{columns}
+	\begin{columns}[T]
 		\begin{column}{0.5\linewidth}
+		    \textbf{Pro}
+			\vspace{0.3cm}
 			\begin{itemize}
 				\item Extremely simple and scalable
 				\item Good baseline in past work
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
+		    \textbf{Con}
+			\vspace{0.3cm}
 			\begin{itemize}
 				\item No evidence this learns to correct, plan
 				\item Well-explored in literature with marginal gains
@@ -584,8 +588,8 @@
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
-				\item
-				\item
+				\item Combine $\textcolor{c2}{r_{MC}}$ and $\textcolor{c2}{r_{\psi}}$
+				\item $\textcolor{c2}{r_{Inter}}(\cfz{z_t}) = (1-\alpha)\textcolor{c2}{r_{MC}}(\cfz{z_t}) + \alpha\textcolor{c2}{r_{\psi}}(\cfz{z_t})$
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
@@ -600,6 +604,12 @@
 		\item Learned rewards can improve test-time without verifier.
 		\item
 	\end{itemize}
+\end{frame}
+
+\begin{frame}{Test-time Guides Outperform Self-consistency}
+% I think this is a nice empirical figure to show that learned rewards improve the test-time
+% performance over self-consistency.
+\includegraphics[width=\textwidth]{images/math_shepherd_figure_3.png}
 \end{frame}
 
 
@@ -660,7 +670,7 @@
 	\begin{itemize}
 		\item Iterative algorithm combining learned model + expert search with a verifier.
 		\item Generate samples using $p(\cy,\cz|\cx)$, reward model $r(\cz_t)$, and search algorithm (e.g. beam search)
-		\item Label samples using $Ver(\cy)$
+		\item Label samples using $Ver_x(\cy)$
 		\item Train $p(\cy,\cz|\cx)$, $r(\cz_t)$ on the labeled samples, and repeat
 	\end{itemize}
 	\blfootnote{\cite{Anthony2017-dm}}
@@ -688,14 +698,18 @@
 
 
 \begin{frame}{Compared with Search}
-	\begin{columns}
+	\begin{columns}[T]
 		\begin{column}{0.48\textwidth}
+		      \textbf{Pro}
+			\vspace{0.3cm}
 			\begin{itemize}
 				\item System builds in exploration
 				\item Scales to more train-time search
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.48\textwidth}
+		      \textbf{Con}
+			\vspace{0.3cm}
 			\begin{itemize}
 				\item Costly to maintain open states
 				\item More complex algorithmically
@@ -759,7 +773,6 @@
 \begin{frame}{Score}
 	\begin{itemize}
 		\item Positive rewards
-
 	\end{itemize}
 \end{frame}
 
@@ -775,26 +788,30 @@
 
 \begin{frame}{Generalized: Stream of Search}
 	\begin{itemize}
-		\item Find $\cfz{z^*_{1:T}}$ as optimal
-		      length CoT
-		\item Find $\cfz{z^'_{1:T'}}$ with $T' > T$
-		      through backtracking tree search
-		\item Train model on $\cfz{z^'_{1:T'}}$
+		\item Find $\cfz{z^*_{1:T}}$ as optimal length CoT
+		\item Find $\cfz{z'_{1:T'}}$ with $T' > T$ through backtracking tree search
+		\item Train model on $\cfz{z'_{1:T'}}$
 	\end{itemize}
 	\blfootnote{\cite{Gandhi2024-vs}}
 \end{frame}
 
 \begin{frame}{From Tree to Stream}
 	\begin{itemize}
+	   \item
 	\end{itemize}
 	\blfootnote{\cite{Gandhi2024-vs}}
 \end{frame}
 
 
-\begin{frame}{Empirical Results}
-	Score results
-\end{frame}
 
+\begin{frame}{Empirical Results}
+\includegraphics[width=\textwidth]{images/score_figure_1.png}
+\end{frame}
+\begin{frame}{Empirical Results}
+% This one is more detailed than figure 1, but we can also cut it out if
+% it makes more sense to just have the one figure with MATH performance and compute scaling
+\includegraphics[width=\textwidth]{images/score_table_2.png}
+\end{frame}
 
 \begin{frame}{Why might this be right?}
 	\begin{itemize}
@@ -815,7 +832,7 @@
 \end{frame}
 
 \begin{frame}{Outline}
-	\tableofcontents[hideallsubsections]
+	\tableofcontents[]
 \end{frame}
 
 \section{What do we do now?}
