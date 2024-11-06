@@ -6,7 +6,7 @@ from functools import partial
 from dataclasses import dataclass
 
 c4 = "#257180"
-c2 = "#F2E5BF"
+c2 = "#A66E38"
 c3 = "#FD8B51"
 c1 = "#CB6040"
 
@@ -487,14 +487,9 @@ draw(
 random.seed(0)
 draw(
     *multi(
-        [
-            (n, e, r)
-            for _ in range(10)
-            for n, e, r in [make_chain(partial(rwalk1, d=1))]
-            if -0.5 < n[-1][-1] < 0.5
-        ]
+        [(n, e, r) for _ in range(10) for n, e, r in [make_chain(partial(rwalk1, d=1))]]
     ),
-    "images/rejectb.png",
+    "images/rejecta.png",
     draw_final=True,
 )
 

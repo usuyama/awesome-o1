@@ -12,7 +12,7 @@
 
 % Define colors
 \definecolor{c1}{HTML}{CB6040}
-\definecolor{c2}{HTML}{F2E5BF}
+\definecolor{c2}{HTML}{A66E38}
 \definecolor{c3}{HTML}{FD8B51}
 \definecolor{c4}{HTML}{257180}
 % Use natbib with author-year citation style
@@ -28,9 +28,10 @@
 \newcommand{\cy}{\textcolor{c3}{y}}
 \newcommand{\cz}{\textcolor{c4}{z}}
 
-\newcommand{\Ver}{\text{Ver}}
+\newcommand{\Ver}{\textcolor{c2}{\text{Ver}}}
 
 \newcommand{\cfy}[1]{\textcolor{c3}{#1}}
+\newcommand{\cfr}[1]{\textcolor{c2}{#1}}
 \newcommand{\cfz}[1]{\textcolor{c4}{#1}}
 \newcommand{\czT}{\cfz{z_{1:T}}}
 
@@ -79,8 +80,9 @@
 \section{Introduction}
 
 \begin{frame}[t]{}
+	\vspace{1cm}
 	\begin{center}
-		\includegraphics[width=0.9\linewidth]{images/gpt3i}
+		\includegraphics[width=0.8\linewidth]{images/gpt3i}
 	\end{center}
 	\note{
 		LLM (2018-2024) driven by training scaling
@@ -92,8 +94,9 @@
 
 
 \begin{frame}[t]{}
+	\vspace{1cm}
 	\begin{center}
-		\includegraphics[width=\linewidth]{images/compute.png}
+		\includegraphics[width=0.8\linewidth]{images/compute.png}
 	\end{center}
 	\blfootnote{\cite{OpenAIUnknown-zp}}
 \end{frame}
@@ -160,7 +163,7 @@
 \section{The Clues}
 
 \begin{frame}{Outline}
-	\tableofcontents[hideallsubsections, currentsubsection]
+	\tableofcontents[hideallsubsections, currentsection]
 \end{frame}
 
 \begin{frame}{o1 Description}
@@ -181,9 +184,9 @@
 
 \begin{frame}{Implication}
 	\begin{itemize}
-		\item RL; Signal from verifiable problems
-		\item CoT; Test-time occurs in token stream
-		\item Data Efficient; Bounded set of problems
+		\item \structure{RL}; Signal from verifiable problems
+		\item \structure{CoT}; Test-time occurs in token stream
+		\item \structure{Data-Efficient}; Bounded set of problems
 	\end{itemize}
 \end{frame}
 
@@ -191,18 +194,40 @@
 	\begin{itemize}
 		\item Single final language model
 		\item Not following from expert examples
-		\item Behavior is ``learned''.
+		\item Behaviors are learned
 	\end{itemize}
 \end{frame}
 
 \begin{frame}{Review: Chain of Thought}
-	\begin{itemize}
-		\item In the process of answering a question,
-		      the model generates intermediate
-		      steps.
-		\item These steps provide an scratchpad for hard technical problems.
-		\item A limited number of examples provided.
-	\end{itemize}
+	\begin{columns}
+		\begin{column}{0.4\linewidth}
+			\begin{itemize}
+				\item The model generates intermediate steps.
+				\item These steps provide an scratchpad for technical problems.
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.6\linewidth}
+			\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
+
+				\begin{small}
+					\textcolor{c1}{Question: 4 baskets. 3 have 9 apples, 15 oranges, 14 bananas each. 4th has 2 less of each. Total fruits?}
+
+					\textcolor{c4}{Let's solve step-by-step:}
+
+					\textcolor{c4}{Fruits in one of first 3 baskets: 9 + 15 + 14 = 38}
+
+					\textcolor{c4}{Total in first 3 baskets: 38 * 3 = 114}
+
+					\textcolor{c4}{4th basket: (9-2) + (15-2) + (14-2) = 32}
+
+					\textcolor{c4}{Total fruits: 114 + 32 = 146}
+
+					\textcolor{c3}{Answer: 146 fruits}
+				\end{small}
+			\end{tcolorbox}
+		\end{column}
+
+	\end{columns}
 	\blfootnote{\cite{Wei2022-uj,Nye2021-bx}}
 \end{frame}
 
@@ -321,7 +346,7 @@
 \section{Technical Background}
 
 \begin{frame}{Outline}
-	\tableofcontents[hideallsubsections, currentsubsection]
+	\tableofcontents[hideallsubsections, currentsection]
 \end{frame}
 
 \begin{frame}{Technical Background}
@@ -409,14 +434,14 @@
 	Common datasets:
 	\begin{itemize}
 		\item Regular expression for math \cite{Cobbe2021-gt}
-		\item Unit test for code \cite{Hendrycks2021-mz}
-		\item Test questions for science \cite{Hendrycks2021-tt}
+		\item Unit test for code \cite{Hendrycks2021-nv}
+		\item Test qukestions for science \cite{Hendrycks2021-tt}
 	\end{itemize}
 	\blfootnote{\cite{Uesato2022-aw}}
 \end{frame}
 
 
-\begin{frame}{Rejection Sampling / Best-of-N}
+\begin{frame}{Rejection Sampling \\ Best-of-N}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			For $n = 1$ to $N$:
@@ -474,12 +499,21 @@
 \section{The Suspects}
 
 \begin{frame}{Outline}
-	\tableofcontents[hideallsubsections, currentsubsection]
+	\tableofcontents[hideallsubsections, currentsection]
 \end{frame}
 
 \begin{frame}{The Suspects}
 	\begin{itemize}
 		\item Guess + Check
+		\item Guided Search
+		\item AlphaZero
+		\item Learning to Correct
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{The Suspects}
+	\begin{itemize}
+		\item \structure{Guess + Check}
 		\item Guided Search
 		\item AlphaZero
 		\item Learning to Correct
@@ -498,7 +532,9 @@
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
-			\includegraphics[width=\texthight]{images/reject1}
+			\begin{center}
+				\includegraphics[height=0.8\textheight]{images/reject1}
+			\end{center}
 		\end{column}
 	\end{columns}
 \end{frame}
@@ -580,6 +616,16 @@
 
 \subsection{Guided Search}
 
+\begin{frame}{The Suspects}
+	\begin{itemize}
+		\item Guess + Check
+		\item \structure{Guided Search}
+		\item AlphaZero
+		\item Learning to Correct
+	\end{itemize}
+\end{frame}
+
+
 \begin{frame}{Suspect 2: Guided Search}
 	\begin{itemize}
 		\item 1) During CoT sampling, use a heuristic to
@@ -598,14 +644,15 @@
 	% avoid a lot of indices, but can add that if it needs to be more formal.
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
-			$\textcolor{c2}{r}: \cfz{\mathcal{S}^t} \rightarrow \mathbb{R}$; Guide function
+			$\cfr{r}: \cfz{\mathcal{S}^t} \rightarrow \mathbb{R}$; Guide function
 			\vspace{0.3cm}
+			\pause
 
-			For each step $t$
+			For each step $t$,
 			\begin{enumerate}
-				\item Sample next step,
-				      $$\cfz{z_t} \sim p(\cdot | \cx, \cfz{z_{1:t-1}}^n)$$
-				\item Keep the top $N$ samples, ordered by $r(\cfz{z_{t}})$
+				\item Sample many next steps,
+				      $$\cfz{z_t}^i \sim p(\cdot | \cx, \cfz{z_{1:t-1}})$$
+				\item Keep the top samples, ordered by $\cfr{r}(\cfz{z_{t}})$
 			\end{enumerate}
 		\end{column}
 		\begin{column}{0.5\linewidth}
@@ -620,7 +667,7 @@
 	\begin{itemize}
 		\item Monte Carlo Roll-outs
 		\item Learned Value Function (PRM)
-		\item Interleaved Value Function
+		\item Generative Verifier
 	\end{itemize}
 \end{frame}
 
@@ -628,8 +675,10 @@
 \begin{frame}{Beam Search with Roll-Outs}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
-			For a $\cfz{z_{t}}$, sample answers $$\cy{y}^{n} \sim p(\cdot|\cx,\cfz{z_{1:t-1}})$$
-			$\textcolor{c2}{r_{MC}}(\cfz{z_{t}}) = \frac{1}{N}\sum_{i=1}^{n} \Ver(\cy^{i})$
+			For partial $\cfz{z_{1:t-1}}$, rollout,
+			$$\cfy{y}^{n} \sim p(\cdot|\cx,\cfz{z_{1:t-1}})$$
+
+			$$\textcolor{c2}{r_{MC}}(\cfz{z_{t}}) = \frac{1}{N}\sum_{n=1}^{N} \Ver(\cy^{n})$$
 		\end{column}
 		\begin{column}{0.5\linewidth}
 			\begin{tikzpicture}
@@ -650,8 +699,9 @@
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
-				\item Rollouts are costly, so instead learn a model $\textcolor{c2}{r_{\psi}}(\cfz{z_t})$ to approximate rollouts
-				\item Use $\textcolor{c2}{r_{MC}}$ to determine labels to train $\textcolor{c2}{r_{\psi}}$
+				\item Rollouts are costly / require $\Ver$
+				\item Learn $\textcolor{c2}{r_{\psi}}(\cfz{z_t})$ to approximate
+				\item Use $\textcolor{c2}{r_{MC}}$ for labels
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
@@ -663,15 +713,13 @@
 
 
 
-\begin{frame}{Interleaved Value Functions}
+\begin{frame}{Hybrid Value Functions}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
 				\item Combine $\textcolor{c2}{r_{MC}}$ and $\textcolor{c2}{r_{\psi}}$
-				\item $\textcolor{c2}{r_{Inter}}(\cfz{z_t}) = (1-\alpha)\textcolor{c2}{r_{MC}}(\cfz{z_t}) + \alpha\textcolor{c2}{r_{\psi}}(\cfz{z_t})$
+				\item $$\textcolor{c2}{r_{Inter}}(\cfz{z_t}) = (1-\alpha)\textcolor{c2}{r_{MC}}(\cfz{z_t}) + \alpha\textcolor{c2}{r_{\psi}}(\cfz{z_t})$$
 			\end{itemize}
-		\end{column}
-		\begin{column}{0.5\linewidth}
 		\end{column}
 	\end{columns}
 \end{frame}
@@ -683,6 +731,13 @@
 		\item Value Function
 		\item PRM; Process Reward Model \cite{Uesato2022-aw,Lightman2023-cr}
 		\item PAV; Process Advantage Verifier \cite{Setlur2024-ax}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Training Versus Test}
+	\begin{itemize}
+		\item Learned value could be used at test-time
+		\item Alternative can be trained into LLM, \textit{Generative Verifier} \cite{}
 	\end{itemize}
 \end{frame}
 
@@ -706,6 +761,14 @@
 \end{frame}
 
 \subsection{AlphaZero}
+\begin{frame}{The Suspects}
+	\begin{itemize}
+		\item Guess + Check
+		\item Guided Search
+		\item \structure{AlphaZero}
+		\item Learning to Correct
+	\end{itemize}
+\end{frame}
 
 \begin{frame}{Reminder: AlphaZero}
 	\centering
@@ -756,7 +819,7 @@
 	% maintaining multiple candidates, rather than tracking UCB statistics.
 	\begin{center}
 		\foreach \i in {10,...,30}{
-				\only<+>{\includegraphics[width=0.9\textwidth]{images/mcts0\i}}
+				\only<\i>{\includegraphics[width=0.9\textwidth]{images/mcts0\i}}
 			}
 	\end{center}
 	\blfootnote{\cite{Kocsis2006-er}}
@@ -777,8 +840,7 @@
 \begin{frame}{Compared with Guided Search}
 	\begin{itemize}
 		\item MCTS-UCB explores states
-		      $$ \sqrt{\frac{\ln N(\cfz{z_{1:t-1}})}{N(\cfz{1:z_t})}} $$
-
+		      $$ \sqrt{\frac{\ln N(\cfz{z_{1:t-1}})}{N(\cfz{z_{1:t})}}} $$
 		\item Less strict search process
 	\end{itemize}
 \end{frame}
@@ -813,6 +875,15 @@
 \end{frame}
 
 \subsection{Learning to Correct}
+
+\begin{frame}{The Suspects}
+	\begin{itemize}
+		\item Guess + Check
+		\item Guided Search
+		\item AlphaZero
+		\item \structure{Learning to Correct}
+	\end{itemize}
+\end{frame}
 
 \begin{frame}{What does exploration look like?}
 	\begin{itemize}
@@ -913,7 +984,7 @@
 \section{What do we do now?}
 
 \begin{frame}{Outline}
-	\tableofcontents[hideallsubsections, currentsubsection]
+	\tableofcontents[hideallsubsections, currentsection]
 \end{frame}
 
 \begin{frame}{Does it need to be the same?}
