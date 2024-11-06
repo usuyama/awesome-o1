@@ -141,12 +141,14 @@
 \end{frame}
 
 
-\begin{frame}{Overview}
+\begin{frame}{Sources}
 	\begin{itemize}
 		\item Survey of the public literature
 		\item Synthesis of discussions with expert
-		\item Rumors
+		\item Rumors from social media
 	\end{itemize}
+
+	\vspace{1cm}
 
 	\begin{small}
 		Thanks to Lewis Tunstall, Edward Beeching, Aviral Kumar, Charlie Snell,
@@ -369,11 +371,11 @@
 		\begin{column}{0.5\linewidth}
 			For $N$ samples,
 			\begin{align*}
-				{\czT}    & \sim p(\cdot | \cx)         \\
-				\cfy{y^n} & \sim p(\cdot | \cx, {\czT})
+				{\czT} & \sim p(\cdot | \cx)         \\
+				\cy^n  & \sim p(\cdot | \cx, {\czT})
 			\end{align*}
 			\vspace{1cm}
-			Pick majority choice $\cfy{y^n}$
+			Pick majority choice $\cy^n$
 		\end{column}
 		\begin{column}{0.5\linewidth}
 			\includegraphics[width=\textwidth]{images/bwalk.png}
@@ -389,13 +391,13 @@
 	\begin{itemize}
 		\item Regular expression for math \cite{Cobbe2021-gt}
 		\item Unit test for code \cite{Hendrycks2021-mz}
-		\item Test questions for science \cite{Hendrycks2021-mz}
+		\item Test questions for science \cite{Hendrycks2021-tt}
 	\end{itemize}
 	\blfootnote{\cite{Uesato2022-aw}}
 \end{frame}
 
 
-\begin{frame}{Warm up: Rejection Sampling / Best-of-N}
+\begin{frame}{Rejection Sampling / Best-of-N}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			For $n = 1$ to $N$:
@@ -413,12 +415,12 @@
 \end{frame}
 
 
-\begin{frame}{Warm up: Monte-Carlo Roll-Outs}
+\begin{frame}{Monte-Carlo Roll-Outs}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			Given partial CoT $\cfz{z_{1:t}}$, expected value,
 
-			$$\mathbb{E}_{\cy\sim p(\cy| \cz, \cx), \cz_{t:T}} \Ver(\cy)$$
+			$$\mathbb{E}_{\cy\sim p(\cdot| \cx)}\  \Ver(\cy)$$
 
 			Monte Carlo for this expectation.
 		\end{column}
@@ -481,7 +483,7 @@
 	\end{columns}
 \end{frame}
 
-\begin{frame}{Formalization: Rejection Sampling EM}
+\begin{frame}{Framework: Rejection Sampling EM}
 	$$\max_{\theta} \sum \log E_{\cz \sim p({\cz} | \cx;\theta)} p(\cy|  \cx, \cz)$$
 	\begin{itemize}
 		\item E-Step: For $n = 1$ to $N$:
@@ -518,24 +520,8 @@
 \end{frame}
 
 
-%\begin{frame}{Offline}
-%	\begin{itemize}
-%		\item Batch servers to sample
-%		\item Check if successful
-%		\item Train on good ones
-%	\end{itemize}
-%\end{frame}
 
-
-%\begin{frame}{Online}
-%	\begin{itemize}
-%		\item Sample N CoTs
-%		\item Check if successful
-%		\item Train on good ones
-%	\end{itemize}
-%\end{frame}
-
-\begin{frame}{G+C Empirical Results}
+\begin{frame}{Empirical Results}
 	% None of STaR, ReST, ReST-EM compare directly to self-consistency alone.
 	% The closest is ReST-EM, which says that using a self-consistency on
 	% the Rest-EM model gets better performance than using it on the base model (but without a figure).
@@ -551,43 +537,38 @@
 
 
 
-\begin{frame}{G+C Why might this be right?}
+\begin{frame}{Is this o1?}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
-				\item Extremely simple and scalable
-				\item Good baseline in past work
+				\item[$\boldsymbol{\checkmark}$] Extremely simple and scalable
+				\item[$\boldsymbol{\checkmark}$] Positive results in past work
+
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
+			\pause
 			\begin{itemize}
-				\item No evidence this learns to correct, plan
-				\item Well-explored in literature with marginal gains
+				\item[\textcolor{red}{$\boldsymbol{\times}$}] No evidence this learns to correct, plan
+				\item[\textcolor{red}{$\boldsymbol{\times}$}] Computationally inefficient search
 			\end{itemize}
 		\end{column}
 	\end{columns}
-\end{frame}
-
-\begin{frame}{More Structure?}
-	\begin{itemize}
-		\item Rejection sampling may be really inefficient.
-		\item Particularly on hard problems, may get no signal
-	\end{itemize}
 \end{frame}
 
 \subsection{Guided Search}
 
 \begin{frame}{Suspect 2: Guided Search}
 	\begin{itemize}
-		\item During CoT sampling, use a heuristic to
+		\item 1) During CoT sampling, use a heuristic to
 		      improve trajectories
-		\item Check if final versions are successful
-		\item Train on good ones
+		\item 2) Check if final versions are successful
+		\item 3) Train on good ones
 	\end{itemize}
 \end{frame}
 
 
-\begin{frame}{GS: Beam Search with Guide}
+\begin{frame}{Framework: Beam Search with Guide}
 	% Slightly different from token level beam search since we can't enumerate all the possible z_t like in a vocabulary,
 	% so instead sample an initial k of them, score those with r and keep the top m
 	%
@@ -601,7 +582,7 @@
 			For each step $t$
 			\begin{enumerate}
 				\item Sample next step,
-				      $$\cfz{z_t} \sim p(\cdot | \cx, \cfz{z^i_{1:t-1}})$$
+				      $$\cfz{z_t} \sim p(\cdot | \cx, \cfz{z_{1:t-1}}^n)$$
 				\item Keep the top $N$ samples, ordered by $r(\cfz{z_{t}})$
 			\end{enumerate}
 		\end{column}
@@ -609,34 +590,35 @@
 			\includegraphics[width=\textwidth]{images/beamguide.png}
 		\end{column}
 	\end{columns}
+	\blfootnote{\cite{Snell2024-dx}}
 \end{frame}
 
 
-\begin{frame}{What to use as Guide?}
+\begin{frame}{Guide Variants}
 	\begin{itemize}
 		\item Monte Carlo Roll-outs
-		\item Learned Value Function
+		\item Learned Value Function (PRM)
 		\item Interleaved Value Function
 	\end{itemize}
 \end{frame}
 
 
 \begin{frame}{Beam Search with Roll-Outs}
-
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
-			For a $\cfz{z_{t}}$, sample answers $$\cfy{y^{n}} \sim p(\cdot|\cx,\cz_{1:t-1})$$
-			$\textcolor{c2}{r_{MC}}(\cfz{z_{t}}) = \frac{1}{N}\sum_{i=1}^{n} \Ver(\cfy{y^{i}})$
+			For a $\cfz{z_{t}}$, sample answers $$\cy{y}^{n} \sim p(\cdot|\cx,\cfz{z_{1:t-1}})$$
+			$\textcolor{c2}{r_{MC}}(\cfz{z_{t}}) = \frac{1}{N}\sum_{i=1}^{n} \Ver(\cy^{i})$
 		\end{column}
 		\begin{column}{0.5\linewidth}
 			\includegraphics[width=\textwidth]{images/beamroll.png}
 		\end{column}
 	\end{columns}
+	\blfootnote{\cite{Kazemnejad2024-cp}}
 \end{frame}
 
 
-\begin{frame}{Amortized Roll-Outs}
-	\blfootnote{\cite{Wang2023-ur}}
+\begin{frame}{Learned Value Function}
+
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
@@ -648,15 +630,17 @@
 			\includegraphics[width=\textwidth]{images/mcroll.png}
 		\end{column}
 	\end{columns}
+	\blfootnote{\cite{Lightman2023-cr,Wang2023-ur}}
 \end{frame}
 
-\begin{frame}{Interleaved}
-	\blfootnote{\cite{Wang2023-ur}}
+
+
+\begin{frame}{Interleaved Value Functions}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
-				\item
-				\item
+				\item Have the LLM predict value
+				\item Single model for generate / guide
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
@@ -666,43 +650,26 @@
 \end{frame}
 
 
-\begin{frame}{What about test time?}
+
+
+\begin{frame}{Variants}
 	\begin{itemize}
-		\item Learned rewards can improve test-time without verifier.
-		\item
+		\item Search Heuristic
+		\item Value Function
+		\item PRM; Process Reward Model \cite{Uesato2022-aw,Lightman2023-cr}
+		\item PAV; Process Advantage Verifier \cite{Setlur2024-ax}
 	\end{itemize}
 \end{frame}
 
 
-\begin{frame}{Terminology}
+\begin{frame}{Is this o1?}
 	\begin{itemize}
-		\item Value
-		\item PRM
-		\item PAV
-		\item Math Shepard.
-		\item snell.
-	\end{itemize}
-	\blfootnote{\cite{Uesato2022-aw,Setlur2024-ax,Wang2023-ur,Lightman2023-cr,Snell2024-dx}}
-\end{frame}
-
-
-\begin{frame}{Why might this be right?}
-	\begin{itemize}
-		\item OpenAI is exploring
-		\item Makes RS more efficient.
-		\item Learned rewards are effective
+		\item[$\boldsymbol{\checkmark}$] RS needs to be more efficient.
+		\item[$\boldsymbol{\checkmark}$] Learned rewards are effective
 	\end{itemize}
 	\begin{itemize}
-		\item Assumption: o1 is a single test-time model
-		      (although could train or distill-in)
-		\item Not clear if it learns planning.
-	\end{itemize}
-\end{frame}
-
-
-\begin{frame}{More Structure}
-	\begin{itemize}
-		\item Improving search seems critical.
+		\item[\textcolor{red}{$\boldsymbol{\times}$}] o1 is a single test-time model
+		\item[\textcolor{red}{$\boldsymbol{\times}$}] Not clear if this is enough for planning.
 	\end{itemize}
 \end{frame}
 
@@ -710,18 +677,29 @@
 
 \begin{frame}{Reminder: AlphaZero}
 	\centering
-	\includegraphics[height=0.8\textheight]{images/alphazero_figure_one.png}
+	\begin{columns}
+		\begin{column}{0.6\textwidth}
+			\includegraphics[height=0.8\textheight]{images/alphazero_figure_one.png}
+		\end{column}
+		\begin{column}{0.4\textwidth}
+			\begin{itemize}
+				\item Canonical example of self-learning
+				\item Scaling model without data
+			\end{itemize}
+		\end{column}
+	\end{columns}
+	\blfootnote{\cite{Silver2017-bn}}
 \end{frame}
 
 \begin{frame}{Suspect 3: AlphaZero}
 	\begin{itemize}
-		\item Self-play using guided-search with exploration
-		\item Label final outcomes of self-play games
-		\item Train guide and generator
+		\item 1) Self-play using guided-search with exploration
+		\item 2) Label final outcomes of self-play games
+		\item 3) Train guide and generator
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Formalized: Expert Iteration}
+\begin{frame}{Framework: Expert Iteration}
 	% VSTaR is almost the LM equivalent of AlphaZero in the framing,
 	% except that AlphaZero learns a PRM (value function) and V-STaR learns an ORM.
 	% Plus AlphaZero uses its PRM during search, which V-STaR can't do.
@@ -738,7 +716,7 @@
 
 \end{frame}
 
-\begin{frame}{MCTS exploration}
+\begin{frame}{Review: MCTS}
 	% Not sure if there's a way to formalize this for language models, since
 	% we're unlikely to get the same z twice (i.e. end up in the same state/action pair).
 	% That means the state visit counts in the usual UCB formulation don't work.
@@ -751,10 +729,11 @@
 \begin{frame}{UCB for Language}
 	\begin{itemize}
 		\item Selection: Walk down tree to leaf $\cfz{z_{t-1}}$
-		\item Expand: Sample $K$ next steps $\cfz{z^i_t}$, pick one at random
-		\item Rollouts: Sample $\cfz{z_{t+1}} \ldots \cfz{z_T}$
+		\item Expand: Sample $N$ next steps $\cfz{z_t}^n$, pick one at random
+		\item Rollouts: Sample steps $\cfz{z_{t+1}} \ldots \cfz{z_T}$
 		\item Backprop: Update nodes counts $z_{1:t}$ based on results
 	\end{itemize}
+	\blfootnote{\cite{Feng2023-sz}}
 \end{frame}
 
 

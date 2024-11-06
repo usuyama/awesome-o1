@@ -300,7 +300,14 @@ def draw(
         + c.fill_color(c1)
     )
     if name:
-        base2 = rectangle(T, 5).align_l() + base
+        base2 = (
+            rectangle(T + 1, 5)
+            .align_l()
+            .translate(-0.5, 0)
+            .fill_color("#faf0e6")
+            .line_width(0)
+            + base
+        )
         base2.render(name, 512, draw_height=250)
     return base
 
@@ -308,7 +315,9 @@ def draw(
 T = 10
 root = Node([], 0, 0, 0, 0, None)
 list(mcts_step(root, T=T))
-for i in range(0, 500, 5):
+for i in range(0, 5, 5):
+    # for i in range(0, 500, 5):
+
     for j, path in enumerate(mcts_step(root, T=T)):
         d = (
             rectangle(T + 1, 7).line_width(0).align_l().translate(-0.5, 0)
