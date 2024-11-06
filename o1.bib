@@ -63,6 +63,41 @@
   keywords      = "MiniChain;o1"
 }
 
+@ARTICLE{Hendrycks2021-jr,
+  title         = "Measuring Mathematical Problem Solving With the {MATH}
+                   Dataset",
+  author        = "Hendrycks, Dan and Burns, Collin and Kadavath, Saurav and
+                   Arora, Akul and Basart, Steven and Tang, Eric and Song, Dawn
+                   and Steinhardt, Jacob",
+  journal       = "arXiv [cs.LG]",
+  abstract      = "Many intellectual endeavors require mathematical problem
+                   solving, but this skill remains beyond the capabilities of
+                   computers. To measure this ability in machine learning
+                   models, we introduce MATH, a new dataset of 12,500
+                   challenging competition mathematics problems. Each problem in
+                   MATH has a full step-by-step solution which can be used to
+                   teach models to generate answer derivations and explanations.
+                   To facilitate future research and increase accuracy on MATH,
+                   we also contribute a large auxiliary pretraining dataset
+                   which helps teach models the fundamentals of mathematics.
+                   Even though we are able to increase accuracy on MATH, our
+                   results show that accuracy remains relatively low, even with
+                   enormous Transformer models. Moreover, we find that simply
+                   increasing budgets and model parameter counts will be
+                   impractical for achieving strong mathematical reasoning if
+                   scaling trends continue. While scaling Transformers is
+                   automatically solving most other text-based tasks, scaling is
+                   not currently solving MATH. To have more traction on
+                   mathematical problem solving we will likely need new
+                   algorithmic advancements from the broader research community.",
+  month         =  "5~" # mar,
+  year          =  2021,
+  url           = "http://arxiv.org/abs/2103.03874",
+  archivePrefix = "arXiv",
+  primaryClass  = "cs.LG",
+  keywords      = "MiniChain;o1"
+}
+
 @ARTICLE{Radford2019-lx,
   title     = "Language models are unsupervised multitask learners",
   author    = "Radford, Alec and Wu, Jeffrey and Child, Rewon and Luan, David
@@ -80,6 +115,18 @@
   year      =  2019,
   url       = "https://www.ceid.upatras.gr/webpages/faculty/zaro/teaching/alg-ds/PRESENTATIONS/PAPERS/2019-Radford-et-al_Language-Models-Are-Unsupervised-Multitask-%20Learners.pdf",
   keywords  = "Transformers;o1"
+}
+
+@MISC{Hendrycks2021-tt,
+  title         = "Measuring Massive Multitask Language Understanding",
+  author        = "Hendrycks, Dan and Burns, Collin and Basart, Steven and Zou,
+                   Andy and Mazeika, Mantas and Song, Dawn and Steinhardt, Jacob",
+  journal       = "arXiv [cs.CY]",
+  year          =  2021,
+  url           = "http://arxiv.org/abs/2009.03300",
+  archivePrefix = "arXiv",
+  primaryClass  = "cs.CY",
+  keywords      = "zephyr;o1"
 }
 
 @ARTICLE{Brown2020-on,
@@ -379,6 +426,98 @@
   url           = "http://arxiv.org/abs/2305.14992",
   archivePrefix = "arXiv",
   primaryClass  = "cs.CL",
+  keywords      = "o1"
+}
+
+@INCOLLECTION{Neal1998-np,
+  title     = "A View of the Em Algorithm that Justifies Incremental, Sparse,
+               and other Variants",
+  author    = "Neal, Radford M and Hinton, Geoffrey E",
+  booktitle = "Learning in Graphical Models",
+  publisher = "Springer Netherlands",
+  address   = "Dordrecht",
+  pages     = "355--368",
+  abstract  = "The EM algorithm performs maximum likelihood estimation for data
+               in which some variables are unobserved. We present a function
+               that resembles negative free energy and show that the M step
+               maximizes this function with respect to the model parameters and
+               the E step maximizes it with respect to the distribution over the
+               unobserved variables. From this perspective, it is easy to
+               justify an incremental variant of the EM algorithm in which the
+               distribution for only one of the unobserved variables is
+               recalculated in each E step. This variant is shown empirically to
+               give faster convergence in a mixture estimation problem. A
+               variant of the algorithm that exploits sparse conditional
+               distributions is also described, and a wide range of other
+               variant algorithms are also seen to be possible.",
+  year      =  1998,
+  url       = "https://link.springer.com/chapter/10.1007/978-94-011-5014-9_12",
+  keywords  = "o1",
+  language  = "en"
+}
+
+@ARTICLE{Dempster1977-sw,
+  title     = "Maximum likelihood from incomplete data via the \textit{EM}
+               algorithm",
+  author    = "Dempster, A P and Laird, N M and Rubin, D B",
+  journal   = "J. R. Stat. Soc. Series B Stat. Methodol.",
+  publisher = "Oxford University Press (OUP)",
+  volume    =  39,
+  number    =  1,
+  pages     = "1--22",
+  abstract  = "Summary A broadly applicable algorithm for computing maximum
+               likelihood estimates from incomplete data is presented at various
+               levels of generality. Theory showing the monotone behaviour of
+               the likelihood and convergence of the algorithm is derived. Many
+               examples are sketched, including missing value situations,
+               applications to grouped, censored or truncated data, finite
+               mixture models, variance component estimation, hyperparameter
+               estimation, iteratively reweighted least squares and factor
+               analysis.",
+  month     =  "1~" # sep,
+  year      =  1977,
+  url       = "https://onlinelibrary.wiley.com/doi/abs/10.1111/j.2517-6161.1977.tb01600.x",
+  keywords  = "maximum likelihood; incomplete data; em algorithm; posterior
+               mode;o1",
+  language  = "en"
+}
+
+@ARTICLE{Hendrycks2021-nv,
+  title         = "Measuring coding challenge competence with {APPS}",
+  author        = "Hendrycks, Dan and Basart, Steven and Kadavath, Saurav and
+                   Mazeika, Mantas and Arora, Akul and Guo, Ethan and Burns,
+                   Collin and Puranik, Samir and He, Horace and Song, Dawn and
+                   Steinhardt, Jacob",
+  journal       = "arXiv [cs.SE]",
+  abstract      = "While programming is one of the most broadly applicable
+                   skills in modern society, modern machine learning models
+                   still cannot code solutions to basic problems. Despite its
+                   importance, there has been surprisingly little work on
+                   evaluating code generation, and it can be difficult to
+                   accurately assess code generation performance rigorously. To
+                   meet this challenge, we introduce APPS, a benchmark for code
+                   generation. Unlike prior work in more restricted settings,
+                   our benchmark measures the ability of models to take an
+                   arbitrary natural language specification and generate
+                   satisfactory Python code. Similar to how companies assess
+                   candidate software developers, we then evaluate models by
+                   checking their generated code on test cases. Our benchmark
+                   includes 10,000 problems, which range from having simple
+                   one-line solutions to being substantial algorithmic
+                   challenges. We fine-tune large language models on both GitHub
+                   and our training set, and we find that the prevalence of
+                   syntax errors is decreasing exponentially as models improve.
+                   Recent models such as GPT-Neo can pass approximately 20\% of
+                   the test cases of introductory problems, so we find that
+                   machine learning models are now beginning to learn how to
+                   code. As the social significance of automatic code generation
+                   increases over the coming years, our benchmark can provide an
+                   important measure for tracking advancements.",
+  month         =  "20~" # may,
+  year          =  2021,
+  url           = "http://arxiv.org/abs/2105.09938",
+  archivePrefix = "arXiv",
+  primaryClass  = "cs.SE",
   keywords      = "o1"
 }
 
