@@ -426,6 +426,7 @@
 			\includegraphics[width=\textwidth]{images/mcroll.png}
 		\end{column}
 	\end{columns}
+	\blfootnote{\cite{Wang2023-ur}}
 \end{frame}
 
 
@@ -451,7 +452,7 @@
 \section{The Suspects}
 
 \begin{frame}{Outline}
-	\tableofcontents[hideallsubsections]
+	\tableofcontents[hideallsubsections, currentsubsection]
 \end{frame}
 
 \begin{frame}{The Suspects}
@@ -480,7 +481,7 @@
 	\end{columns}
 \end{frame}
 
-\begin{frame}{G+C Formalization: Rejection Sampling EM}
+\begin{frame}{Formalization: Rejection Sampling EM}
 	$$\max_{\theta} \sum \log E_{\cz \sim p({\cz} | \cx;\theta)} p(\cy|  \cx, \cz)$$
 	\begin{itemize}
 		\item E-Step: For $n = 1$ to $N$:
@@ -492,26 +493,27 @@
 		\item M-Step: Fit $\theta' \gets \arg\max_{\theta}
 			      \sum_{{\cz} \in \mathcal{Z}} \log p({\cz} | \cx;\theta)$
 	\end{itemize}
+	\blfootnote{\cite{Lardner1989-ev,Hinton1993-vm}}
 \end{frame}
 
 
 
-\begin{frame}{G+C Variants}
-	\blfootnote{\cite{Zelikman2022-id,Gulcehre2023-vk,Singh2023-eb}}
+\begin{frame}{Variants}
 	\begin{itemize}
-		\item STaR
-		\item ReST
-		\item ReST-EM
-		\item Filtered Rejection Sampling
-		\item Best-of-N Training
+		\item Best-of-N Training \cite{Cobbe2021-gt}
+		\item STaR \cite{Zelikman2022-id}
+		\item ReST \cite{Gulcehre2023-vk}
+		\item ReST-EM \cite{Singh2023-eb}
+		\item Filtered Rejection Sampling \cite{Nakano2021-iz}
 	\end{itemize}
 \end{frame}
 
 
-\begin{frame}{G+C Variants}
+\begin{frame}{Reinforcement Learning?}
 	\begin{itemize}
-		\item Batched -> Compute trajectories first, then train with behavioral cloning
-		\item Online -> Use policy gradient-like steps to update after each example
+		\item Batched $\rightarrow$ Compute trajectories first, then train
+		\item Online $\rightarrow$  Update after each example
+		\item Specific algorithm choice (PPO, etc)
 	\end{itemize}
 \end{frame}
 
