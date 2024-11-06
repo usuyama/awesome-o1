@@ -734,12 +734,6 @@
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Training Versus Test}
-	\begin{itemize}
-		\item Learned value could be used at test-time
-		\item Alternative can be trained into LLM, \textit{Generative Verifier} \cite{}
-	\end{itemize}
-\end{frame}
 
 \begin{frame}{Test-time Guides Outperform Self-consistency}
 	% I think this is a nice empirical figure to show that learned rewards improve the test-time
@@ -759,6 +753,36 @@
 		\item[\textcolor{red}{$\boldsymbol{\times}$}] Not clear if this is enough for planning.
 	\end{itemize}
 \end{frame}
+
+\begin{frame}{Training Versus Test}
+	\begin{columns}
+		\begin{column}{0.5\linewidth}
+			\begin{itemize}
+				\item Learned value could be used at test-time
+				\item Alternative can be trained into LLM
+				\item \textit{Generative Verifier} \cite{Zhang2024-sa}
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\linewidth}
+
+			\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
+				\begin{quote}
+
+					Let’s analyze each option.
+					\vspace{0.3cm}
+
+					Option A: “because appetite regulation is a field of staggering complexity.”
+					\vspace{0.3cm}
+
+					Is that a good explanation? Hmm.
+					\vspace{0.3cm}
+				\end{quote}
+			\end{tcolorbox}
+
+		\end{column}
+	\end{columns}
+\end{frame}
+
 
 \subsection{AlphaZero}
 \begin{frame}{The Suspects}
