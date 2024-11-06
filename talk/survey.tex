@@ -79,7 +79,9 @@
 \section{Introduction}
 
 \begin{frame}[t]{}
-	\includegraphics[width=\linewidth]{images/gpt3}
+	\begin{center}
+		\includegraphics[width=0.9\linewidth]{images/gpt3i}
+	\end{center}
 	\note{
 		LLM (2018-2024) driven by training scaling
 		Speculation: Benefit of static data running out
@@ -90,7 +92,9 @@
 
 
 \begin{frame}[t]{}
-	\includegraphics[width=\linewidth]{images/compute.png}
+	\begin{center}
+		\includegraphics[width=\linewidth]{images/compute.png}
+	\end{center}
 	\blfootnote{\cite{o1blog-cy}}
 \end{frame}
 
@@ -99,6 +103,7 @@
 		\small
 		For any finite set $X$, let $| X |$ denote the number of elements in $X$. Define \[S_n = \sum | A \cap B | ,\] where the sum is taken over all ordered pairs $(A, B)$ such that $A$ and $B$ are subsets of $\left\{ 1 , 2 , 3, \cdots , n \right\}$ with $|A| = |B|$. For example, $S_2 = 4$ because the sum is taken over the pairs of subsets \[(A, B) \in \left\{ (\emptyset, \emptyset) , ( \{1\} , \{1\} ), ( \{1\} , \{2\} ) , ( \{2\} , \{1\} ) , ( \{2\} , \{2\} ) , ( \{1 , 2\} , \{1 , 2\} ) \right\}\] giving $S_2 = 0 + 1 + 0 + 0 + 1 + 2 = 4$. Let $\frac{S_{2022}}{S_{2021}} = \frac{p}{q}$, where $p$ and $q$ are relatively prime positive integers. Find the remainder when $p + q$ is divided by 1000.
 	\end{tcolorbox}
+	\blfootnote{\cite{}}
 \end{frame}
 
 \begin{frame}{Bitter Lesson}
@@ -115,7 +120,7 @@
 		\end{column}
 	\end{columns}
 
-	\blfootnote{}
+	\blfootnote{\cite{Sutton2019-my}}
 \end{frame}
 
 
@@ -132,7 +137,7 @@
 			\end{tcolorbox}
 		\end{column}
 	\end{columns}
-	\blfootnote{}
+	\blfootnote{\url{https://x.com/polynoamial/status/1840822629625688469}}
 \end{frame}
 
 
@@ -140,12 +145,14 @@
 	\begin{itemize}
 		\item Survey of the public literature
 		\item Synthesis of discussions with expert
-		      (thx 	Lewis Tunstall, Edward Beeching, Aviral Kumar, Charlie Snell,
-		      Michael Hassid, Yoav Artzi, Risab Agarwal, Kanishk Gandhi,
-		      Wenting Zhao, Yuntian Deng, Nathan Lambert)
 		\item Rumors
 	\end{itemize}
-	\blfootnote{}
+
+	\begin{small}
+		Thanks to Lewis Tunstall, Edward Beeching, Aviral Kumar, Charlie Snell,
+		Michael Hassid, Yoav Artzi, Risab Agarwal, Kanishk Gandhi,
+		Wenting Zhao, Yuntian Deng, Nathan Lambert, Noah Goodman
+	\end{small}
 \end{frame}
 
 \section{The Clues}
@@ -155,11 +162,19 @@
 \end{frame}
 
 \begin{frame}{o1 Description}
-	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
-		Our large-scale \textbf{reinforcement learning algorithm} teaches the model
-		how to think productively using its \textbf{chain of thought} in a highly
-		\textbf{data-efficient} training process.
-	\end{tcolorbox}
+	\begin{columns}
+		\begin{column}{0.3\textwidth}
+			\includegraphics[width=\linewidth]{images/openai}
+		\end{column}
+		\begin{column}{0.7\textwidth}
+			\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
+				Our large-scale \textbf{reinforcement learning algorithm} teaches the model
+				how to think productively using its \textbf{chain of thought} in a highly
+				\textbf{data-efficient} training process.
+			\end{tcolorbox}
+		\end{column}
+	\end{columns}
+	\blfootnote{\cite{o1blog-cy}}
 \end{frame}
 
 \begin{frame}{Implication}
@@ -186,16 +201,24 @@
 		\item These steps provide an scratchpad for hard technical problems.
 		\item A limited number of examples provided.
 	\end{itemize}
-	\blfootnote{}
+	\blfootnote{\cite{Wei2022-uj,Nye2021-bx}}
 \end{frame}
 
 \begin{frame}{o1 Chain of Thought}
-	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
-		o1 learns to hone its chain of thought and refine the strategies it uses.
-		It learns to recognize and \textbf{correct its mistakes}.
-		It learns to \textbf{break down tricky steps} into simpler ones.
-		It learns to try a \textbf{different approach} when the current one isn’t working.
-	\end{tcolorbox}
+	\begin{columns}
+		\begin{column}{0.3\textwidth}
+			\includegraphics[width=\linewidth]{images/openai}
+		\end{column}
+		\begin{column}{0.7\textwidth}
+			\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
+				o1 learns to hone its chain of thought and refine the strategies it uses.
+				It learns to recognize and \textbf{correct its mistakes}.
+				It learns to \textbf{break down tricky steps} into simpler ones.
+				It learns to try a \textbf{different approach} when the current one isn't working.
+			\end{tcolorbox}
+		\end{column}
+	\end{columns}
+	\blfootnote{\cite{o1blog-cy}}
 \end{frame}
 
 \begin{frame}{o1 CoT: Outlining}
@@ -220,6 +243,7 @@
 
 		4. Build a 2D array in bash (arrays containing arrays).
 	\end{tcolorbox}
+	\blfootnote{\cite{o1blog-cy}}
 \end{frame}
 
 
