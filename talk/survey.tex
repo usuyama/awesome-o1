@@ -756,25 +756,27 @@
 				\only<+>{\includegraphics[width=0.9\textwidth]{images/mcts0\i}}
 			}
 	\end{center}
+	\blfootnote{\cite{Kocsis2006-er}}
 \end{frame}
 
 
 \begin{frame}{UCB for Language}
 	\begin{itemize}
-		\item Selection: Walk down tree to leaf $\cfz{z_{t-1}}$
-		\item Expand: Sample $N$ next steps $\cfz{z_t}^n$, pick one at random
-		\item Rollouts: Sample steps $\cfz{z_{t+1}} \ldots \cfz{z_T}$
-		\item Backprop: Update nodes counts $z_{1:t}$ based on results
+		\item \textbf{Selection}: Walk down tree to leaf $\cfz{z_{t-1}}$
+		\item \textbf{Expand}: Sample $~5$ next steps $\cfz{z_t}$, pick one at random
+		\item \textbf{Rollouts}: Sample steps $\cfz{z_{t+1}} \ldots \cfz{z_T}$
+		\item \textbf{Backprop}: Update nodes counts $N(z_{1:t})$ based on results
 	\end{itemize}
-	\blfootnote{\cite{Feng2023-sz}}
+	\blfootnote{\cite{Hubert2021-ju,Feng2023-sz}}
 \end{frame}
 
 
 \begin{frame}{Compared with Guided Search}
 	\begin{itemize}
-		\item MCTS-UCB explores States
-		\item
-		\item
+		\item MCTS-UCB explores states
+		      $$ \sqrt{\frac{\ln N(\cfz{z_{1:t-1}})}{N(\cfz{1:z_t})}} $$
+
+		\item Less strict search process
 	\end{itemize}
 \end{frame}
 
