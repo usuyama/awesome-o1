@@ -98,7 +98,7 @@
 	\begin{center}
 		\includegraphics[width=0.8\linewidth]{images/compute.png}
 	\end{center}
-	\blfootnote{\cite{OpenAIUnknown-zp}}
+	\blfootnote{\cite{OpenAI2024-jh}}
 \end{frame}
 
 \begin{frame}{AIME}
@@ -179,7 +179,7 @@
 			\end{tcolorbox}
 		\end{column}
 	\end{columns}
-	\blfootnote{\cite{OpenAIUnknown-zp}}
+	\blfootnote{\cite{OpenAI2024-jh}}
 \end{frame}
 
 \begin{frame}{Implication}
@@ -245,7 +245,7 @@
 			\end{tcolorbox}
 		\end{column}
 	\end{columns}
-	\blfootnote{\cite{OpenAIUnknown-zp}}
+	\blfootnote{\cite{OpenAI2024-jh}}
 \end{frame}
 
 \begin{frame}{o1 CoT: Outlining}
@@ -271,7 +271,7 @@
 			4. Build a 2D array in bash (arrays containing arrays).
 		\end{quote}
 	\end{tcolorbox}
-	\blfootnote{\cite{OpenAIUnknown-zp}}
+	\blfootnote{\cite{OpenAI2024-jh}}
 \end{frame}
 
 
@@ -293,7 +293,7 @@
 			First, let's write down the ciphertext and plaintext letters on top of each other.
 		\end{quote}
 	\end{tcolorbox}
-	\blfootnote{\cite{OpenAIUnknown-zp}}
+	\blfootnote{\cite{OpenAI2024-jh}}
 \end{frame}
 
 \begin{frame}{o1 CoT: Backtracking}
@@ -309,7 +309,7 @@
 			So m(x) = k ...
 		\end{quote}
 	\end{tcolorbox}
-	\blfootnote{\cite{OpenAIUnknown-zp}}
+	\blfootnote{\cite{OpenAI2024-jh}}
 \end{frame}
 
 \begin{frame}{o1 CoT: Self-Evaluation}
@@ -332,7 +332,7 @@
 			Does this make sense with the main clause?
 		\end{quote}
 	\end{tcolorbox}
-	\blfootnote{\cite{OpenAIUnknown-zp}}
+	\blfootnote{\cite{OpenAI2024-jh}}
 \end{frame}
 
 \begin{frame}{Summary}
@@ -484,8 +484,8 @@
 			Maximum likelihood;
 
 			\begin{align*}
-				\max_{\theta} & \sum \log p(\cy | \cx; \theta)  =                    \\
-				              & \sum \log \mathbb{E}_{\cz} p(\cy | \cx, \cz; \theta)
+				\max_{\theta} & \sum \log p(\Ver(\cy) | \cx; \theta)  =                    \\
+				              & \sum \log \mathbb{E}_{\cz} p(\Ver(\cy) | \cx, \cz; \theta)
 			\end{align*}
 
 			Classic combinatorial expectation
@@ -540,7 +540,7 @@
 \end{frame}
 
 \begin{frame}{Framework: Rejection Sampling EM}
-	$$\max_{\theta} \sum \log E_{\cz \sim p({\cz} | \cx;\theta)} p(\cy|  \cx, \cz)$$
+	$$\max_{\theta} \sum \log E_{\cz \sim p({\cz} | \cx;\theta)} p(\Ver(\cy)|  \cx, \cz)$$
 	\begin{itemize}
 		\item E-Step: For $n = 1$ to $N$:
 		      \begin{align*}
@@ -668,7 +668,7 @@
 	\begin{itemize}
 		\item Monte Carlo Roll-outs
 		\item Learned Value Function (PRM)
-		\item Generative Verifier
+		\item Self-Evaluation Verifier
 	\end{itemize}
 \end{frame}
 
@@ -714,12 +714,14 @@
 
 
 
-\begin{frame}{Hybrid Value Functions}
+\begin{frame}{Self-Evaluation}
 	\begin{itemize}
-		\item Combine $\textcolor{c2}{r_{MC}}$ and $\textcolor{c2}{r_{\psi}}$
-		      $$\textcolor{c2}{r}(\cfz{z_t}) = (1-\alpha)\textcolor{c2}{r_{MC}}(\cfz{z_t}) + \alpha\textcolor{c2}{r_{\psi}}(\cfz{z_t})$$
+		\item Evaluation with an LLM
+		\item Prompt LLM to evalute step-level correctness
 	\end{itemize}
+	\blfootnote{\cite{Xie2023-ti}}
 \end{frame}
+
 
 
 \begin{frame}{Variants}
@@ -864,7 +866,16 @@
 \end{frame}
 
 
-\begin{frame}{Compared with Guided Search}
+\begin{frame}{Learning from Search}
+	\begin{itemize}
+		\item MCTS tree provides path preferences
+		\item Can be used for preference learning (e.g. DPO)
+		\item Alternative to learning on chains
+	\end{itemize}
+	\blfootnote{\cite{Xie2024-lp,Putta2024-yy}}
+\end{frame}
+
+\begin{frame}{Exploration}
 	\begin{itemize}
 		\item MCTS-UCB explores states
 		      $$ \sqrt{\frac{\ln N(\cfz{z_{1:t-1}})}{N(\cfz{z_{1:t})}}} $$
