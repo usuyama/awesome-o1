@@ -137,7 +137,7 @@
 			\end{tcolorbox}
 		\end{column}
 	\end{columns}
-	\blfootnote{\url{https://x.com/polynoamial/status/1840822629625688469}}
+	\blfootnote{\cite{Brown2017-of},\url{https://x.com/polynoamial/status/1840822629625688469}}
 \end{frame}
 
 
@@ -362,6 +362,7 @@
 		\item $\cy \in \cfy{\mathcal Y}$; final answer
 		      $$p(\cy | \cx) = \mathbb{E}_{\cz} p(\cy|\cx,\cz)$$
 	\end{itemize}
+	\blfootnote{\cite{Welleck2024-yr}}
 \end{frame}
 
 \begin{frame}{Warm-up: Ancestral Sampling}
@@ -462,7 +463,7 @@
 			Classic combinatorial expectation
 		\end{column}
 		\begin{column}{0.5\linewidth}
-			%\includegraphics[width=\textwidth]{images/marginal.png}
+			\includegraphics[width=\textwidth]{images/all.png}
 		\end{column}
 	\end{columns}
 \end{frame}
@@ -478,7 +479,7 @@
 		\item Guess + Check
 		\item Guided Search
 		\item AlphaZero
-		\item Learn to Search
+		\item Learning to Correct
 	\end{itemize}
 \end{frame}
 
@@ -685,6 +686,7 @@
 \begin{frame}{Test-time Guides Outperform Self-consistency}
 	% I think this is a nice empirical figure to show that learned rewards improve the test-time
 	% performance over self-consistency.
+	\blfootnote{\cite{Wang2023-ur}}
 	\includegraphics[width=\textwidth]{images/math_shepherd_figure_3.png}
 \end{frame}
 
@@ -807,12 +809,21 @@
 
 \subsection{Learning to Correct}
 
+\begin{frame}{What does exploration look like?}
+	\begin{itemize}
+		\item Game Playing - Explore alternative moves.
+		\item Language - Nearly infinite "moves"
+		\item Exploration to learn strategies
+	\end{itemize}
+
+\end{frame}
+
 \begin{frame}{Suspect 4: Learning to Correct}
 	\begin{itemize}
-		\item Sample $N$ Successful CoTs
-		\item Edit to inject incorrect expansions before
+		\item 1) Sample $N$ Successful CoTs
+		\item 2) Edit to inject incorrect expansions before
 		      correct ones.
-		\item Train on correcting trajectories
+		\item 3) Train on correcting trajectories
 	\end{itemize}
 \end{frame}
 
@@ -894,8 +905,6 @@
 	\end{columns}
 \end{frame}
 
-
-
 \section{What do we do now?}
 
 \begin{frame}{Outline}
@@ -904,7 +913,7 @@
 
 \begin{frame}{Does it need to be the same?}
 	\includegraphics[width=\textwidth]{images/align}
-	\blfootnote{\cite{}}
+	\blfootnote{\cite{Ouyang2022-ut}}
 \end{frame}
 
 \begin{frame}{Open-Source Models}
@@ -921,8 +930,6 @@
 
 	\blfootnote{\cite{Putta2024-yy}}
 \end{frame}
-
-
 
 \begin{frame}[allowframebreaks]{Reference}
 	\begin{small}
