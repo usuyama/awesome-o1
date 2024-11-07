@@ -3,9 +3,12 @@
 This is a bibliography of papers that are presumed to be related to
 OpenAI’s [o1](https://openai.com/index/learning-to-reason-with-llms/).
 
-![o1 Tutorial](o1-tutorial.pdf)
 
-![image](https://github.com/user-attachments/assets/6c890bdf-8006-4d90-b822-84b413b0f248)
+## Tutorial
+
+[o1 Tutorial](o1-tutorial.pdf)
+
+<a href="o1-tutorial.pdf"> <img src="https://github.com/user-attachments/assets/6c890bdf-8006-4d90-b822-84b413b0f248" /> </a>
 
 
 
