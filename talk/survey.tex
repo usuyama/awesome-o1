@@ -847,7 +847,7 @@
 	% The exploration in previous methods here has come from sampling or
 	% maintaining multiple candidates, rather than tracking UCB statistics.
 	\begin{center}
-		\foreach \i in {10,...,30}{
+		\foreach \i in {10,..., 20}{
 				\only<+>{\includegraphics[width=0.9\textwidth]{images/mcts0\i}}
 			}
 	\end{center}
@@ -934,22 +934,27 @@
 
 \begin{frame}{Suspect 4: Learning to Correct}
 	\begin{itemize}
-		\item 1) Sample $N$ Successful CoTs
-		\item 2) Edit to inject incorrect expansions before
-		      correct ones.
-		\item 3) Train on correcting trajectories
+		\item 1) Start with failed CoT
+		\item 2) Search to find successful corrections
+		\item 3) Train on full CoT
 	\end{itemize}
 \end{frame}
 
 
-\begin{frame}{Self-Correction}
-	\begin{itemize}
-		\item Argument: Training on $\cx, \cfz{z^*_1}, \cy$ is too easy.
-		\item Train instead on $\cx, \cfz{z'}, \cfz{z^*_1}, \cy$
-		      where $z'$ is wrong.
-		\item Aim: Model learns to improve.
-	\end{itemize}
-
+\begin{frame}{Framework: Self-Correction}
+	\begin{columns}
+		\begin{column}{0.5\linewidth}
+			\begin{itemize}
+				\item Aim: Find similar CoT pairs $\cfz{z'}, \cfz{z''}$
+				where $\cfz{z''}$ is better.
+				\item Train the model to improve upon $z'$
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\linewidth}
+			\includegraphics{images/pairwise2}
+		\end{column}
+	\end{columns}
+	\cite{}
 \end{frame}
 
 
@@ -959,6 +964,25 @@
 		\item Distribution Shift: Actual mistakes may deviate from examples
 	\end{itemize}
 	\blfootnote{\cite{Gandhi2024-vs}}
+\end{frame}
+
+\begin{frame}{Learning from }
+	\begin{columns}
+		\begin{column}{0.5\linewidth}
+			\begin{itemize}
+				\item Start with $z'$
+				\item Learn to correct from verifier
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\linewidth}
+			\includegraphic[width=\linewidth]{images/correct}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+
+\begin{frame}{Empirical Results}
+	\includegraphics[width=\textwidth]{images/score_figure_1.png}
 \end{frame}
 
 
@@ -997,10 +1021,6 @@
 			\includegraphics[height=0.4\textheight]{images/search2}
 		\end{column}
 	\end{columns}
-\end{frame}
-
-\begin{frame}{Empirical Results}
-	\includegraphics[width=\textwidth]{images/score_figure_1.png}
 \end{frame}
 
 \begin{frame}{Is this o1?}

@@ -36,6 +36,15 @@ def rwalk(t, v, T, d=5):
     return [(t + 1, v + random.random() / d), (t + 1, v - random.random() / d)]
 
 
+def correct_rwalk(t, v, T, d=1):
+    if t == T:
+        return []
+    if t > 2:
+        return [(t + 1, v + (random.random() - 0.5) / d) for _ in range(3)]
+
+    return [(t + 1, v + (random.random()) / (2 * d)) for _ in range(1)]
+
+
 def bwalk(t, v, T, d=5):
     if t == T:
         return []
@@ -443,8 +452,9 @@ T = 10
 root = Node([], 0, 0, 0, 0, None)
 list(mcts_step(root, T=T))
 random.seed(0)
-# for i in range(0, 5, 5):
-for i in range(0, 100, 5):
+
+for i in range(0, 5, 5):
+    # for i in range(0, 100, 5):
     for j, path in enumerate(mcts_step(root, T=T)):
         d = (
             # rectangle(T + 1, 7).line_width(0).align_l().translate(-0.5, 0)
@@ -471,8 +481,15 @@ draw(*make_chain(rwalk1), "images/ancestral.png", draw_final=False)
 
 
 draw(
-    *multi([make_chain(opt), make_chain(nonopt)]),
-    "images/stream.png",
+    *multi([make_chain(rwalk1), make_chain(rwalk1)]),
+    "images/pairwise.png",
+    draw_final=True,
+)
+
+
+draw(
+    *make_chain(correct_rwalk),
+    "images/correct.png",
     draw_final=True,
 )
 
