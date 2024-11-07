@@ -9,6 +9,7 @@
 \usepackage{booktabs}
 \usepackage{pgffor}
 \pgfplotsset{compat=1.18}
+\usetikzlibrary{calc}
 
 % Define colors
 \definecolor{c1}{HTML}{CB6040}
@@ -496,6 +497,18 @@
 	\end{columns}
 \end{frame}
 
+
+\begin{frame}{Reinforcement Learning}
+    I will mostly elide RL training question.
+    Important practical choices:
+    \begin{itemize}
+		\item Batched? $\rightarrow$ Compute trajectories first, then train
+		\item On-policy? $\rightarrow$  Sample from current model
+		\item KL Constraints on learning.
+		\item Specific algorithm choice (REINFORCE, PPO, etc)
+	\end{itemize}
+\end{frame}
+
 \section{The Suspects}
 
 \begin{frame}{Outline}
@@ -567,14 +580,6 @@
 	\end{itemize}
 \end{frame}
 
-
-\begin{frame}{Reinforcement Learning?}
-	\begin{itemize}
-		\item Batched $\rightarrow$ Compute trajectories first, then train
-		\item Online $\rightarrow$  Update after each example
-		\item Specific algorithm choice (PPO, etc)
-	\end{itemize}
-\end{frame}
 
 
 
@@ -837,10 +842,21 @@
 		\item Train $p(\cy,\cz|\cx)$, $r(\cz_t)$ on the labeled samples, and repeat
 	\end{itemize}
 	\blfootnote{\cite{Anthony2017-dm}}
-
 \end{frame}
 
-\begin{frame}{Review: MCTS}
+\begin{frame}{Empirical Results: Expert Iteration}
+	% figure from appendix of the VSTaR paper
+	% VSTaR is sort of a weird variation of expert iteration. The learned model is
+	% both the generator and the verifier, but only the generator influences the
+	% expert search (since it determines what the samples are at the next iteration that the verifier labels).
+	% I think it still falls within expert iteration, though, just with an expert policy
+	% that's independent of the reward model.
+	\includegraphics[width=\textwidth]{images/vstar_figure_8.png}
+	\blfootnote{\cite{hosseini2024vstar}}
+\end{frame}
+
+
+\begin{frame}{Generalization: MCTS}
 	% Not sure if there's a way to formalize this for language models, since
 	% we're unlikely to get the same z twice (i.e. end up in the same state/action pair).
 	% That means the state visit counts in the usual UCB formulation don't work.
@@ -883,16 +899,6 @@
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Empirical Results}
-	% figure from appendix of the VSTaR paper
-	% VSTaR is sort of a weird variation of expert iteration. The learned model is
-	% both the generator and the verifier, but only the generator influences the
-	% expert search (since it determines what the samples are at the next iteration that the verifier labels).
-	% I think it still falls within expert iteration, though, just with an expert policy
-	% that's independent of the reward model.
-	\includegraphics[width=\textwidth]{images/vstar_figure_8.png}
-	\blfootnote{\cite{hosseini2024vstar}}
-\end{frame}
 
 
 \begin{frame}{Is this o1?}
@@ -903,6 +909,7 @@
 				\item[$\boldsymbol{\checkmark}$] Scales to more train-time search
 			\end{itemize}
 		\end{column}
+		\pause
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
 				\item[\textcolor{red}{$\boldsymbol{\times}$}] Costly to maintain open states
@@ -951,10 +958,11 @@
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
-			\includegraphics{images/pairwise2}
+			\includegraphics[width=\textwidth]{images/pairwise2}
 		\end{column}
 	\end{columns}
-	\cite{}
+
+	\blfootnote{\cite{Welleck2022-xr}}
 \end{frame}
 
 
@@ -966,7 +974,7 @@
 	\blfootnote{\cite{Gandhi2024-vs}}
 \end{frame}
 
-\begin{frame}{Learning from }
+\begin{frame}{RL from Mistakes}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
@@ -975,9 +983,10 @@
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
-			\includegraphic[width=\linewidth]{images/correct}
+			\includegraphics[width=\linewidth]{images/correct}
 		\end{column}
 	\end{columns}
+	\blfootnote{\cite{Gandhi2024-vs}}
 \end{frame}
 
 
@@ -1031,6 +1040,7 @@
 				\item[$\boldsymbol{\checkmark}$] Single test-time model
 			\end{itemize}
 		\end{column}
+			\pause
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
 				\item[\textcolor{red}{$\boldsymbol{\times}$}] Complex training process
@@ -1060,21 +1070,24 @@
 	\blfootnote{\cite{Tunstall2023-kv}}
 \end{frame}
 
-\begin{frame}{Replication}
-
+\begin{frame}{Let's Build}
 	\begin{itemize}
-		\item Once result is established there might be an easier path
+		\item Once result is established there should be a easier path
 		\item Open-Source tools need to be improved to scale these pipelines
 	\end{itemize}
+\end{frame}
 
+\begin{frame}{Let's Build}
+    Thank You
 
+	\url{https://github.com/srush/awesome-o1}
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Reference}
-	\begin{small}
+	\begin{footnotesize}
 		\bibliographystyle{apalike}
 		\bibliography{../o1.bib,../o1.extra.bib}
-	\end{small}
+	\end{footnotesize}
 \end{frame}
 
 \end{document}
