@@ -6,9 +6,9 @@ OpenAI’s [o1](https://openai.com/index/learning-to-reason-with-llms/).
 
 ## Tutorial
 
-[o1 Tutorial](o1-tutorial.pdf)
+[o1 Tutorial](https://srush.github.io/awesome-o1/o1-tutorial.pdf)
 
-<a href="o1-tutorial.pdf"> <img src="https://github.com/user-attachments/assets/6c890bdf-8006-4d90-b822-84b413b0f248" /> </a>
+<a href="https://srush.github.io/awesome-o1/o1-tutorial.pdf"> <img src="https://github.com/user-attachments/assets/6c890bdf-8006-4d90-b822-84b413b0f248" /> </a>
 
 
 
