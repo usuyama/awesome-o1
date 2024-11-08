@@ -102,6 +102,8 @@
 	\blfootnote{\cite{OpenAI2024-jh}}
 \end{frame}
 
+
+
 \begin{frame}{AIME}
 	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
 		\small
@@ -144,6 +146,22 @@
 	\blfootnote{\cite{Brown2017-of},\url{https://x.com/polynoamial/status/1840822629625688469}}
 \end{frame}
 
+\begin{frame}[t]{Scaling Laws for Board Games}
+	\vspace{1cm}
+	\begin{center}
+		\includegraphics[width=0.9\linewidth]{images/Board}
+	\end{center}
+	\blfootnote{\cite{Jones2021-di}}
+\end{frame}
+
+
+\begin{frame}[t]{Search Against Learned Verifiers}
+	\vspace{1cm}
+	\begin{center}
+		\includegraphics[width=0.9\linewidth]{images/Verifiers}
+	\end{center}
+	\blfootnote{\cite{Cobbe2021-gt}}
+\end{frame}
 
 \begin{frame}{Sources}
 	\begin{itemize}
@@ -157,7 +175,7 @@
 	\begin{small}
 		Thanks to Lewis Tunstall, Edward Beeching, Aviral Kumar, Charlie Snell,
 		Michael Hassid, Yoav Artzi, Risab Agarwal, Kanishk Gandhi,
-		Wenting Zhao, Yuntian Deng, Nathan Lambert, Noah Goodman
+		Wenting Zhao, Yuntian Deng, Nathan Lambert, Noah Goodman, Thomas Ahle
 	\end{small}
 \end{frame}
 
@@ -249,6 +267,7 @@
 	\blfootnote{\cite{OpenAI2024-jh}}
 \end{frame}
 
+
 \begin{frame}{o1 CoT: Outlining}
 	\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
 		\begin{quote}
@@ -336,6 +355,8 @@
 	\blfootnote{\cite{OpenAI2024-jh}}
 \end{frame}
 
+
+
 \begin{frame}{Summary}
 	\begin{itemize}
 		\item CoT provides test-time scaling
@@ -365,15 +386,15 @@
 				\begin{small}
 					\textcolor{c1}{Question: 4 baskets. 3 have 9 apples, 15 oranges, 14 bananas each. 4th has 2 less of each. Total fruits?}
 
-					\textcolor{c4}{Let's solve step-by-step:}
+					1 - \textcolor{c4}{Let's solve step-by-step:}
 
-					\textcolor{c4}{Fruits in one of first 3 baskets: 9 + 15 + 14 = 38}
+					2 - \textcolor{c4}{Fruits in one of first 3 baskets: 9 + 15 + 14 = 38}
 
-					\textcolor{c4}{Total in first 3 baskets: 38 * 3 = 114}
+					3 - \textcolor{c4}{Total in first 3 baskets: 38 * 3 = 114}
 
-					\textcolor{c4}{4th basket: (9-2) + (15-2) + (14-2) = 32}
+					4 - \textcolor{c4}{4th basket: (9-2) + (15-2) + (14-2) = 32}
 
-					\textcolor{c4}{Total fruits: 114 + 32 = 146}
+					5 - \textcolor{c4}{Total fruits: 114 + 32 = 146}
 
 					\textcolor{c3}{Answer: 146 fruits}
 				\end{small}
@@ -411,7 +432,7 @@
 	\blfootnote{\cite{Wei2022-uj}}
 \end{frame}
 
-\begin{frame}{Monte-Carlo Self-Consistency}
+\begin{frame}{Self-Consistency \\ Majority Vote }
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			For $N$ samples,
@@ -429,7 +450,7 @@
 	\blfootnote{\cite{Wang2022-px}}
 \end{frame}
 
-\begin{frame}{Assumption: Verifier at Training}
+\begin{frame}{Assumption: Automatic Verifier at Training}
 	$$\text{Ver}_x : \cfy{\mathcal{Y}} \rightarrow \{0, 1\}$$
 
 	Common datasets:
@@ -440,6 +461,23 @@
 	\end{itemize}
 	\blfootnote{\cite{Uesato2022-aw}}
 \end{frame}
+
+\begin{frame}{Sidenote: Do we have an Automatic Verifier?}
+	\begin{columns}
+		\begin{column}{0.5\linewidth}
+			\begin{itemize}
+				\item OpenAI primarily interested in learned verifiers (ORM)
+				\item Speculation: Large-scale annotation of on-policy outputs
+				\item Data collection to surmount search exploitation
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\linewidth}
+			\includegraphics[width=\linewidth]{images/Verifiers2}
+		\end{column}
+	\end{columns}
+	\blfootnote{\cite{Cobbe2021-gt,Lightman2023-cr}}
+\end{frame}
+
 
 
 \begin{frame}{Rejection Sampling \\ Best-of-N}
@@ -499,15 +537,34 @@
 
 
 \begin{frame}{Reinforcement Learning}
-    I will mostly elide RL training question.
-    Important practical choices:
-    \begin{itemize}
+	I will mostly elide RL-specfic training question.
+	Important practical choices:
+	\begin{itemize}
 		\item Batched? $\rightarrow$ Compute trajectories first, then train
 		\item On-policy? $\rightarrow$  Sample from current model
 		\item KL Constraints on learning.
 		\item Specific algorithm choice (REINFORCE, PPO, etc)
 	\end{itemize}
 \end{frame}
+
+\begin{frame}
+	\begin{column}{0.3\textwidth}
+		\includegraphics[width=\linewidth]{images/openai}
+	\end{column}
+	\begin{column}{0.7\textwidth}
+		\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
+			When training a model for reasoning,
+			one thing that immediately jumps to mind is to have humans write out their thought process
+			and train on that.
+			When we saw that if you train the model using RL to generate and hone its own chain of thoughts
+			it can do even better than having humans write chains of thought for it.
+			That was the ``Aha!'' moment that you could really scale this.
+		\end{tcolorbox}
+	\end{column}
+	\end{columns}
+	\blfootnote{\url{https://www.youtube.com/watch?v=tEzs3VHyBDM}}
+\end{frame}
+
 
 \section{The Suspects}
 
@@ -568,7 +625,6 @@
 \end{frame}
 
 
-
 \begin{frame}{Variants}
 	\begin{itemize}
 		\item Self-Training \cite{Yarowsky1995-tm}
@@ -579,7 +635,6 @@
 		\item Filtered Rejection Sampling \cite{Nakano2021-iz}
 	\end{itemize}
 \end{frame}
-
 
 
 
@@ -595,6 +650,15 @@
 	% in Pass@K.
 	\blfootnote{\cite{Singh2023-eb}}
 	\includegraphics[width=\textwidth]{images/rest_em_figure_5.png}
+\end{frame}
+
+
+\begin{frame}{Learned Verifier}
+	\begin{itemize}
+		\item $\Ver$ available only at train
+		\item Samples can be used to further train a learned verifier (amortization)
+		\item Can be used for test-time rejection sampling.
+	\end{itemize}
 \end{frame}
 
 
@@ -634,12 +698,28 @@
 
 \begin{frame}{Suspect 2: Guided Search}
 	\begin{itemize}
-		\item 1) During CoT sampling, use a heuristic to
-		      improve trajectories
+		\item 1) During CoT sampling, use guidance to improve trajectories
 		\item 2) Check if final versions are successful
 		\item 3) Train on good ones
 	\end{itemize}
 \end{frame}
+
+
+\begin{frame}{Early Guidance}
+	\begin{columns}
+		\begin{column}{0.5\linewidth}
+			\begin{itemize}
+				Early learned verification (PRM)
+				improves over learned verification (ORM)
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\linewidth}
+			\includegraphics[width=\textwidth]{images/PRM}
+		\end{column}
+	\end{columns}
+	\blfootnote{\cite{Uesato2022-aw,Lightman2023-cr}}
+\end{frame}
+
 
 
 \begin{frame}{Framework: Beam Search with Guide}
@@ -650,15 +730,16 @@
 	% avoid a lot of indices, but can add that if it needs to be more formal.
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
-			$\cfr{r}: \cfz{\mathcal{S}^t} \rightarrow \mathbb{R}$; Guide function
+			$$\cfr{g}: \cfz{\mathcal{S}^t} \rightarrow \mathbb{R}$$; Guide function
 			\vspace{0.3cm}
+
 			\pause
 
 			For each step $t$,
 			\begin{enumerate}
 				\item Sample many next steps,
 				      $$\cfz{z_t}^i \sim p(\cdot | \cx, \cfz{z_{1:t-1}})$$
-				\item Keep the top samples, ordered by $\cfr{r}(\cfz{z_{t}})$
+				\item Keep the top samples, ordered by $\cfr{g}(\cfz{z_{t}})$
 			\end{enumerate}
 		\end{column}
 		\begin{column}{0.5\linewidth}
@@ -684,7 +765,7 @@
 			For partial $\cfz{z_{1:t-1}}$, rollout,
 			$$\cfy{y}^{n} \sim p(\cdot|\cx,\cfz{z_{1:t-1}})$$
 
-			$$\textcolor{c2}{r_{MC}}(\cfz{z_{t}}) = \frac{1}{N}\sum_{n=1}^{N} \Ver(\cy^{n})$$
+			$$\textcolor{c2}{g_{MC}}(\cfz{z_{t}}) = \frac{1}{N}\sum_{n=1}^{N} \Ver(\cy^{n})$$
 		\end{column}
 		\begin{column}{0.5\linewidth}
 			\begin{tikzpicture}
@@ -701,13 +782,12 @@
 
 
 \begin{frame}{Learned Value Function}
-
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
 				\item Rollouts are costly / require $\Ver$
-				\item Learn $\textcolor{c2}{r_{\psi}}(\cfz{z_t})$ to approximate
-				\item Use $\textcolor{c2}{r_{MC}}$ for labels
+				\item Learn $\textcolor{c2}{g_{\psi}}(\cfz{z_t})$ to approximate
+				\item Use $\textcolor{c2}{g_{MC}}$ for labels
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
@@ -719,24 +799,25 @@
 
 
 
-\begin{frame}{Self-Evaluation}
+\begin{frame}{Self-Evaluation // Generative Verifiers}
 	\begin{itemize}
-		\item Evaluation with an LLM
-		\item Prompt LLM to evalute step-level correctness
+		\item Guidance from an LLM based on $\cfz{z_{1:t}}$
+		\item Prompt to verify current correctness
+		\item Note: allows CoT in the verifier
 	\end{itemize}
-	\blfootnote{\cite{Xie2023-ti}}
+	\blfootnote{\cite{Xie2023-ti,Zhang2024-sa}}
 \end{frame}
 
 
 
-\begin{frame}{Variants}
-	\begin{itemize}
-		\item Search Heuristic
-		\item Value Function
-		\item PRM; Process Reward Model \cite{Uesato2022-aw,Lightman2023-cr}
-		\item PAV; Process Advantage Verifier \cite{Setlur2024-ax}
-	\end{itemize}
-\end{frame}
+%\begin{frame}{Variants}
+%	\begin{itemize}
+%		\item Search Heuristic
+%		\item Value Function
+%		\item PRM; Process Reward Model \cite{Uesato2022-aw,Lightman2023-cr}
+%		\item PAV; Process Advantage Verifier \cite{Setlur2024-ax}
+%	\end{itemize}
+%\end{frame}
 
 
 \begin{frame}{Test-time Guides Outperform Self-consistency}
@@ -747,30 +828,14 @@
 \end{frame}
 
 
-\begin{frame}{Is this o1?}
+\begin{frame}{Incorportating at Test}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
-				\item[$\boldsymbol{\checkmark}$] RS needs to be more efficient.
-				\item[$\boldsymbol{\checkmark}$] Learned rewards are effective
-			\end{itemize}
-		\end{column}
-		\begin{column}{0.5\linewidth}
-			\begin{itemize}
-				\item[\textcolor{red}{$\boldsymbol{\times}$}] o1 is a single test-time model
-				\item[\textcolor{red}{$\boldsymbol{\times}$}] Not clear if this is enough for planning.
-			\end{itemize}
-		\end{column}
-	\end{columns}
-\end{frame}
-
-\begin{frame}{Training Versus Test}
-	\begin{columns}
-		\begin{column}{0.5\linewidth}
-			\begin{itemize}
-				\item Learned value could be used at test-time
-				\item Alternative can be trained into LLM
-				\item \textit{Generative Verifier} \cite{Zhang2024-sa}
+				\item Learned guide does not need $\Ver$
+				      can be used at test.
+				\item Alternative: trained into a single LLM
+				\item \textit{Generative Verifier}
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
@@ -792,6 +857,25 @@
 		\end{column}
 	\end{columns}
 \end{frame}
+
+
+\begin{frame}{Is this o1?}
+	\begin{columns}
+		\begin{column}{0.5\linewidth}
+			\begin{itemize}
+				\item[$\boldsymbol{\checkmark}$] Intermediate guides are effective
+				\item[$\boldsymbol{\checkmark}$] Removes challenges of full learned verifier
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\linewidth}
+			\begin{itemize}
+				\item[\textcolor{red}{$\boldsymbol{\times}$}] Not clear if this is enough for planning.
+				\item[\textcolor{red}{$\boldsymbol{\times}$}] Need to combine generator / guide into one CoT
+			\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
+
 
 
 \subsection{AlphaZero}
@@ -820,6 +904,25 @@
 	\blfootnote{\cite{Silver2017-bn}}
 \end{frame}
 
+
+\begin{frame}{AlphaProof}
+	\centering
+	\begin{columns}
+		\begin{column}{0.3\textwidth}
+			\includegraphics[height=0.8\textheight]{gdm}
+		\end{column}
+		\begin{column}{0.6\textwidth}
+			\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
+				When presented with a problem, AlphaProof generates solution candidates and then proves or disproves
+				them by searching over possible proof steps in Lean.
+				Each proof that was found and verified is used to reinforce AlphaProof’s language model,
+				enhancing its ability to solve subsequent, more challenging problems.
+			\end{tcolorbox}
+		\end{column}
+	\end{columns}
+	\blfootnote{\cite{Silver2017-bn}}
+\end{frame}
+
 \begin{frame}{Suspect 3: AlphaZero}
 	\begin{itemize}
 		\item 1) Self-play using guided-search with exploration
@@ -827,6 +930,8 @@
 		\item 3) Train guide and generator
 	\end{itemize}
 \end{frame}
+
+
 
 \begin{frame}{Framework: Expert Iteration}
 	% VSTaR is almost the LM equivalent of AlphaZero in the framing,
@@ -837,9 +942,9 @@
 	% require that. At that point I think it reduces to Rejection Sampling EM though.
 	\begin{itemize}
 		\item Iterative algorithm combining learned model + expert search with a verifier.
-		\item Generate samples using $p(\cy,\cz|\cx)$, reward model $r(\cz_t)$, and search algorithm (e.g. beam search)
+		\item Generate samples using $p(\cy,\cz|\cx)$, reward model $g(\cz_t)$, and search algorithm (e.g. beam search)
 		\item Label samples using $\Ver_x(\cy)$
-		\item Train $p(\cy,\cz|\cx)$, $r(\cz_t)$ on the labeled samples, and repeat
+		\item Train $p(\cy,\cz|\cx)$, $g(\cz_t)$ on the labeled samples, and repeat
 	\end{itemize}
 	\blfootnote{\cite{Anthony2017-dm}}
 \end{frame}
@@ -855,6 +960,19 @@
 	\blfootnote{\cite{hosseini2024vstar}}
 \end{frame}
 
+\begin{frame}{UCB for Language}
+	\begin{itemize}
+		\item \textbf{Selection}: Walk down tree to leaf $\cfz{z_{t-1}}$
+		      \pause
+		\item \textbf{Expand}: Sample $\sim 5$ next steps $\cfz{z_t}$, pick one at random
+		      \pause
+		\item \textbf{Rollouts}: Sample steps $\cfz{z_{t+1}} \ldots \cfz{z_T}$
+		      \pause
+		\item \textbf{Backprop}: Update nodes counts $N(z_{1:i})$ and wins $w(z_{1:i})$ for parents
+	\end{itemize}
+	\blfootnote{\cite{Hubert2021-ju,Feng2023-sz}}
+\end{frame}
+
 
 \begin{frame}{Generalization: MCTS}
 	% Not sure if there's a way to formalize this for language models, since
@@ -862,23 +980,20 @@
 	% That means the state visit counts in the usual UCB formulation don't work.
 	% The exploration in previous methods here has come from sampling or
 	% maintaining multiple candidates, rather than tracking UCB statistics.
-	\begin{center}
-		\foreach \i in {10,..., 20}{
-				\only<+>{\includegraphics[width=0.9\textwidth]{images/mcts0\i}}
-			}
-	\end{center}
-	\blfootnote{\cite{Kocsis2006-er}}
+	\foreach \i in {1,..., 9}{
+			\only<\i>{\includegraphics[width=0.8\textwidth]{images/mcts01\i}}
+		}
 \end{frame}
 
 
-\begin{frame}{UCB for Language}
+\begin{frame}{Exploration}
 	\begin{itemize}
-		\item \textbf{Selection}: Walk down tree to leaf $\cfz{z_{t-1}}$
-		\item \textbf{Expand}: Sample $~5$ next steps $\cfz{z_t}$, pick one at random
-		\item \textbf{Rollouts}: Sample steps $\cfz{z_{t+1}} \ldots \cfz{z_T}$
-		\item \textbf{Backprop}: Update nodes counts $N(z_{1:t})$ based on results
+		\item MCTS-UCB explores states based on wins and amount of explorations
+
+		      $$ \frac{w(\cfz{z_{1:t}})}{N(\cfz{z_{1:t}})} + \alpha \sqrt{\frac{\ln N(\cfz{z_{1:t-1}})}{N(\cfz{z_{1:t})}}} $$
+		\item Less strict search process
 	\end{itemize}
-	\blfootnote{\cite{Hubert2021-ju,Feng2023-sz}}
+	\blfootnote{\cite{Kocsis2006-er}}
 \end{frame}
 
 
@@ -890,15 +1005,6 @@
 	\end{itemize}
 	\blfootnote{\cite{Xie2024-lp,Putta2024-yy}}
 \end{frame}
-
-\begin{frame}{Exploration}
-	\begin{itemize}
-		\item MCTS-UCB explores states
-		      $$ \sqrt{\frac{\ln N(\cfz{z_{1:t-1}})}{N(\cfz{z_{1:t})}}} $$
-		\item Less strict search process
-	\end{itemize}
-\end{frame}
-
 
 
 \begin{frame}{Is this o1?}
@@ -914,6 +1020,7 @@
 			\begin{itemize}
 				\item[\textcolor{red}{$\boldsymbol{\times}$}] Costly to maintain open states
 				\item[\textcolor{red}{$\boldsymbol{\times}$}] More complex algorithmically
+				\item[\textcolor{red}{$\boldsymbol{\times}$}] OpenAI comments / rumors
 			\end{itemize}
 		\end{column}
 	\end{columns}
@@ -953,7 +1060,7 @@
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
 				\item Aim: Find similar CoT pairs $\cfz{z'}, \cfz{z''}$
-				where $\cfz{z''}$ is better.
+				      where $\cfz{z''}$ is better.
 				\item Train the model to improve upon $z'$
 			\end{itemize}
 		\end{column}
@@ -1040,7 +1147,7 @@
 				\item[$\boldsymbol{\checkmark}$] Single test-time model
 			\end{itemize}
 		\end{column}
-			\pause
+		\pause
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
 				\item[\textcolor{red}{$\boldsymbol{\times}$}] Complex training process
@@ -1050,35 +1157,47 @@
 	\end{columns}
 \end{frame}
 
-\section{What do we do now?}
+\section{Implications}
 
 \begin{frame}{Outline}
 	\tableofcontents[hideallsubsections, currentsection]
 \end{frame}
 
-\begin{frame}{Does it need to be the same?}
+\begin{frame}{Beyond Emergent Ablities}
 	\begin{center}
-		\includegraphics[width=0.9\textwidth]{images/align}
+		\includegraphics[width=0.8\linewidth]{images/gpt3i}
 	\end{center}
-	\blfootnote{\cite{Ouyang2022-ut}}
 \end{frame}
 
-\begin{frame}{Open-Source Models}
+\begin{frame}{Interpretation outside of the Model}
 	\begin{center}
-		\includegraphics[width=\textwidth]{images/zephyr.png}
+
 	\end{center}
-	\blfootnote{\cite{Tunstall2023-kv}}
+	\blfootnote{\cite{Kirchner2024-cu}}
 \end{frame}
 
-\begin{frame}{Let's Build}
-	\begin{itemize}
-		\item Once result is established there should be a easier path
-		\item Open-Source tools need to be improved to scale these pipelines
-	\end{itemize}
+\begin{frame}{Evaluations Need to Be Much Harder}
+	\begin{center}
+		\includegraphic{}
+	\end{center}
+	\blfootnote{\url{https://commit-0.github.io/}}
 \end{frame}
 
-\begin{frame}{Let's Build}
-    Thank You
+\begin{frame}{From Prompting to Specification}
+	\begin{center}
+
+	\end{center}
+\end{frame}
+
+\begin{frame}{Inference Time Systems}
+	\begin{center}
+
+	\end{center}
+\end{frame}
+
+
+\begin{frame}
+	Thank You
 
 	\url{https://github.com/srush/awesome-o1}
 \end{frame}
