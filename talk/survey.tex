@@ -69,7 +69,7 @@
 \title{Speculations \\ on \\ Test-Time Scaling}
 \author{Sasha Rush \  Daniel Ritter}
 
-\institute[shortinst]{}
+\institute[shortinst]{Cornell - Hugging Face}
 % \institute[shortinst]{\inst{*} Preprint}
 
 \setcounter{tocdepth}{1}
@@ -149,7 +149,7 @@
 \begin{frame}[t]{Scaling Laws for Board Games}
 	\vspace{1cm}
 	\begin{center}
-		\includegraphics[width=0.9\linewidth]{images/Board}
+		\includegraphics[width=0.55\linewidth]{images/Board}
 	\end{center}
 	\blfootnote{\cite{Jones2021-di}}
 \end{frame}
@@ -157,7 +157,7 @@
 \begin{frame}[t]{Search Against Learned Verifiers}
 	\vspace{1cm}
 	\begin{center}
-		\includegraphics[width=0.9\linewidth]{images/TrainingVerifiers}
+		\includegraphics[width=0.8\linewidth]{images/TrainingVerifiers}
 	\end{center}
 	\blfootnote{\cite{Cobbe2021-gt}}
 \end{frame}
@@ -165,7 +165,7 @@
 \begin{frame}[t]{Search Against Learned Verifiers}
 	\vspace{1cm}
 	\begin{center}
-		\includegraphics[width=0.9\linewidth]{images/Verifiers}
+		\includegraphics[width=0.6\linewidth]{images/Verifiers}
 	\end{center}
 	\blfootnote{\cite{Cobbe2021-gt}}
 \end{frame}
@@ -181,7 +181,7 @@
 
 	\begin{small}
 		Thanks to Lewis Tunstall, Edward Beeching, Aviral Kumar, Charlie Snell,
-		Michael Hassid, Yoav Artzi, Risab Agarwal, Kanishk Gandhi,
+		Michael Hassid, Yoav Artzi, Niklas Muennighoff, Risab Agarwal, Rafael Rafailov, Kanishk Gandhi,
 		Wenting Zhao, Yuntian Deng, Nathan Lambert, Noah Goodman, Thomas Ahle,
 		Li Erran Li, Justin Chiu, Jacob Eisenstein, Sean Welleck, Caglar Gulcehre,
 		Ofir Press
@@ -220,7 +220,7 @@
 
 \begin{frame}{Current Assumptions}
 	\begin{itemize}
-		\item Single final language model
+		\item Single final language model with coherent CoT
 		\item Not following from expert examples
 		\item Behaviors are learned
 	\end{itemize}
@@ -385,7 +385,6 @@
 		\begin{column}{0.4\linewidth}
 			\begin{itemize}
 				\item Formalize sampling of latent reasoning
-				\item Techniques from combinatorial sampling
 				\item No learning yet.
 			\end{itemize}
 		\end{column}
@@ -441,13 +440,13 @@
 	\blfootnote{\cite{Wei2022-uj}}
 \end{frame}
 
-\begin{frame}{Self-Consistency \\ Majority Vote }
+\begin{frame}{Self-Consistency / \\ Majority Vote }
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			For $N$ samples,
 			\begin{align*}
-				{\czT} & \sim p(\cdot | \cx)         \\
-				\cy^n  & \sim p(\cdot | \cx, {\czT})
+				\cfz{z^n_{1:T}} & \sim p(\cdot | \cx)                  \\
+				\cy^n           & \sim p(\cdot | \cx, \cfz{z^n_{1:T}})
 			\end{align*}
 			\vspace{1cm}
 			Pick majority choice $\cy^n$
@@ -471,17 +470,16 @@
 	\blfootnote{\cite{Uesato2022-aw}}
 \end{frame}
 
-\begin{frame}{Sidenote: Do we have an Automatic Verifier?}
+\begin{frame}{Automatic Verifier?}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
 				\item OpenAI primarily interested in learned verifiers (ORM)
-				\item Speculation: Large-scale annotation of on-policy outputs
-				\item Data collection to surmount search exploitation
+				\item Spec: Large-scale annotation of on-policy outputs
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
-			\includegraphics[width=\linewidth]{images/Verifiers2}
+			\includegraphics[width=0.8\linewidth]{images/Verifiers2}
 		\end{column}
 	\end{columns}
 	\blfootnote{\cite{Cobbe2021-gt,Lightman2023-cr}}
@@ -546,7 +544,6 @@
 
 
 \begin{frame}{Reinforcement Learning}
-	I will mostly elide RL-specfic training question.
 	Important practical choices:
 	\begin{itemize}
 		\item Batched? $\rightarrow$ Compute trajectories first, then train
@@ -557,19 +554,20 @@
 \end{frame}
 
 \begin{frame}
-	\begin{column}{0.3\textwidth}
-		\includegraphics[width=\linewidth]{images/openai}
-	\end{column}
-	\begin{column}{0.7\textwidth}
-		\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
-			When training a model for reasoning,
-			one thing that immediately jumps to mind is to have humans write out their thought process
-			and train on that.
-			When we saw that if you train the model using RL to generate and hone its own chain of thoughts
-			it can do even better than having humans write chains of thought for it.
-			That was the ``Aha!'' moment that you could really scale this.
-		\end{tcolorbox}
-	\end{column}
+	\begin{columns}
+		\begin{column}{0.35\textwidth}
+			\includegraphics[width=0.9\linewidth]{images/openai}
+		\end{column}
+		\begin{column}{0.6\textwidth}
+			\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
+				When training a model for reasoning,
+				one thing that immediately jumps to mind is to have humans write out their thought process
+				and train on that.
+				When we saw that if you train the model using RL to generate and hone its own chain of thoughts
+				it can do even better than having humans write chains of thought for it.
+				That was the ``Aha!'' moment that you could really scale this.
+			\end{tcolorbox}
+		\end{column}
 	\end{columns}
 	\blfootnote{\url{https://www.youtube.com/watch?v=tEzs3VHyBDM}}
 \end{frame}
@@ -724,12 +722,16 @@
 \end{frame}
 
 
-\begin{frame}{Early Guidance}
+\begin{frame}{Process Rewards}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
-				Early learned verification (PRM)
-				improves over learned verification (ORM)
+				\item Early learned verification (PRM)
+				      improves over learned verification (ORM)
+
+				      $$\cfr{r}: \cfz{\mathcal{S}^t} \rightarrow \mathbb{R}$$
+
+
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
@@ -740,13 +742,13 @@
 \end{frame}
 
 
-\begin{frame}{Learned Value Function}
+\begin{frame}{Learned Process Rewards}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
 				\item Rollouts are costly / require $\Ver$
 				\item Learn $\textcolor{c2}{r_{\psi}}(\cfz{z_t})$ to approximate
-				\item Use $\textcolor{c2}{r_{MC}}$ for labels
+				\item Use Monte-Carlo for labels
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
@@ -758,13 +760,13 @@
 
 
 
-\begin{frame}{Self-Evaluation // Generative Verifiers}
+\begin{frame}{Generative Verifiers}
 	\begin{itemize}
-		\item Guidance from an LLM based on $\cfz{z_{1:t}}$
-		\item Prompt to verify current correctness
-		\item Note: allows CoT in the verifier
+		\item Define  $\textcolor{c2}{r_{\psi}}(\cfz{z_t})$ as an LLM
+		\item Merges process reward with generation
+		\item Note: allows for verification CoT
 	\end{itemize}
-	\blfootnote{\cite{Xie2023-ti,Zhang2024-sa}}
+	\blfootnote{\cite{Zhang2024-sa,Ankner2024-uw}}
 \end{frame}
 
 
@@ -779,7 +781,7 @@
 %\end{frame}
 
 
-\begin{frame}{Test-time Guides Outperform Self-consistency}
+\begin{frame}{Open Process Rewards}
 	% I think this is a nice empirical figure to show that learned rewards improve the test-time
 	% performance over self-consistency.
 	\blfootnote{\cite{Wang2023-ur}}
@@ -787,14 +789,15 @@
 \end{frame}
 
 
-\begin{frame}{Incorportating at Test}
+\begin{frame}{Incorporating at Test-Time}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
-				\item Learned guide does not need $\Ver$
-				      can be used at test.
-				\item Alternative: trained into a single LLM
-				\item \textit{Generative Verifier}
+				\item Process Reward does not need $\Ver$
+				      can be used at test-time.
+				\item If generative, can be
+				      merge into a singel  CoT stream
+
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
@@ -826,6 +829,7 @@
 				\item[$\boldsymbol{\checkmark}$] Removes challenges of full learned verifier
 			\end{itemize}
 		\end{column}
+		\pause
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
 				\item[\textcolor{red}{$\boldsymbol{\times}$}] Not clear if this is enough for planning.
@@ -841,7 +845,7 @@
 \begin{frame}{The Suspects}
 	\begin{itemize}
 		\item Guess + Check
-		\item Guided Search
+		\item Process Rewards
 		\item \structure{Search / AlphaZero}
 		\item Learning to Correct
 	\end{itemize}
@@ -868,9 +872,9 @@
 	\centering
 	\begin{columns}
 		\begin{column}{0.3\textwidth}
-			\includegraphics[height=0.8\textheight]{gdm}
+			\includegraphics[width=0.9\textwidth]{images/gdm}
 		\end{column}
-		\begin{column}{0.6\textwidth}
+		\begin{column}{0.65\textwidth}
 			\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.5pt]
 				When presented with a problem, AlphaProof generates solution candidates and then proves or disproves
 				them by searching over possible proof steps in Lean.
@@ -917,7 +921,7 @@
 	% avoid a lot of indices, but can add that if it needs to be more formal.
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
-			$$\cfr{r}: \cfz{\mathcal{S}^t} \rightarrow \mathbb{R}$$; Guide function
+			$$\cfr{r}: \cfz{\mathcal{S}^t} \rightarrow \mathbb{R}$$
 			\vspace{0.3cm}
 
 			\pause
@@ -971,14 +975,14 @@
 	\blfootnote{\cite{hosseini2024vstar}}
 \end{frame}
 
-\begin{frame}{UCB for Language}
+\begin{frame}{MCTS for  Language}
 	\begin{itemize}
 		\item \textbf{Selection}: Walk down tree to leaf $\cfz{z_{t-1}}$
-		      \pause
+
 		\item \textbf{Expand}: Sample $\sim 5$ next steps $\cfz{z_t}$, pick one at random
-		      \pause
+
 		\item \textbf{Rollouts}: Sample steps $\cfz{z_{t+1}} \ldots \cfz{z_T}$
-		      \pause
+
 		\item \textbf{Backprop}: Update nodes counts $N(z_{1:i})$ and wins $w(z_{1:i})$ for parents
 	\end{itemize}
 	\blfootnote{\cite{Hubert2021-ju,Feng2023-sz}}
@@ -1174,41 +1178,36 @@
 	\tableofcontents[hideallsubsections, currentsection]
 \end{frame}
 
-\begin{frame}{Beyond Emergent Ablities}
-	\begin{center}
-		\includegraphics[width=0.8\linewidth]{images/gpt3i}
-	\end{center}
+\begin{frame}{Replication}
+	\begin{itemize}
+		\item Critical to have open-source versions
+		\item Systems aspects are different
+		\item Versions may not look the same
+	\end{itemize}
+
 \end{frame}
 
-\begin{frame}{Interpretation outside of the Model}
-	\begin{center}
 
-	\end{center}
-	\blfootnote{\cite{Kirchner2024-cu}}
+\begin{frame}{Research Implication}
+	\begin{itemize}
+		\item Beyond Emergent Ablities
+		      \pause
+		\item Inference Time Systems
+		      \pause
+		\item From Prompting to Specification
+		      \pause
+		\item Evaluations Need to Be Much Harder
+		      \pause
+		\item CoT Change Interpretability
+	\end{itemize}
 \end{frame}
-
-\begin{frame}{Evaluations Need to Be Much Harder}
-	\begin{center}
-		\includegraphic{}
-	\end{center}
-	\blfootnote{\url{https://commit-0.github.io/}}
-\end{frame}
-
-\begin{frame}{From Prompting to Specification}
-	\begin{center}
-
-	\end{center}
-\end{frame}
-
-\begin{frame}{Inference Time Systems}
-	\begin{center}
-
-	\end{center}
-\end{frame}
-
 
 \begin{frame}
-	Thank You
+	\begin{center}
+		Thank You
+	\end{center}
+
+	\vspace{0.5cm}
 
 	\url{https://github.com/srush/awesome-o1}
 \end{frame}
