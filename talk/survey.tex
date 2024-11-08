@@ -69,7 +69,7 @@
 \title{Speculations \\ on \\ Test-Time Scaling}
 \author{Sasha Rush \  Daniel Ritter}
 
-\institute[shortinst]{Cornell}
+\institute[shortinst]{}
 % \institute[shortinst]{\inst{*} Preprint}
 
 \setcounter{tocdepth}{1}
@@ -154,6 +154,13 @@
 	\blfootnote{\cite{Jones2021-di}}
 \end{frame}
 
+\begin{frame}[t]{Search Against Learned Verifiers}
+	\vspace{1cm}
+	\begin{center}
+		\includegraphics[width=0.9\linewidth]{images/TrainingVerifiers}
+	\end{center}
+	\blfootnote{\cite{Cobbe2021-gt}}
+\end{frame}
 
 \begin{frame}[t]{Search Against Learned Verifiers}
 	\vspace{1cm}
@@ -165,8 +172,8 @@
 
 \begin{frame}{Sources}
 	\begin{itemize}
-		\item Survey of the public literature
 		\item Synthesis of discussions with expert
+		\item Survey of the public literature
 		\item Rumors from social media
 	\end{itemize}
 
@@ -175,7 +182,9 @@
 	\begin{small}
 		Thanks to Lewis Tunstall, Edward Beeching, Aviral Kumar, Charlie Snell,
 		Michael Hassid, Yoav Artzi, Risab Agarwal, Kanishk Gandhi,
-		Wenting Zhao, Yuntian Deng, Nathan Lambert, Noah Goodman, Thomas Ahle
+		Wenting Zhao, Yuntian Deng, Nathan Lambert, Noah Goodman, Thomas Ahle,
+		Li Erran Li, Justin Chiu, Jacob Eisenstein, Sean Welleck, Caglar Gulcehre,
+		Ofir Press
 	\end{small}
 \end{frame}
 
@@ -575,8 +584,8 @@
 \begin{frame}{The Suspects}
 	\begin{itemize}
 		\item Guess + Check
-		\item Guided Search
-		\item AlphaZero
+		\item Process Rewards
+		\item Search / AlphaZero
 		\item Learning to Correct
 	\end{itemize}
 \end{frame}
@@ -584,8 +593,8 @@
 \begin{frame}{The Suspects}
 	\begin{itemize}
 		\item \structure{Guess + Check}
-		\item Guided Search
-		\item AlphaZero
+		\item Process Rewards
+		\item Search / AlphaZero
 		\item Learning to Correct
 	\end{itemize}
 \end{frame}
@@ -684,19 +693,29 @@
 	\end{columns}
 \end{frame}
 
-\subsection{Guided Search}
+\subsection{Process Rewards}
 
 \begin{frame}{The Suspects}
 	\begin{itemize}
 		\item Guess + Check
-		\item \structure{Guided Search}
+		\item \structure{Process Rewards}
 		\item AlphaZero
 		\item Learning to Correct
 	\end{itemize}
 \end{frame}
 
 
-\begin{frame}{Suspect 2: Guided Search}
+\begin{frame}{The Suspects}
+	\begin{itemize}
+		\item Guess + Check
+		\item \structure{Process Rewards}
+		\item AlphaZero
+		\item Learning to Correct
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Suspect 2: Process Rewards}
 	\begin{itemize}
 		\item 1) During CoT sampling, use guidance to improve trajectories
 		\item 2) Check if final versions are successful
@@ -721,73 +740,13 @@
 \end{frame}
 
 
-
-\begin{frame}{Framework: Beam Search with Guide}
-	% Slightly different from token level beam search since we can't enumerate all the possible z_t like in a vocabulary,
-	% so instead sample an initial k of them, score those with r and keep the top m
-	%
-	% A bit light on notation here (e.g. didn't define the set of z_t for each candidate prefix explicitly) to
-	% avoid a lot of indices, but can add that if it needs to be more formal.
-	\begin{columns}
-		\begin{column}{0.5\linewidth}
-			$$\cfr{g}: \cfz{\mathcal{S}^t} \rightarrow \mathbb{R}$$; Guide function
-			\vspace{0.3cm}
-
-			\pause
-
-			For each step $t$,
-			\begin{enumerate}
-				\item Sample many next steps,
-				      $$\cfz{z_t}^i \sim p(\cdot | \cx, \cfz{z_{1:t-1}})$$
-				\item Keep the top samples, ordered by $\cfr{g}(\cfz{z_{t}})$
-			\end{enumerate}
-		\end{column}
-		\begin{column}{0.5\linewidth}
-			\includegraphics[width=\textwidth]{images/beamguide.png}
-		\end{column}
-	\end{columns}
-	\blfootnote{\cite{Snell2024-dx}}
-\end{frame}
-
-
-\begin{frame}{Guide Variants}
-	\begin{itemize}
-		\item Monte Carlo Roll-outs
-		\item Learned Value Function (PRM)
-		\item Self-Evaluation Verifier
-	\end{itemize}
-\end{frame}
-
-
-\begin{frame}{Beam Search with Roll-Outs}
-	\begin{columns}
-		\begin{column}{0.5\linewidth}
-			For partial $\cfz{z_{1:t-1}}$, rollout,
-			$$\cfy{y}^{n} \sim p(\cdot|\cx,\cfz{z_{1:t-1}})$$
-
-			$$\textcolor{c2}{g_{MC}}(\cfz{z_{t}}) = \frac{1}{N}\sum_{n=1}^{N} \Ver(\cy^{n})$$
-		\end{column}
-		\begin{column}{0.5\linewidth}
-			\begin{tikzpicture}
-				\foreach \i in {1,...,4}{
-						\only<+>{
-							\node[anchor=north west] at (0,0) {\includegraphics[width=0.9\textwidth]{images/beamroll\i}};
-						}
-					}
-			\end{tikzpicture}
-		\end{column}
-	\end{columns}
-	\blfootnote{\cite{Kazemnejad2024-cp}}
-\end{frame}
-
-
 \begin{frame}{Learned Value Function}
 	\begin{columns}
 		\begin{column}{0.5\linewidth}
 			\begin{itemize}
 				\item Rollouts are costly / require $\Ver$
-				\item Learn $\textcolor{c2}{g_{\psi}}(\cfz{z_t})$ to approximate
-				\item Use $\textcolor{c2}{g_{MC}}$ for labels
+				\item Learn $\textcolor{c2}{r_{\psi}}(\cfz{z_t})$ to approximate
+				\item Use $\textcolor{c2}{r_{MC}}$ for labels
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
@@ -878,12 +837,12 @@
 
 
 
-\subsection{AlphaZero}
+\subsection{Search / AlphaZero}
 \begin{frame}{The Suspects}
 	\begin{itemize}
 		\item Guess + Check
 		\item Guided Search
-		\item \structure{AlphaZero}
+		\item \structure{Search / AlphaZero}
 		\item Learning to Correct
 	\end{itemize}
 \end{frame}
@@ -944,10 +903,62 @@
 		\item Iterative algorithm combining learned model + expert search with a verifier.
 		\item Generate samples using $p(\cy,\cz|\cx)$, reward model $g(\cz_t)$, and search algorithm (e.g. beam search)
 		\item Label samples using $\Ver_x(\cy)$
-		\item Train $p(\cy,\cz|\cx)$, $g(\cz_t)$ on the labeled samples, and repeat
+		\item Train $p(\cy,\cz|\cx)$, $r(\cz_t)$ on the labeled samples, and repeat
 	\end{itemize}
 	\blfootnote{\cite{Anthony2017-dm}}
 \end{frame}
+
+
+\begin{frame}{Framework: Beam Search with Guide}
+	% Slightly different from token level beam search since we can't enumerate all the possible z_t like in a vocabulary,
+	% so instead sample an initial k of them, score those with r and keep the top m
+	%
+	% A bit light on notation here (e.g. didn't define the set of z_t for each candidate prefix explicitly) to
+	% avoid a lot of indices, but can add that if it needs to be more formal.
+	\begin{columns}
+		\begin{column}{0.5\linewidth}
+			$$\cfr{r}: \cfz{\mathcal{S}^t} \rightarrow \mathbb{R}$$; Guide function
+			\vspace{0.3cm}
+
+			\pause
+
+			For each step $t$,
+			\begin{enumerate}
+				\item Sample many next steps,
+				      $$\cfz{z_t}^i \sim p(\cdot | \cx, \cfz{z_{1:t-1}})$$
+				\item Keep the top samples, ordered by $\cfr{g}(\cfz{z_{t}})$
+			\end{enumerate}
+		\end{column}
+		\begin{column}{0.5\linewidth}
+			\includegraphics[width=\textwidth]{images/beamguide.png}
+		\end{column}
+	\end{columns}
+	\blfootnote{\cite{Snell2024-dx}}
+\end{frame}
+
+
+
+\begin{frame}{Beam Search with Roll-Outs}
+	\begin{columns}
+		\begin{column}{0.5\linewidth}
+			For partial $\cfz{z_{1:t-1}}$, rollout,
+			$$\cfy{y}^{n} \sim p(\cdot|\cx,\cfz{z_{1:t-1}})$$
+
+			$$\textcolor{c2}{r_{MC}}(\cfz{z_{t}}) = \frac{1}{N}\sum_{n=1}^{N} \Ver(\cy^{n})$$
+		\end{column}
+		\begin{column}{0.5\linewidth}
+			\begin{tikzpicture}
+				\foreach \i in {1,...,4}{
+						\only<+>{
+							\node[anchor=north west] at (0,0) {\includegraphics[width=0.9\textwidth]{images/beamroll\i}};
+						}
+					}
+			\end{tikzpicture}
+		\end{column}
+	\end{columns}
+	\blfootnote{\cite{Kazemnejad2024-cp}}
+\end{frame}
+
 
 \begin{frame}{Empirical Results: Expert Iteration}
 	% figure from appendix of the VSTaR paper
@@ -1031,8 +1042,8 @@
 \begin{frame}{The Suspects}
 	\begin{itemize}
 		\item Guess + Check
-		\item Guided Search
-		\item AlphaZero
+		\item Process Rewards
+		\item Search / AlphaZero
 		\item \structure{Learning to Correct}
 	\end{itemize}
 \end{frame}
