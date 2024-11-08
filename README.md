@@ -111,7 +111,8 @@ OpenAI’s [o1](https://openai.com/index/learning-to-reason-with-llms/).
 -   **PAVs** ([Setlur et al. 2024](#ref-Setlur2024-ax)) Argues for
     advantage (PAV) function over value (PRM) for learning to search.
     Shows increase in search efficacy.
--   **SCoRE (Self-Correct)** ([Kumar et al. 2024](#ref-Kumar2024-fj)) 
+-   **SCoRE (Self-Correct)** ([Kumar et al. 2024](#ref-Kumar2024-fj))
+
 ## Does this lead to test time scaling?
 
 -   **Optimal test scaling** ([Snell et al. 2024](#ref-Snell2024-dx))
